@@ -1,4 +1,5 @@
-import __dirname from "../utils/__dirname.utils.js";
+import { __dirname } from "../utils/import.utils.js";
+// import __dirname from "../utils/__dirname.utils.js";
 import dotenv from "dotenv";
 // import program from "../../commander.js";
 // const { environment } = program.opts();

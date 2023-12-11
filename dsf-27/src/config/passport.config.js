@@ -105,6 +105,7 @@ passport.use("gitHub", new GitHubStrategy(({
 /// Passport JWT Login ///
 ///////////////////////////
 const fromCookies = (req) => {
+	console.log("==> req.cookies.name", req.cookies.name);
 	return req.cookies.token;
 };
 passport.use(
@@ -115,7 +116,7 @@ passport.use(
 	},
 		async (jwt_payload, done) => {
 			try {
-
+				console.log("==> jwt_payload.cookieName", jwt_payload);
 				done(null, jwt_payload);
 			}
 			catch (error) {

@@ -85,7 +85,9 @@ export const profile = (req, res) => {
 
 export const logout = (req, res) => {
 	try {
-		res.clearCookie("connect.sid");
+
+		res.clearCookie("token");
+
 		res.redirect("/api");
 	} catch (error) {
 		return res.status(500).json({

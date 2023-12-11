@@ -39,7 +39,8 @@ span{
 	justify-content: center;
 	margin: 0 auto;
 	margin-top: 12px;
-	width: 400px;
+
+	/* width: 400px; */
 }
 
 .carts-ctn-row{
@@ -49,16 +50,18 @@ span{
 }
 
 
-
 .carts-main-img-ctn{
 	border-radius: 5px  0 0 ;
+
 }
+
 
 .carts-main-img{
 	border-radius: 5px  0 0 ;
 	height: var(--height-carts);
-	width: var(--width-carts)
+
 }
+
 
 .carts-main{
 	align-items: flex-start;
@@ -181,11 +184,13 @@ span{
 	background-color: rgb(48 48 48);
 	display: flex;
 	flex: 1;
-	flex-wrap:wrap;
 	font-size: 16px;
 	justify-content: center;
-	padding: 12px 0;
-	width: 100%;
+	overflow: hidden;
+	padding: 2px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 350px;
 }
 
 .carts-id-mongo{

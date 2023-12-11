@@ -1,7 +1,8 @@
 
 import "./src/config/mongo.config.js";
 import "./src/config/passport.config.js";
-import __dirname from "./src/utils/__dirname.utils.js";
+import { __dirname } from "./src/utils/import.utils.js";
+// import __dirname from "./src/utils/__dirname.utils.js";
 // import { engine } from "express-handlebars";
 import cookieParser from "cookie-parser";
 import exphbs from "express-handlebars";

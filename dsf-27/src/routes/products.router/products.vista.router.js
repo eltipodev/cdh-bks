@@ -13,7 +13,7 @@ router.get("/", passport.authenticate("jwt", { session: false }), authenticateMi
 ////////////////////////////////////////////////
 /// GET Lista  un producto por ID           ///
 //////////////////////////////////////////////
-router.get("/:pid", findByIdProductView);
+router.get("/:pid", passport.authenticate("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER"]), findByIdProductView);
 
 export default router;
 
