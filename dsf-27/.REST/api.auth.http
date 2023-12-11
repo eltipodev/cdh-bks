@@ -1,0 +1,5 @@
+### GET auth jwt
+
+GET http://localhost:8080/api/auth/jwt/6564e1d402b5db9730b5ccf7
+Content-Type: application/xml
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJjYyIsImxhc3ROYW1lIjoiY2MiLCJlbWFpbCI6ImNjIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzAxMTk4OTYyLCJleHAiOjE3MDExOTkyNjJ9.qDe9eKuWzqUnf6MzjjB3hYVEjy7GdoCXT4yk1yZFFkQ
