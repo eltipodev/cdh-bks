@@ -3,8 +3,6 @@ export const renderProductsHTML = (messages = "") => {
 	const productsElement = document.querySelector(".section-products");
 	const paginationElement = document.querySelector(".paginate-ctn");
 
-	console.log("===>>> ", messages);
-
 	const productsHtml = messages.payload.docs.map(element => `
       <div class="products-ctn">
         <div class="products-main">

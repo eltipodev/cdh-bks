@@ -1,11 +1,17 @@
 <section class="section-products">
+
 	{{#if sucess }}
+
+
 	{{#each payload.docs}}
 	<div class="products-ctn">
 		<div class="products-main">
 			<img class="button-actions delete" prodId="{{_id}}" src="/img/empty-wood-bucket-svgrepo-com.svg" alt="">
-			<img class="button-actions add" prodId="{{_id}}" src="/img/plus-sign-in-a-circle-svgrepo-com.svg" alt="">
+			<img class="button-actions add" cartId="{{@root.user.cart}}" prodId="{{_id}}"
+				src="/img/plus-sign-in-a-circle-svgrepo-com.svg" alt="">
 			<div>
+
+
 				{{#if thumbnails}}
 
 				<img src="{{thumbnails}}" alt="imagen de una {{title}}" class="products-main-img">
@@ -38,6 +44,7 @@
 		</div>
 	</div>
 	{{/each}}
+
 	{{else}}
 	<div class="products-header">No hay productos</div>
 	{{/if}}

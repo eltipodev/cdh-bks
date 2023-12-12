@@ -1,20 +1,13 @@
 
 import "./src/config/mongo.config.js";
 import "./src/config/passport.config.js";
-import { __dirname } from "./src/utils/import.utils.js";
-// import __dirname from "./src/utils/__dirname.utils.js";
-// import { engine } from "express-handlebars";
-import cookieParser from "cookie-parser";
-import exphbs from "express-handlebars";
-import express from "express";
-import indexRouter from "./src/routes/index.js";
-import passport from "passport";
-// import session from "express-session";
 
-const app = express();
-app.use(cookieParser("SecretCookie"));
-app.use(express.json());// 5.2.1
+import { __dirname, cookieParser, exphbs, express, indexRouter, passport } from "./src/utils/import.utils.js";
+
+const app = express();//[x] 5.1.1
+app.use(express.json());//[x] 5.1.2
 app.use(express.urlencoded({ extended: true }));// 5.2.2
+app.use(cookieParser("SecretCookie"));
 app.use(express.static(__dirname + "/public"));// 5.2.3
 
 app.use(passport.initialize());

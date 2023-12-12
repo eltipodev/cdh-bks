@@ -145,7 +145,7 @@ export const updateByCartPids = async (req, res) => {
 
 	const cid = req.params.cid;
 	const pids = req.body;
-	console.log("==> cid,pids", cid, pids);
+
 	try {
 		const updateCartById = await updateByIdByPids(cid, pids);
 		return res.status(updateCartById.code).json({
@@ -217,6 +217,7 @@ export const findByIdCartView = async (req, res) => {
 	const cid = req.params.cid;
 	try {
 		const getCartsById = await findByCidView(cid);
+
 		return res.status(getCartsById.code).render("cart", {
 			pageTitle: "Carrito",
 			user: req.user || "",

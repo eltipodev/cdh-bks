@@ -13,8 +13,6 @@ const clientID = config.github_client_id;
 const clientSecret = config.github_client_secret;
 const callbackURL = "http://localhost:8080/api/auth/github/callback";
 
-console.log("==> clientSecret", clientSecret);
-
 ///////////////////////////////
 /// Passport Local Signup  ///
 /////////////////////////////
@@ -37,7 +35,7 @@ passport.use("login", new LocalStrategy({
 	try {
 
 		const userData = await userManager.findByUser(user);
-		console.log("==> userData", userData);
+
 		if (!userData) {
 			return done(null, false, { message: "Usuario o Contraseña incorrecto" });
 		}
@@ -105,7 +103,6 @@ passport.use("gitHub", new GitHubStrategy(({
 /// Passport JWT Login ///
 ///////////////////////////
 const fromCookies = (req) => {
-	console.log("==> req.cookies.name", req.cookies.name);
 	return req.cookies.token;
 };
 passport.use(
@@ -116,7 +113,7 @@ passport.use(
 	},
 		async (jwt_payload, done) => {
 			try {
-				console.log("==> jwt_payload.cookieName", jwt_payload);
+
 				done(null, jwt_payload);
 			}
 			catch (error) {

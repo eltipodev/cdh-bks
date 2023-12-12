@@ -1,5 +1,4 @@
 import { createobj, hashPass, userNew } from "../services/passport.service.js";
-import userManager from "../daos/users.dao.js";
 
 export const passportCrontol = () => {
 	async (req, user, password, done) => {

@@ -1,7 +1,7 @@
 import { generateToken } from "../utils/utils.js";
 
 export const loginUser = (req, res) => {
-	if (req.user && req.user.role) {
+	if (req.user && req.user.rol) {
 		return res.redirect("/api/user/profile");
 	}
 
@@ -65,6 +65,7 @@ export const profile = (req, res) => {
 			age: req.user.age,
 			lastName: req.user.lastName,
 			email: req.user.email,
+			rol: req.user.rol || "USER",
 		};
 
 		return res.status(200).render("profile", {
@@ -85,7 +86,6 @@ export const profile = (req, res) => {
 
 export const logout = (req, res) => {
 	try {
-
 		res.clearCookie("token");
 
 		res.redirect("/api");

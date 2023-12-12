@@ -55,10 +55,8 @@ function handlePaginationClick(event) {
 }
 
 function handleContainerClick(event) {
-	const selectCarts = document.querySelector(".cart-img");
-
-	if (selectCarts) {
-		const cid = selectCarts.getAttribute("id");
+	if (event.target.attributes.cartId) {
+		const cid = event.target.attributes.cartId.value;
 
 		if (event.target.classList.contains("add")) {
 			const pid = event.target.getAttribute("prodId");

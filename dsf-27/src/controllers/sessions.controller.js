@@ -13,7 +13,7 @@ export const sessions = (req, res) => {
 			cart: req.user.cart || [],
 			age: req.user.age || "",
 			cookie: req.cookies.token,
-			role: req.user.role || "USER"
+			rol: req.user.rol || "USER"
 		};
 
 		return res.status(200).json({

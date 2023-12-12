@@ -6,7 +6,8 @@ import { addByObj, deleteById, findAll, findAllView, findById, updateById } from
 //////////////////////////////////////////////
 // [x]
 export const findAllProductView = async (req, res) => {
-	console.log("==> res.cookie", res.clearcookie);
+
+	console.log("==> req", req.user);
 	// eslint-disable-next-line no-unused-vars
 	const { limit = "10", page = "1", sort = "default", ...query } = req.query;
 
@@ -64,7 +65,7 @@ export const findAllProduct = async (req, res) => {
 //////////////////////////////////////////////
 // [x]
 export const findByIdProductView = async (req, res) => {
-
+	console.log("==> req.user", req.user);
 	const pid = req.params.pid;
 	try {
 
@@ -72,6 +73,7 @@ export const findByIdProductView = async (req, res) => {
 
 		return res.status(updateProductById.code).render("products", {
 			pageTitle: "Producto",
+			user: req.user || "",
 			message: updateProductById.message,
 			payload: updateProductById.payload,
 			status: updateProductById.status,

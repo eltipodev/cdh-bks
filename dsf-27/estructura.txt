@@ -1,0 +1,120 @@
+.
+├── app.js
+├── commander.js
+├── db
+│   └── product.js
+├── .env.development.local
+├── .env.development.local.example
+├── .eslintrc.json
+├── estructura.txt
+├── package.json
+├── pnpm-lock.yaml
+├── README_GUIDE.md
+├── README.md
+├── .REST
+│   ├── api.auth.http
+│   ├── api.carts.http
+│   ├── api.chat.http
+│   └── api.products.http
+├── src
+│   ├── config
+│   │   ├── env.config.js
+│   │   ├── mongo.config.js
+│   │   ├── passport.config.js
+│   │   └── server.config.js
+│   ├── controllers
+│   │   ├── aut.controller.js
+│   │   ├── carts.controller.js
+│   │   ├── chat.controller.js
+│   │   ├── error.controller.js
+│   │   ├── passport.controler.js
+│   │   ├── products.controller.js
+│   │   ├── sessions.controller.js
+│   │   └── users.controller.js
+│   ├── daos
+│   │   ├── carts.dao.js
+│   │   ├── products.dao.js
+│   │   └── users.dao.js
+│   ├── middleware
+│   │   └── authenticate.middleware.js
+│   ├── models
+│   │   ├── cart.model.js
+│   │   ├── products.model.js
+│   │   └── users.model.js
+│   ├── public
+│   │   ├── css
+│   │   │   ├── card.css
+│   │   │   ├── form-user-signup.css
+│   │   │   ├── guia.css
+│   │   │   ├── nav.css
+│   │   │   ├── paginate.css
+│   │   │   ├── product.css
+│   │   │   ├── profile.css
+│   │   │   ├── select-option-carts.css
+│   │   │   └── style.css
+│   │   ├── img
+│   │   │   ├── optimized
+│   │   │   ├── plus-sign-in-a-circle-svgrepo-com.svg
+│   │   │   └── plus-sign-svgrepo-com.svg
+│   │   └── js
+│   │       ├── button-add-product.js
+│   │       ├── button-delete-product.js
+│   │       ├── components
+│   │       │   ├── button-pagination.js
+│   │       │   ├── render-products-html.js
+│   │       │   ├── select-category-filter.js
+│   │       │   ├── select-limit-filter.js
+│   │       │   ├── select-option.js
+│   │       │   ├── select-price-filter.js
+│   │       │   └── select-stock-filter.js
+│   │       ├── getAll-products.js
+│   │       └── index.js
+│   ├── routes
+│   │   ├── auth.router
+│   │   │   └── auth.router.js
+│   │   ├── carts.router
+│   │   │   ├── carts.router.js
+│   │   │   └── carts.vista.router.js
+│   │   ├── chat.router
+│   │   │   └── chat.router.js
+│   │   ├── error.router
+│   │   │   └── error.router.js
+│   │   ├── index.js
+│   │   ├── products.router
+│   │   │   ├── products.router.js
+│   │   │   └── products.vista.router.js
+│   │   ├── sessions.router
+│   │   │   └── sessions.router.js
+│   │   └── users.router
+│   │       └── users.router.js
+│   ├── services
+│   │   ├── carts.service.js
+│   │   ├── passport.service.js
+│   │   └── products.service.js
+│   ├── utils
+│   │   ├── __dirname.utils.js
+│   │   ├── import.utils.js
+│   │   └── utils.js
+│   └── views
+│       ├── cart.hbs
+│       ├── error.hbs
+│       ├── home.hbs
+│       ├── layouts
+│       │   └── main.hbs
+│       ├── partials
+│       │   ├── card-carts.hbs
+│       │   ├── card-product.hbs
+│       │   ├── card-products.hbs
+│       │   ├── cards-carts.hbs
+│       │   ├── footer.hbs
+│       │   ├── form-user-signup.hbs
+│       │   ├── nav-filter.hbs
+│       │   ├── nav.hbs
+│       │   ├── paginate copy.hbs
+│       │   ├── paginate.hbs
+│       │   └── select-option-carts.hbs
+│       ├── products.hbs
+│       └── profile.hbs
+└── .stylelintrc.json
+
+28 directories, 190 files

@@ -28,7 +28,7 @@ export const generateToken = (user) => {
 		age: user.age,
 		password: user.password,
 		isGitHub: user.isGitHub,
-		role: user.role,
+		rol: user.rol,
 		cart: user.cart,
 
 	};
@@ -43,7 +43,7 @@ export const passportCall = (strategy) => {
 		passport.authenticate(strategy, function (err, user, info) {
 			if (err) return next(err);
 			if (!user) {
-				console.log("==> info", info);
+
 				return res.status(401).send({
 					error: info.message ? info.message : info.toString()
 				});

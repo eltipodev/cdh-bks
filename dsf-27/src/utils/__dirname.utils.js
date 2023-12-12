@@ -3,4 +3,4 @@ const __dirname = dirname(currentDir);
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 
-export { __dirname };
+export default __dirname;

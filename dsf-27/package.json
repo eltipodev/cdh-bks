@@ -5,8 +5,9 @@
 	"description": "Servidor basado en Express donde podamos hacer consultas a nuestro archivo de productos.",
 	"main": "index.js",
 	"scripts": {
-		"start": "node server.js -e dev",
-		"start:dev": "nodemon src/config/server.config.js"
+		"start": "node src/config/server.config.js -e dev -p 8080 nodemon",
+		"start:dev": "node src/config/server.config.js -e dev -p 8080 nodemon",
+		"start:prod": "node src/config/server.config.js -e prod -p 3000 nodemon"
 	},
 	"keywords": [],
 	"author": "",
