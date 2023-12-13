@@ -13,7 +13,7 @@ import config from "../config/env.config.js";
 import cookieParser from "cookie-parser";
 import exphbs from "express-handlebars";
 import express from "express";
-// import { gitHubAuth } from "../controllers/aut.controller.js";
+
 import indexRouter from "../routes/index.js";
 import passport from "passport";
 

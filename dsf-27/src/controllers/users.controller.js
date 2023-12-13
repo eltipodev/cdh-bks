@@ -1,6 +1,7 @@
 import { generateToken } from "../utils/utils.js";
 
 export const loginUser = (req, res) => {
+	console.log("==> signu");
 	if (req.user && req.user.rol) {
 		return res.redirect("/api/user/profile");
 	}
@@ -24,14 +25,11 @@ export const loginUser = (req, res) => {
 };
 
 export const signupUser = (req, res) => {
-
 	if (req.user) {
-
-		return res.redirect("/api/user/profile");
+		return res.redirect("/api/user/login");
 	}
 
 	try {
-
 		return res.status(200).render("products", {
 			pageTitle: "Signup",
 			message: "registros de usuarios",
@@ -52,7 +50,7 @@ export const loginPassport = (req, res) => {
 	const token = generateToken(req.user);
 
 	res
-		.cookie("token", token, { maxAge: 2 * 60 * 60 * 1000, httpOnly: true })// 2 horas
+		.cookie("token", token, { maxAge: 2 * 60 * 60 * 200, httpOnly: true })// 2 horas
 		.redirect("/api/vista/products");
 };
 
@@ -87,8 +85,9 @@ export const profile = (req, res) => {
 export const logout = (req, res) => {
 	try {
 		res.clearCookie("token");
-
-		res.redirect("/api");
+		req.logout(() => {
+			res.redirect("/api");
+		});
 	} catch (error) {
 		return res.status(500).json({
 			error: error.message

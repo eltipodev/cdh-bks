@@ -1,3 +1,5 @@
+// TODO
+// [ ]REVISAR CARRITO
 import { findAllCartView, findByIdCartView } from "../../controllers/carts.controller.js";
 import authenticateMiddleware from "../../middleware/authenticate.middleware.js";
 import express from "express";

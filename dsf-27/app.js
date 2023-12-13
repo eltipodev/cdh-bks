@@ -2,7 +2,15 @@
 import "./src/config/mongo.config.js";
 import "./src/config/passport.config.js";
 
-import { __dirname, cookieParser, exphbs, express, indexRouter, passport } from "./src/utils/import.utils.js";
+// import { __dirname, cookieParser, exphbs, express, indexRouter, passport } from "./src/utils/import.utils.js";
+
+import __dirname from "./src/utils/__dirname.utils.js";
+import cookieParser from "cookie-parser";
+import exphbs from "express-handlebars";
+import express from "express";
+import indexRouter from "./src/routes/index.js";
+import passport from "passport";
+// import bodyParser from "body-parser";
 
 const app = express();//[x] 5.1.1
 app.use(express.json());//[x] 5.1.2

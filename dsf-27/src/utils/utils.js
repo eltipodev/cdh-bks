@@ -11,6 +11,7 @@ const KEYJWT = config.secret_jwt;
 export const hashData = async (data) => {
 	return bcrypt.hash(data, 10);
 };
+
 export const compareData = async (data, hashData) => {
 	return bcrypt.compare(data, hashData);
 };
@@ -39,15 +40,19 @@ export const generateToken = (user) => {
 /// passportCall ///
 ///////////////////
 export const passportCall = (strategy) => {
-	return async (req, res, next) => {
-		passport.authenticate(strategy, function (err, user, info) {
-			if (err) return next(err);
-			if (!user) {
+	return (req, res, next) => {
+		console.log("==> req111111111", req.user);
+		passport.authenticate(strategy, (err, user, info) => {
+			if (err) {
+				return next(err);
+			}
 
-				return res.status(401).send({
-					error: info.message ? info.message : info.toString()
+			if (!user) {
+				return res.status(401).json({
+					error: "Autenticación fallida. Mensaje: " + (info.message || info.toString())
 				});
 			}
+
 			req.user = user;
 			next();
 		})(req, res, next);
