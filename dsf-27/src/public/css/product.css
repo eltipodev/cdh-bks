@@ -80,6 +80,10 @@ section{
 	top:0;
 }
 
+.move{
+	right: 0!important;
+}
+
 .button-actions.delete{
 	background-color: #c45050;
 	right: 2px;

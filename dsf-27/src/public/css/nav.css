@@ -110,3 +110,45 @@ nav{
 	margin-right: 12px;
 }
 
+
+
+/* .cart-count {
+	background-color:red;
+	border:  2px red;
+	border-radius: 10px;
+	bottom: 0;
+	font-size: 0.7em;
+	height: 18px;
+	padding: 1px;
+	position: absolute;
+	right: 0;
+	text-align: center;
+	width: 18px;
+
+} */
+
+.cart-count-ctn {
+	place-self: end;
+}
+
+.cart-count{
+	background-color:red;
+	border:  2px red;
+	border-radius: 10px;
+	color: white;
+	font-weight: 700;
+	height: 18px;
+	padding: 1px;
+	text-align: center;
+	width: 18px;
+}
+
+.cart-nav-ctn{
+	display: grid;
+}
+
+.cart-img-ctn,.cart-count-ctn{
+	grid-area: 1/2;
+}
+
+

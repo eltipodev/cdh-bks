@@ -27,7 +27,7 @@ app.use("/api", indexRouter);// 5.2.7
 
 app.use("*", (req, res) => {
 	if (req.user) {
-		return res.redirect("/api/user/profile");
+		return res.redirect("/api/user/current");
 	}
 	res.status(200).render("products", {
 		pageTitle: "Login",

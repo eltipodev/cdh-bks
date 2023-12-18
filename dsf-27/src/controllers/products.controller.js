@@ -1,5 +1,6 @@
 // [x]
 import { addByObj, deleteById, findAll, findAllView, findById, updateById } from "../services/products.service.js";
+import getCartTotalQuantity from "../utils/getCartTotalQuantity.js";
 
 ////////////////////////////////////////////////
 /// GET Lista todos los productos en vista  ///
@@ -7,9 +8,11 @@ import { addByObj, deleteById, findAll, findAllView, findById, updateById } from
 // [x]
 export const findAllProductView = async (req, res) => {
 
-	console.log("==> req", req.user);
+	const cid = req.user.cart;
 	// eslint-disable-next-line no-unused-vars
 	const { limit = "10", page = "1", sort = "default", ...query } = req.query;
+
+	const cartTotalQuantity = await getCartTotalQuantity(cid);
 
 	try {
 
@@ -19,6 +22,7 @@ export const findAllProductView = async (req, res) => {
 			pageTitle: "Productos",
 			user: req.user || "",
 			message: getAllProducts.message,
+			cartTotalQuantity,
 			payload: getAllProducts.payload,
 			status: getAllProducts.status,
 			sucess: getAllProducts.sucess,
@@ -37,6 +41,7 @@ export const findAllProductView = async (req, res) => {
 ////////////////////////////////////////////////
 /// GET Lista todos los productos           ///
 //////////////////////////////////////////////
+
 export const findAllProduct = async (req, res) => {
 
 	const { limit = "10", page = "1", sort = "default", ...query } = req.query;
@@ -50,6 +55,7 @@ export const findAllProduct = async (req, res) => {
 			payload: getAllProducts.payload,
 			status: getAllProducts.status,
 			sucess: getAllProducts.sucess,
+			cartId: req.user.cart,
 			pagination: getAllProducts.pagination,
 		});
 	} catch (error) {
@@ -65,8 +71,13 @@ export const findAllProduct = async (req, res) => {
 //////////////////////////////////////////////
 // [x]
 export const findByIdProductView = async (req, res) => {
-	console.log("==> req.user", req.user);
+
 	const pid = req.params.pid;
+
+	const cid = req.user.cart;
+
+	const cartTotalQuantity = await getCartTotalQuantity(cid);
+
 	try {
 
 		const updateProductById = await updateById(pid);
@@ -77,6 +88,7 @@ export const findByIdProductView = async (req, res) => {
 			message: updateProductById.message,
 			payload: updateProductById.payload,
 			status: updateProductById.status,
+			cartTotalQuantity,
 			sucess: updateProductById.sucess,
 		});
 
@@ -116,9 +128,10 @@ export const addProduct = async (req, res) => {
 //////////////////////////////////////////////
 // [x]
 export const deleteByIdProduct = async (req, res) => {
-	const pid = req.params.pid;
 
+	const pid = req.params.pid;
 	try {
+
 		const deleteProductById = await deleteById(pid);
 
 		return res.status(deleteProductById.code).json({

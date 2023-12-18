@@ -1,4 +1,6 @@
+import { cartModel } from "../models/cart.model.js";
 import cartsManager from "../daos/carts.dao.js";
+import { productModel } from "../models/products.model.js";
 
 //[x]
 export const findAll = async () => {
@@ -47,7 +49,6 @@ export const createObj = async () => {
 //////////////////////////////////////////////////
 //[x]
 export const findById = async (cid) => {
-	console.log("==> cid", cid);
 	const getCartsById = await cartsManager.getCartsById(cid);
 	return getCartsById;
 };
@@ -67,11 +68,90 @@ export const updateByIdByPids = async (cid, pids) => {
 /// Método Actualizar quantitf en el  carrito        ///
 ///////////////////////////////////////////////////////
 export const updateByCidByPidQuantitf = async (cid, pid, obj) => {
-	const updateByCidByPidQuantitf = await cartsManager.updateCartByIdBodyQuantify(cid, pid, obj);
-	return updateByCidByPidQuantitf;
+
+	const objKey = Object.keys(obj)[0];
+
+	if (objKey !== "quantity") {
+		return {
+			code: 404,
+			status: "error",
+			message: "Solo esta permitido la propieda quantitf",
+			payload: []
+		};
+	}
+
+	const objValue = obj[objKey];
+
+	const existsCart = await cartModel.findById(cid);
+	if (!existsCart) {
+		return ({
+			code: 404,
+			status: "error",
+			message: "No existe el Carrito",
+			payload: existsCart
+		});
+	}
+
+	const existsProduct = await productModel.findById(pid);
+
+	if (!existsProduct) {
+		return ({
+			code: 404,
+			status: "error",
+			message: "No existe el Producto",
+			payload: existsCart
+		});
+	}
+
+	const productIndex = existsCart.products.findIndex(product => product
+		.product.toString() === pid.toString());
+
+	if (productIndex !== -1) {
+
+		const updateQuantity = {
+			$set: { "products.$.quantity": objValue }
+		};
+
+		const updateByCidByPidQuantitf = await cartsManager.updateCartByIdBodyQuantify(cid, pid, updateQuantity);
+		return updateByCidByPidQuantitf;
+
+	}
 };
 
-//[ ]
+// [ ]
+///////////////////////////////////////
+/// Método Actualizar Stock        ///
+/////////////////////////////////////
+export const updateByPidByStock = async (pid, cstk) => {
+
+	// const objKey = Object.keys(obj)[0];
+
+	if (!cstk.lenght) {
+		return {
+			code: 404,
+			status: "error",
+			message: "Solo esta permitido la propieda quantitf",
+			payload: []
+		};
+	}
+
+	const existsProduct = await productModel.findById(pid);
+
+	if (!existsProduct) {
+		return ({
+			code: 404,
+			status: "error",
+			message: "No existe el Producto",
+			payload: existsProduct
+		});
+	}
+
+	const updateByPidByStock = await cartsManager.updateCartByIdBodyQuantify(pid, cstk);
+	return updateByPidByStock;
+
+};
+
+//[X]
 /////////////////////////////////////////////////
 /// GET Método mostrar todos los carrito    ////
 ///////////////////////////////////////////////
@@ -80,11 +160,10 @@ export const findAllView = async (limit, page, sort, query) => {
 	return getAllCarts;
 };
 
-// [ ]
+// [x]
 ////////////////////////////////////////////////
 /// Método Listar carrito por ID           ////
 //////////////////////////////////////////////
-
 export const findByCidView = async (cid) => {
 	const getCartsById = await cartsManager.getCartsById(cid);
 	return getCartsById;

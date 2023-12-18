@@ -1,5 +1,3 @@
-// TODO
-//[ ] CAMBIAR ROLE POR ROL
 
 import { addByProductCart, createCart, deleteAllCarts, deleteByIdProductCart, findAllCarts, findByIdCart, updateByBodyCart, updateByCartPids } from "../../controllers/carts.controller.js";
 import authenticateMiddleware from "../../middleware/authenticate.middleware.js";

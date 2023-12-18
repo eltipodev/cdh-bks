@@ -1,6 +1,7 @@
 import { compareData, generateToken, hashData } from "../utils/utils.js";
 import { ExtractJwt } from "passport-jwt";
 import { Strategy as GitHubStrategy } from "passport-github2";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { Strategy as JwtStrategy } from "passport-jwt";
 import { Strategy as LocalStrategy } from "passport-local";
 import cartsManager from "../daos/carts.dao.js";
@@ -8,11 +9,14 @@ import config from "./env.config.js";
 import passport from "passport";
 import userManager from "../daos/users.dao.js";
 
+const clientIdGoogle = config.google_client_id;
+const clientSecretGoogle = config.google_client_secret;
+const callbackURLGoogle = `http://localhost:${config.port}/api/auth/google/callback`;
 const keyJWT = config.secret_jwt;
 
 const clientID = config.github_client_id;
 const clientSecret = config.github_client_secret;
-const callbackURL = "http://localhost:8080/api/auth/github/callback";
+const callbackURL = `http://localhost:${config.port}/api/auth/github/callback`;
 
 ///////////////////////////////
 /// Passport Local Signup  ///
@@ -29,8 +33,6 @@ passport.use("signup", new LocalStrategy({
 	}
 	const isUser = await userManager.findByUser(user);
 	const isEmail = await userManager.findByEmail(email);
-
-	console.log("==> isEmail", isEmail);
 
 	if (isUser || isEmail) {
 		return done(null, false, { message: "Usuario se encuentra registrado" });
@@ -95,7 +97,6 @@ passport.use("gitHub", new GitHubStrategy(({
 
 			const userByDB = await userManager.findByUser(profile._json.login);
 
-			// TODO: El token lo convierto aca o despues que lo recibo en el callback
 			if (userByDB) {
 				if (userByDB.isGitHub) {
 					const token = generateToken(userByDB);
@@ -128,6 +129,53 @@ passport.use("gitHub", new GitHubStrategy(({
 			done(error);
 		}
 	}));
+///////////////////////////////
+/// Passport Google Login  ///
+/////////////////////////////
+passport.use("google", new GoogleStrategy(
+	{
+		clientID: clientIdGoogle,
+		clientSecret: clientSecretGoogle,
+		callbackURL: callbackURLGoogle
+	}, async function (accessToken, refreshToken, profile, done) {
+		try {
+
+			const userByDB = await userManager.findByUser(profile._json.login);
+
+			if (userByDB) {
+				if (userByDB.isGoogle) {
+					const token = generateToken(userByDB);
+
+					return done(null, token);
+				}
+				else {
+					return done(null, false);
+				}
+			}
+
+			const addCart = await cartsManager.createCart();
+			const infoUser = {
+				user: profile._json.given_name || "none",
+				firstName: profile._json.family_name || "none",
+				lastName: profile._json.name || "none",
+				email: profile._json.email || "none",
+				isGoogle: true,
+				age: 0,
+				cart: addCart.payload._id
+			};
+
+			const createUser = await userManager.creatOne(infoUser);
+
+			const token = generateToken(createUser);
+
+			done(null, token);
+
+		} catch (error) {
+			done(error);
+		}
+	}
+)
+);
 
 ///////////////////////////
 /// Passport JWT Login ///

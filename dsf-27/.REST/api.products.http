@@ -31,9 +31,9 @@ POST http://localhost:8080/api/products
 Content-Type: application/json
 
 {
-		"title": "Sandíass",
+		"title": "Sansssdíass",
 		"description": "Sandía dulce y refrescante.",
-		"code": "A1a2ee4",
+		"code": "fdffd4",
 		"price": 3.99,
 		"status": true,
 		"thumbnails": "/img/imagen_sandia.webp",
@@ -53,7 +53,6 @@ Content-Type: application/json
 
 // [x]
 ### DELETE Elimima el producto
-DELETE  http://localhost:8080/api/products/657623b5af83a13481b59522
-
+DELETE  http://localhost:8080/api/products/6556a4c8488c5c5ef331c684
 
 

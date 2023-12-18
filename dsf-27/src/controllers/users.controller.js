@@ -1,9 +1,11 @@
+import UserDto from "../dtos/users.dto.js";
 import { generateToken } from "../utils/utils.js";
+import getCartTotalQuantity from "../utils/getCartTotalQuantity.js";
 
 export const loginUser = (req, res) => {
-	console.log("==> signu");
+
 	if (req.user && req.user.rol) {
-		return res.redirect("/api/user/profile");
+		return res.redirect("/api/user/current");
 	}
 
 	try {
@@ -54,22 +56,21 @@ export const loginPassport = (req, res) => {
 		.redirect("/api/vista/products");
 };
 
-export const profile = (req, res) => {
+export const profile = async (req, res) => {
+
+	const userDto = new UserDto(req.user);
+	const cartId = req.user.cart;
+
+	const cartTotalQuantity = await getCartTotalQuantity(cartId);
 
 	try {
-		const userObject = {
-			firstName: req.user.firstName,
-			user: req.user.user,
-			age: req.user.age,
-			lastName: req.user.lastName,
-			email: req.user.email,
-			rol: req.user.rol || "USER",
-		};
 
 		return res.status(200).render("profile", {
 			pageTitle: "Profile",
 			message: "Profile User",
-			user: userObject,
+			userDto,
+			cartTotalQuantity,
+			user: { cart: cartId },
 			status: "sucess",
 			sucess: true,
 		});

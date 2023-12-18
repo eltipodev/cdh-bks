@@ -7,6 +7,7 @@ import { selectLimitFilter } from "./components/select-limit-filter.js";
 import { selectOption } from "./components/select-option.js";
 import { selectPriceFilter } from "./components/select-price-filter.js";
 import { selectStockFilter } from "./components/select-stock-filter.js";
+import { fetchPruebas } from "./fetch.pruebas.js";
 
 const container = document.querySelector(".section-products");
 // const selectCartsOptions = document.querySelector(".select-carts-ctn");
@@ -15,11 +16,6 @@ const selectCategorysOptions = document.querySelector(".category");
 const selectPricesOptions = document.querySelector(".price");
 const selectLimitOptions = document.querySelector(".limit");
 const selectStockOptions = document.querySelector(".stock");
-
-// TODO
-// [X] paginacion revisar
-// [X] terminar ordenamiento por precio y stock
-// [X] Resizar al hacer await getAllProducts devuelve nextPage completo
 
 // eslint-disable-next-line no-unused-vars
 let cid;
@@ -32,6 +28,7 @@ let stock;
 document.addEventListener("click", async function (event) {
 	handlePaginationClick(event);
 	handleContainerClick(event);
+
 });
 
 if (container && (pagetitle.textContent === "Productos")) {
@@ -55,18 +52,19 @@ function handlePaginationClick(event) {
 }
 
 function handleContainerClick(event) {
+	const add = event.target.classList.contains("add");
+	const remove = event.target.classList.contains("delete");
+
 	if (event.target.attributes.cartId) {
 		const cid = event.target.attributes.cartId.value;
 
-		if (event.target.classList.contains("add")) {
+		if (add) {
 			const pid = event.target.getAttribute("prodId");
 			buttonAddProduct(cid, pid);
 		}
-
-		if (event.target.classList.contains("delete")) {
-			const pid = event.target.getAttribute("prodId");
-			buttonDeleteProduct(pid);
-		}
+	} else if (remove) {
+		const pid = event.target.getAttribute("prodId");
+		buttonDeleteProduct(pid, limit, page, sort, catg);
 	}
 }
 
@@ -85,12 +83,6 @@ async function handlePrevPageClick() {
 	page = message.payload.prevPage.toString();
 	renderButtonPagination(limit, page, sort, stock, catg);
 }
-
-// function setupCartsOptions() {
-// 	selectCartsOptions.addEventListener("change", function () {
-// 		cid = selectCartsOptions.value;
-// 	});
-// }
 
 function setupCategoryOptions() {
 	selectCategorysOptions.addEventListener("change", function () {
@@ -121,15 +113,4 @@ function setupStockOptions() {
 	});
 }
 
-// function setupContainerClick() {
-// 	container.addEventListener("click", (event) => {
-// 		if (event.target.classList.contains("add")) {
-// 			const pid = event.target.getAttribute("prodId");
-// 			buttonAddProduct(cid, pid);
-// 		}
-// 		if (event.target.classList.contains("delete")) {
-// 			const pid = event.target.getAttribute("prodId");
-// 			buttonDeleteProduct(pid);
-// 		}
-// 	});
-// }
+// await fetchPruebas();

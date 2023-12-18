@@ -1,35 +1,3 @@
-{{!-- <header class="site-header">
-	<div class="site-header-ctn">
-		<nav class="site-nav">
-			<ul>
-				<li><a href="/api/vista/products">Home</a></li>
-				<li><a href="/api/vista/products">Productos</a></li>
-				<li><a href="/api/vista/carts/65426c5d4b5face80e96732a">Carrito</a></li>
-				<li><a href="/api/vista/carts">Carritos</a></li>
-			</ul>
-		</nav>
-		<div class="user-ctn ">
-			{{#if (eq user.rol "admin")}}
-			<span class="profile-user-rol">Admin</span>
-			{{else}}
-			<span class="profile-user-rol">User</span>
-			{{/if}}
-			{{# if user}}
-			<a class="profile-user-logout" href="/api/user/logout">Logout</a>
-			<a class="user" href="/api/user/profile">{{user.user}}</a>
-			{{else}}
-			<a class="login" href="/api/user/login">Login</a>
-			<a class="signup" href="/api/user/signup">Signup</a>
-			{{/if}}
-
-			<a href="/api/user/profile"> <img class="user-img" alt=""></a>
-		</div>
-	</div>
-
-
-</header> --}}
-
-
 <header class="site-header">
 	<div class="ctn site-header__ctn">
 		<div class="site-header__seccion">
@@ -41,6 +9,7 @@
 				<li><a href="/api/vista/products">Home</a></li>
 				<li><a href="/api/vista/products">Productos</a></li>
 				<li><a href="/api/vista/carts/{{user.cart}}">Carrito</a></li>
+				<li><a href="/api/vista/chat">Chat</a></li>
 				{{#if (eq user "ADMIN")}}
 				<li><a href="/api/vista/carts">Carritos</a></li>
 				{{/if}}
@@ -55,26 +24,33 @@
 			{{/if}}
 			{{# if user}}
 			<a class="profile-user-logout" href="/api/user/logout">Logout</a>
-			<a class="user" href="/api/user/profile">{{user.user}}</a>
+			<a class="user" href="/api/user/current">{{user.user}}</a>
 			{{else}}
 			<a class="login" href="/api/user/login">Login</a>
 			<a class="signup" href="/api/user/signup">Signup</a>
 			{{/if}}
 
-			<a href="/api/user/profile"> <img class="user-img" alt=""></a>
+			<a href="/api/user/current"> <img class="user-img" alt=""></a>
+			<div class="cart-nav-ctn">
 
-			<a class="cart-img" id="{{user.cart}}" href="/api/vista/carts/{{user.cart}}"> <svg width="34px" height="34px"
-					viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-					<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-					<g id="SVGRepo_iconCarrier">
-						<path
-							d="M6.29977 5H21L19 12H7.37671M20 16H8L6 3H3M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20ZM20 20C20 20.5523 19.5523 21 19 21C18.4477 21 18 20.5523 18 20C18 19.4477 18.4477 19 19 19C19.5523 19 20 19.4477 20 20Z"
-							stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-					</g>
-				</svg></a>
+				<div class="cart-img-ctn">
+					<a class="cart-img" id="{{user.cart}}" href="/api/vista/carts/{{user.cart}}"> <svg width="34px" height="34px"
+							viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+							<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+							<g id="SVGRepo_iconCarrier">
+								<path
+									d="M6.29977 5H21L19 12H7.37671M20 16H8L6 3H3M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20ZM20 20C20 20.5523 19.5523 21 19 21C18.4477 21 18 20.5523 18 20C18 19.4477 18.4477 19 19 19C19.5523 19 20 19.4477 20 20Z"
+									stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+							</g>
+						</svg></a>
+				</div>
 
+				<div class="cart-count-ctn">
+					<span class="cart-count">{{@root.cartTotalQuantity}}</span>
+				</div>
 
+			</div>
 		</div>
 
 	</div>

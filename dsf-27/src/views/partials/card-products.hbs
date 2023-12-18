@@ -6,12 +6,15 @@
 	{{#each payload.docs}}
 	<div class="products-ctn">
 		<div class="products-main">
+			{{#if (eq @root.user.rol "ADMIN" ) }}
 			<img class="button-actions delete" prodId="{{_id}}" src="/img/empty-wood-bucket-svgrepo-com.svg" alt="">
 			<img class="button-actions add" cartId="{{@root.user.cart}}" prodId="{{_id}}"
 				src="/img/plus-sign-in-a-circle-svgrepo-com.svg" alt="">
+			{{else}}
+			<img class="button-actions add move" cartId="{{@root.user.cart}}" prodId="{{_id}}"
+				src="/img/plus-sign-in-a-circle-svgrepo-com.svg" alt="">
+			{{/if}}
 			<div>
-
-
 				{{#if thumbnails}}
 
 				<img src="{{thumbnails}}" alt="imagen de una {{title}}" class="products-main-img">

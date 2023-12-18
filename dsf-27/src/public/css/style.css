@@ -35,21 +35,41 @@ p, h1, h2, h3, h4, h5, h6 {
 
 /* FIN RESET */
 
+
+html{
+	/* stylelint-disable-next-line custom-property-pattern */
+	--scrollbarBG: #CFD8DC;
+	/* stylelint-disable-next-line custom-property-pattern */
+	--thumbBG: #90A4AE;
+
+	overflow: hidden;
+}
+
 /* stylelint-disable-next-line no-duplicate-selectors */
 body{
 	background-color: rgb(45 44 44);
 	color:rgb(198 198 198);
 	display: flex;
 	flex-direction: column;
-
+	overflow-y: auto;
+	/* stylelint-disable-next-line custom-property-pattern */
+	scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+	scrollbar-width: thin;
 }
+
+body::-webkit-scrollbar {
+	width: 11px;
+}
+
 
 
 a{
 	color:rgb(143 215 215)
 }
 
-
+.scrollable-element {
+	scrollbar-color: dark;
+}
 
 .error-ctn{
 	display: grid;
@@ -74,6 +94,10 @@ ul{
 
 ol{
 	margin:12px 0;
+}
+
+.section-wrapper{
+	margin-top: 22px;
 }
 
 .page-subtitle{
@@ -101,15 +125,8 @@ ol{
 	justify-content: flex-start
 }
 
-
-.entrega{
-	background-color: red;
-	color: beige;
-	font-size: 24px;
-	font-weight: 700;
-	margin: 0 auto;
-	margin-top: 32px;
-	padding: 12px;
+.site-main--modify{
+	justify-content: center;
 }
 
 .container{
@@ -117,4 +134,8 @@ ol{
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+}
+
+.container--modify{
+	height: 100%;
 }

@@ -1,7 +1,7 @@
 import { getAllProducts } from "./getAll-products.js";
 import { renderProductsHTML } from "./components/render-products-html.js";
-export const buttonDeleteProduct = async (pid) => {
 
+export const buttonDeleteProduct = async (pid, limit, page, sort, catg) => {
 	try {
 
 		const response = await fetch(`/api/products/${pid}`, {
@@ -10,8 +10,9 @@ export const buttonDeleteProduct = async (pid) => {
 
 		const data = await response.json();
 
-		const products = await getAllProducts();
-		renderProductsHTML(products.payload);
+		const products = await getAllProducts(limit, page, sort, sort, catg);
+
+		renderProductsHTML(products);
 
 		// eslint-disable-next-line no-undef
 		return Swal.fire({

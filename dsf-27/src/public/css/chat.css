@@ -1,0 +1,94 @@
+.chat-wrapper{
+	background-color: rgb(0 0 0 / 40%);
+	box-shadow: 0 0 10px 5px rgb(0 0 0 / 40%);
+	margin-bottom: 12px;
+	width: 600px;
+
+}
+
+#chat{
+	display: flex;
+	flex-direction: column;
+	height: 500px;
+	overflow-y: scroll;
+	scrollbar-color:  #282828 #556369;
+	scrollbar-width: thin;
+	text-wrap: wrap	;
+
+}
+
+#chat::-webkit-scrollbar {
+	width: 11px;
+}
+
+#chat::-webkit-scrollbar-track {
+	background: #2c2c2c;
+}
+
+#chat::-webkit-scrollbar-thumb {
+	background-color: #2c2e2e;
+	border: 3px solid  #666;
+	border-radius: 6px;
+}
+
+
+/* stylelint-disable-next-line selector-class-pattern */
+#chat-form{
+	background-color: transparent;
+}
+
+.chat-message-wrapper{
+	background-color: rgb(58 58 58);
+	border-radius: 5px;
+	display: flex;
+	flex-flow: row wrap;
+	font-size: 20px;
+	margin: 10px;
+	padding: 5px;
+	width: 300px;
+}
+
+.chat-user-name{
+	background-color: rgb(33 33 33);
+	border-radius: 25px;
+	color: rgb(164 164 164);
+	font-size: 18px;
+	height: 40px;
+	margin-right: 2px;
+	padding: 5px;
+
+}
+
+.chat-user-text{
+	color: inherit;
+	flex-wrap: wrap;
+	font-size: 18px;
+	width: 150px;
+}
+
+
+
+.chat-user-admin{
+	align-self: flex-end;
+	background-color: rgb(112 142 112);
+	color: rgb(184 184 184);
+
+}
+
+.chat-user-client{
+	color: rgb(195 192 192);
+
+}
+
+
+.toastify-support {
+	background: linear-gradient(45deg, rgb(152 91 238), rgb(185 91 252))	;
+	color: black;
+	font-weight: 800
+}
+
+.toastify-client {
+	background: linear-gradient(45deg, rgb(221 91 238), rgb(125 46 181), rgb(206 134 253), rgb(73 1 121))	;
+	color: rgb(23 23 23);
+	font-weight: 800
+}

@@ -1,0 +1,14 @@
+<div class="container container--modify">
+	<div class="order-wrapper">
+		<h1>compras </h1>
+
+		{{#each payload.products}}
+		<div class="order-row">
+			<div class="order-product">{{product.title}}</div>
+			<div class="order-quantity">{{quantity}}</div>
+			<div class="order-price">${{product.price}}</div>
+			<div class="order-total"></div>
+		</div>
+		{{/each}}
+	</div>
+</div>

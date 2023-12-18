@@ -52,6 +52,11 @@
 	color: #fff;
 }
 
+.form-user-button--google{
+	background-color: hsl(273deg 9% 79%);
+	color: #0b0b0b;
+}
+
 .form-user-signup--ctn{
 	display: flex;
 	flex-direction: column;

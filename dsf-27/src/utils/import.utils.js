@@ -1,12 +1,3 @@
-// export { userModel } from "../models/users.model.js";
-// export { productModel } from "../models/products.model.js";
-// export { cartModel } from "../models/cart.model.js";
-// export { mongoose } from "mongoose";
-// export { config } from "../config/env.config.js";
-// export { app } from "../../app.js";
-
-// import bodyParser from "body-parser";
-
 import __dirname from "../utils/__dirname.utils.js";
 
 import config from "../config/env.config.js";

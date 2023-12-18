@@ -2,7 +2,6 @@
 import { loginPassport, loginUser, logout, profile, signupUser } from "../../controllers/users.controller.js";
 import authenticateMiddleware from "../../middleware/authenticate.middleware.js";
 import express from "express";
-import passport from "passport";
 import { passportCall } from "../../utils/utils.js";
 // import passport from "passport";
 const router = express.Router();
@@ -32,10 +31,10 @@ router.post("/login", passportCall("login", { session: false }
 //////////////////////////////
 /// Post Passport Signup  ///
 ////////////////////////////
-router.post("/signup", passport.authenticate("signup", {
+router.post("/signup", passportCall("signup", {
 	session: false,
 	successRedirect: "/api/user/login",
-	failureRedirect: "/api/error"
+	// failureRedirect: "/api/error"
 }));
 // router.post("/signup", passportCall("signup", {
 // 	session: false,
@@ -46,7 +45,7 @@ router.post("/signup", passport.authenticate("signup", {
 //////////////////////
 /// Get  Profile  ///
 ////////////////////
-router.get("/profile", passportCall("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER"]), profile);
+router.get("/current", passportCall("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER"]), profile);
 
 ////////////////////
 /// Get  Logout  ///

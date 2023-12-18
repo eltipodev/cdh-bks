@@ -45,7 +45,7 @@ class ProductsManager {
 	//////////////////////////////////////////////////
 	// eslint-disable-next-line no-unused-vars
 	async getCartsById(cid) {
-		console.log("==> cid", cid);
+
 		const getCartsById = await cartModel
 			.findById(cid)
 			.populate("products.product").lean();
@@ -269,56 +269,14 @@ class ProductsManager {
 	/////////////////////////////////////////////////////////
 	/// Método Actualizar quantitf en el  carrito        ///
 	///////////////////////////////////////////////////////
-	async updateCartByIdBodyQuantify(cid, pid, obj) {
+	async updateCartByIdBodyQuantify(cid, pid, udQ) {
 
-		const objKey = Object.keys(obj)[0];
-		if (objKey !== "quantity") {
-			return {
-				code: 404,
-				status: "error",
-				message: "Solo esta permitido la propieda quantitf",
-				payload: []
-			};
-		}
-		const objValue = obj[objKey];
-
-		const existsCart = await cartModel.findById(cid);
-		if (!existsCart) {
-			return ({
-				code: 404,
-				status: "error",
-				message: "No existe el Carrito",
-				payload: existsCart
-			});
-		}
-
-		const existsProduct = await productModel.findById(pid);
-		if (!existsProduct) {
-			return ({
-				code: 404,
-				status: "error",
-				message: "No existe el Producto",
-				payload: existsCart
-			});
-		}
-
-		const productIndex = existsCart.products.findIndex(product => product
-			.product.toString() === pid.toString());
-
-		if (productIndex !== -1) {
-
-			const updateQuantity = {
-				$set: { "products.$.quantity": objValue }
-			};
-
-			await cartModel.updateOne({ _id: new mongoose.Types.ObjectId(cid), "products.product": new mongoose.Types.ObjectId(pid) }, updateQuantity);
-
-		}
+		await cartModel.updateOne({ _id: new mongoose.Types.ObjectId(cid), "products.product": new mongoose.Types.ObjectId(pid) }, udQ);
 
 		return ({
 			code: 200,
 			status: "sucess",
-			message: `Se actualizo a la cantidad de ${objValue}  ${existsProduct.title} en el Carrito`,
+			message: "Se actualizoel Carrito",
 			payload: []
 		});
 

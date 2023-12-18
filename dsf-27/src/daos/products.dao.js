@@ -10,14 +10,9 @@ class ProductsManager {
 	// eslint-disable-next-line no-unused-vars
 	async getAllProducts(querys, options, category) {
 
-		// const { limit = "10", page = "1", sort = "default", ...query } = obj;
-
 		const getAllProducts = await
 			productModel
 				.paginate(querys, options);
-
-		// const plainData = getAllProducts.docs.map(doc => doc.toObject());
-		// getAllProducts.docs = plainData;
 
 		const pagination = [];
 

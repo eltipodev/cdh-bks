@@ -39,10 +39,29 @@ export const generateToken = (user) => {
 /////////////////////
 /// passportCall ///
 ///////////////////
-export const passportCall = (strategy) => {
+// export const passportCall = (strategy) => {
+// 	return (req, res, next) => {
+
+// 		passport.authenticate(strategy, (err, user, info) => {
+// 			if (err) {
+// 				return next(err);
+// 			}
+
+// 			if (!user) {
+// 				return res.status(401).json({
+// 					error: "Autenticación fallida. Mensaje: " + (info.message || info.toString())
+// 				});
+// 			}
+
+// 			req.user = user;
+// 			next();
+// 		})(req, res, next);
+// 	};
+// };
+
+export const passportCall = (strategy, options) => {
 	return (req, res, next) => {
-		console.log("==> req111111111", req.user);
-		passport.authenticate(strategy, (err, user, info) => {
+		passport.authenticate(strategy, options, (err, user, info) => {
 			if (err) {
 				return next(err);
 			}
@@ -58,3 +77,4 @@ export const passportCall = (strategy) => {
 		})(req, res, next);
 	};
 };
+

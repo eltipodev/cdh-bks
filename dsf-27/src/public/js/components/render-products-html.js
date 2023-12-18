@@ -7,7 +7,7 @@ export const renderProductsHTML = (messages = "") => {
       <div class="products-ctn">
         <div class="products-main">
           <img class="button-actions delete" prodId="${element._id}" src="/img/empty-wood-bucket-svgrepo-com.svg" alt="">
-          <img class="button-actions add" prodId="${element._id}" src="/img/plus-sign-in-a-circle-svgrepo-com.svg" alt="">
+          <img class="button-actions add" prodId="${element._id}"  cartid="${messages.cartId}" src="/img/plus-sign-in-a-circle-svgrepo-com.svg" alt="">
           <div>
             <img src="${element.thumbnails || "/img/imagen_v acio.png"}" alt="imagen de una ${element.title}" class="products-main-img">
             <div class="products-footer-credits"><span>Foto generada con IA</span></div>
@@ -33,12 +33,3 @@ export const renderProductsHTML = (messages = "") => {
 
 	paginationElement.innerHTML = paginateHtml;
 };
-
-// <div class="paginate-ctn">
-// 	<div class="button-pag-prev button-pag--remove"></div>
-// 	<ul>{{#each pagination}}{{#if (eq ../payload.page this)}}<li class="button-pag-now" numberPage="{{this}}">{{this}}
-// 		</li>{{else}}
-// 		<li class="paginate-item" numberPage="{{this}}">{{this}}</li>{{/if}}{{/each}}
-// 	</ul>
-// 	<div class="button-pag-next button-pag--add"></div>
-// </div>

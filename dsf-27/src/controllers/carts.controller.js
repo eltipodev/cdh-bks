@@ -1,5 +1,6 @@
 import { createObj, deleteAll, deleteByCidByPid, findAll, findAllView, findByCidView, udpateByCidByPId, updateByCidByPidQuantitf, updateByIdByPids } from "../services/carts.service.js";
 import cartsManager from "../daos/carts.dao.js";
+import getCartTotalQuantity from "../utils/getCartTotalQuantity.js";
 
 //[x]
 ///////////////////////////////////////////////////
@@ -33,6 +34,7 @@ export const findByIdCart = async (req, res) => {
 	const cid = req.params.cid;
 	try {
 		const getCartsById = await cartsManager.getCartsById(cid);
+
 		return res.status(getCartsById.code).json({
 			pageTitle: "Carrito",
 			message: getCartsById.message,
@@ -76,6 +78,7 @@ export const createCart = async (req, res) => {
 //////////////////////////////////////////////
 export const addByProductCart = async (req, res) => {
 	const { cid, pid } = req.params;
+
 	try {
 		const addCart = await udpateByCidByPId(cid, pid);
 		return res.status(addCart.code).json({
@@ -183,7 +186,7 @@ export const updateByBodyCart = async (req, res) => {
 	}
 };
 
-//[ ]
+//[x]
 /////////////////////////////////////////////////
 /// Método mostrar todos los carrito    ////
 ///////////////////////////////////////////////
@@ -218,10 +221,13 @@ export const findByIdCartView = async (req, res) => {
 	try {
 		const getCartsById = await findByCidView(cid);
 
+		const cartTotalQuantity = await getCartTotalQuantity(cid);
+
 		return res.status(getCartsById.code).render("cart", {
 			pageTitle: "Carrito",
 			user: req.user || "",
 			message: getCartsById.message,
+			cartTotalQuantity,
 			payload: getCartsById.payload,
 			status: getCartsById.status,
 			sucess: getCartsById.sucess
@@ -232,4 +238,33 @@ export const findByIdCartView = async (req, res) => {
 				error: error.message
 			});
 	}
+};
+
+///////////////////////////////////////
+/// Método crear ticket           ////
+/////////////////////////////////////
+export const createOrder = async (req, res) => {
+	const cid = req.params.cid;
+
+	try {
+		const getCartsById = await findByCidView(cid);
+		const cartTotalQuantity = await getCartTotalQuantity(cid);
+
+		console.log("==> ", getCartsById.payload);
+		return res.status(getCartsById.code).render("order", {
+			pageTitle: "Carrito",
+			user: req.user || "",
+			message: getCartsById.message,
+			cartTotalQuantity,
+			payload: getCartsById.payload,
+			status: getCartsById.status,
+			sucess: getCartsById.sucess
+		});
+	} catch (error) {
+		res.status(500).json(
+			{
+				error: error.message
+			});
+	}
+
 };
