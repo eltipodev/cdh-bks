@@ -1,4 +1,4 @@
-import { createObj, deleteAll, deleteByCidByPid, findAll, findAllView, findByCidView, udpateByCidByPId, updateByCidByPidQuantitf, updateByIdByPids } from "../services/carts.service.js";
+import { createObj, deleteAll, deleteByCidByPid, findAll, findAllView, findByCidView, findByPidStock, udpateByCidByPId, updateByCidByPidQuantitf, updateByIdByPids } from "../services/carts.service.js";
 import cartsManager from "../daos/carts.dao.js";
 import getCartTotalQuantity from "../utils/getCartTotalQuantity.js";
 
@@ -35,10 +35,13 @@ export const findByIdCart = async (req, res) => {
 	try {
 		const getCartsById = await cartsManager.getCartsById(cid);
 
+		const cartTotalQuantity = await getCartTotalQuantity(cid);
+
 		return res.status(getCartsById.code).json({
 			pageTitle: "Carrito",
 			message: getCartsById.message,
 			payload: getCartsById.payload,
+			cartTotalQuantity,
 			status: getCartsById.status,
 			sucess: getCartsById.sucess
 		});
@@ -241,22 +244,55 @@ export const findByIdCartView = async (req, res) => {
 };
 
 ///////////////////////////////////////
-/// Método crear ticket           ////
+/// Método Vista crear ticket     ////
 /////////////////////////////////////
-export const createOrder = async (req, res) => {
+export const createOrderView = async (req, res) => {
 	const cid = req.params.cid;
 
 	try {
 		const getCartsById = await findByCidView(cid);
 		const cartTotalQuantity = await getCartTotalQuantity(cid);
 
-		console.log("==> ", getCartsById.payload);
+		let stockAvailable = await findByPidStock(getCartsById);
+
+		stockAvailable = { products: stockAvailable };
 		return res.status(getCartsById.code).render("order", {
-			pageTitle: "Carrito",
+			pageTitle: "Order",
 			user: req.user || "",
 			message: getCartsById.message,
 			cartTotalQuantity,
-			payload: getCartsById.payload,
+			payload: stockAvailable,
+			status: getCartsById.status,
+			sucess: getCartsById.sucess
+		});
+	} catch (error) {
+		res.status(500).json(
+			{
+				error: error.message
+			});
+	}
+
+};
+
+///////////////////////////////////////
+/// Método  crear ticket     ////
+/////////////////////////////////////
+export const createOrder = async (req, res) => {
+	const cid = req.params.cid;
+	try {
+		const getCartsById = await findByCidView(cid);
+		const cartTotalQuantity = await getCartTotalQuantity(cid);
+
+		let stockAvailable = await findByPidStock(getCartsById);
+
+		stockAvailable = { products: stockAvailable };
+
+		return res.status(getCartsById.code).json({
+			pageTitle: "Order",
+			user: req.user || "",
+			message: getCartsById.message,
+			cartTotalQuantity,
+			payload: stockAvailable,
 			status: getCartsById.status,
 			sucess: getCartsById.sucess
 		});

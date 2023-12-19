@@ -168,3 +168,24 @@ export const findByCidView = async (cid) => {
 	const getCartsById = await cartsManager.getCartsById(cid);
 	return getCartsById;
 };
+
+// [x]
+///////////////////////////////////////////
+/// Método ver cantidad  el Stock     ////
+/////////////////////////////////////////
+export const findByPidStock = async (getCartsById) => {
+
+	const cartOrder = await getCartsById.payload.products;
+
+	cartOrder.forEach((e) => {
+
+		if (e.quantity <= e.product.stock) {
+			e.stockAvailable = true;
+		} else {
+			e.stockAvailable = false;
+		}
+	});
+
+	return cartOrder;
+};
+

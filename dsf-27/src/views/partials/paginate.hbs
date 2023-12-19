@@ -7,9 +7,14 @@
 
 <div class="paginate-ctn">
 	<div class="button-pag-prev button-pag--remove"></div>
-	<ul>{{#each pagination}}{{#if (eq ../payload.page this)}}<li class="button-pag-now" numberPage="{{this}}">{{this}}
-		</li>{{else}}
-		<li class="paginate-item" numberPage="{{this}}">{{this}}</li>{{/if}}{{/each}}
+	<ul>{{#each pagination}}
+		{{#if (eq ../payload.page this)}}
+		<li class="button-pag-now" numberPage="{{this}}">{{this}}
+		</li>
+		{{else}}
+		<li class="paginate-item" numberPage="{{this}}">{{this}}</li>
+		{{/if}}
+		{{/each}}
 	</ul>
 	<div class="button-pag-next button-pag--add"></div>
 </div>

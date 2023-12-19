@@ -40,10 +40,30 @@ app.use("*", (req, res) => {
 // Registra el helper "eq"
 const hbs = exphbs.create({});
 
-hbs.handlebars.registerHelper(
-	{
-		eq: (a, b) => a === b
-	});
+// eslint-disable-next-line no-unused-vars
+let total = 0;
+let totalDes = 0;
+
+hbs.handlebars.registerHelper({
+	eq: (a, b) => a === b,
+	multiply: (a, b) => a * b,
+	multTotaly: (a, b, stockAvailable) => {
+		const result = a * b;
+		total += result;
+
+		if (stockAvailable === true) {
+			const resultDes = a * b;
+			totalDes += resultDes;
+		}
+
+		return result.toFixed(2);
+	},
+	getTotal: () => totalDes.toFixed(2),
+	totalReset: () => {
+		total = 0;
+		totalDes = 0;
+	}
+});
 
 // app.use((err, req, res, next) => {
 // 	res.status(500).render("error", { error: err.message });

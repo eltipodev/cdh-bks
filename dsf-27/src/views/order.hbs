@@ -1,14 +1,36 @@
 <div class="container container--modify">
 	<div class="order-wrapper">
-		<h1>compras </h1>
-
-		{{#each payload.products}}
-		<div class="order-row">
-			<div class="order-product">{{product.title}}</div>
-			<div class="order-quantity">{{quantity}}</div>
-			<div class="order-price">${{product.price}}</div>
-			<div class="order-total"></div>
+		<div class="order-header">
+			<h2>Order</h2>
 		</div>
-		{{/each}}
+		{{totalReset}}
+		<div class="order-main">
+			<div class="order-row">
+				<div class="order-product ">Producto</div>
+				<div class=" order-quantity  center">Cant.</div>
+				<div class=" order-price center  center">$</div>
+				<div class="order-stock  center">Stock</div>
+				<div class="order-product-totaly center">Total</div>
+			</div>
+			{{#each payload.products}}
+			<div class="order-row {{#unless stockAvailable}}isNoStock{{/unless}}">
+				<div class="order-product {{#unless stockAvailable}}isNoStock{{/unless}}">{{product.title}}</div>
+				<div class="order-quantity center {{#unless stockAvailable}}isNoStock{{/unless}}">{{quantity}}</div>
+				<div class="order-price center {{#unless stockAvailable}}isNoStock{{/unless}}">${{product.price}}</div>
+				<div class="order-stock center {{#unless stockAvailable}}isNoStock{{/unless}}">{{product.stock}}</div>
+				<div class="order-product-totaly center {{#unless stockAvailable}}isNoStock{{/unless}}">${{ multTotaly quantity
+					product.price stockAvailable}}
+				</div>
+			</div>
+			{{/each}}
+		</div>
+		<div class="order-footer">
+			<div class="order-product center"></div>
+			<div class="order-quantity center"></div>
+			<div class="order-price center"></div>
+			<div class="order-stock center"></div>
+			<div class="order-product-totaly order-totaly-finally center">${{getTotal}}</div>
+		</div>
+		<a class="order-purchase center" cartId="{{user.cart}}">Comprar</a>
 	</div>
 </div>

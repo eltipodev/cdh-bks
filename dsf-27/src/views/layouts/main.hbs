@@ -19,7 +19,7 @@
 	<title>{{{pageTitle}}}</title>
 </head>
 
-<body>
+<body style="	height: 100vh!important">
 	{{#if (eq pageTitle "Signup")}}
 	{{else}}
 	{{#if (eq pageTitle "Login")}}
@@ -28,7 +28,7 @@
 	{{#if user.user}}
 	{{else}}
 	{{/if}}
-	<h2>{{message}}</h2>
+	<p class="messages-text">{{message}}</p>
 	{{#if (eq pageTitle "Profile")}}
 	{{else}}
 	{{#if (eq pageTitle "Productos")}}
@@ -45,11 +45,14 @@
 	{{else}}
 	{{#if (eq pageTitle "Login")}}
 	{{else}}
-	{{#if (eq pageTitle "Login")}}
+	{{#if (eq pageTitle "Carrito")}}
+	{{else}}
+	{{#if (eq pageTitle "Order")}}
 	{{else}}
 	{{#if (eq pageTitle undefined)}}
 	{{else}}
 	{{>paginate}}
+	{{/if}}
 	{{/if}}
 	{{/if}}
 	{{/if}}

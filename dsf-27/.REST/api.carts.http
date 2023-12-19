@@ -28,7 +28,7 @@ DELETE http://localhost:8080/api/carts/657378236e07047d6cc93df5/products/6556a4c
 
 // [x]
 ### DELETE eliminar todos los productos del  carrito
-DELETE http://localhost:8080/api/carts/657378236e07047d6cc93df5
+DELETE http://localhost:8080/api/carts/657a0feb147d0f9fdd2f304d
 # Content-Type: application/json
 
 

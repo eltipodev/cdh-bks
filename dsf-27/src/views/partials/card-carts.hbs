@@ -1,6 +1,12 @@
 {{#if sucess }}
 <section class="section-wrapper">
-	<a class="btn-purchase" href="/api/vista/carts/{{user.cart}}/purchase">finalizar compra</a>
+	<div class="order-view">
+		<div class="order-view-row">
+			<span class="order-view-text">Total: </span><span
+				class="order-view-total">${{cartTotalQuantity.totalPrice}}</span>
+		</div>
+		<a class="btn-order" href="/api/vista/carts/{{user.cart}}/purchase">finalizar compra</a>
+	</div>
 	{{#each payload.products}}
 	<div class=" carts-ctn">
 		<div class="carts-main">

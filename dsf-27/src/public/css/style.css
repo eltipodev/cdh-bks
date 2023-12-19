@@ -7,12 +7,6 @@
 	margin: 0;
 }
 
-body {
-	font-family: TitanOne-Regular, Courier, monospace;
-	-webkit-font-smoothing: antialiased;
-	height: 100vh;
-	line-height: 1.5;
-}
 
 img, picture, video, canvas, svg {
 	display: block;
@@ -37,14 +31,18 @@ p, h1, h2, h3, h4, h5, h6 {
 
 
 html{
+	overflow: hidden;
 	/* stylelint-disable-next-line custom-property-pattern */
 	--scrollbarBG: #CFD8DC;
 	/* stylelint-disable-next-line custom-property-pattern */
 	--thumbBG: #90A4AE;
-
-	overflow: hidden;
 }
 
+body {
+	font-family: TitanOne-Regular, Courier, monospace;
+	-webkit-font-smoothing: antialiased;
+	line-height: 1.5;
+}
 /* stylelint-disable-next-line no-duplicate-selectors */
 body{
 	background-color: rgb(45 44 44);
@@ -137,5 +135,9 @@ ol{
 }
 
 .container--modify{
-	height: 100%;
+	flex: 1;
+}
+
+.messages-text{
+	margin-top: 22px;
 }

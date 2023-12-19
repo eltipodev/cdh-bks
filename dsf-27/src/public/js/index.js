@@ -1,5 +1,7 @@
+import { btnOrderPurchase } from "./button-order-purchase.js";
 import { buttonAddProduct } from "./button-add-product.js";
 import { buttonDeleteProduct } from "./button-delete-product.js";
+// import { fetchPruebas } from "./fetch.pruebas.js";
 import { getAllProducts } from "./getAll-products.js";
 import { renderButtonPagination } from "./components/button-pagination.js";
 import { selectCategoryFilter } from "./components/select-category-filter.js";
@@ -7,7 +9,6 @@ import { selectLimitFilter } from "./components/select-limit-filter.js";
 import { selectOption } from "./components/select-option.js";
 import { selectPriceFilter } from "./components/select-price-filter.js";
 import { selectStockFilter } from "./components/select-stock-filter.js";
-import { fetchPruebas } from "./fetch.pruebas.js";
 
 const container = document.querySelector(".section-products");
 // const selectCartsOptions = document.querySelector(".select-carts-ctn");
@@ -28,7 +29,7 @@ let stock;
 document.addEventListener("click", async function (event) {
 	handlePaginationClick(event);
 	handleContainerClick(event);
-
+	getbtnOrderPurchase(event);
 });
 
 if (container && (pagetitle.textContent === "Productos")) {
@@ -38,6 +39,13 @@ if (container && (pagetitle.textContent === "Productos")) {
 	setupPriceOptions();
 	setupLimitOptions();
 	// setupContainerClick();
+}
+
+function getbtnOrderPurchase(event) {
+	if (event.target.classList.contains("order-purchase")) {
+		const cid = event.target.attributes.cartId.value;
+		btnOrderPurchase(cid);
+	}
 }
 
 function handlePaginationClick(event) {

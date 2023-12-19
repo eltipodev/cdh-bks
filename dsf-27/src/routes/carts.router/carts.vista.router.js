@@ -1,5 +1,5 @@
 
-import { createOrder, findAllCartView, findByIdCartView } from "../../controllers/carts.controller.js";
+import { createOrderView, findAllCartView, findByIdCartView } from "../../controllers/carts.controller.js";
 import authenticateMiddleware from "../../middleware/authenticate.middleware.js";
 import express from "express";
 import { passportCall } from "../../utils/utils.js";
@@ -19,8 +19,8 @@ router.get("/:cid", passportCall("jwt", { session: false }), authenticateMiddlew
 
 // [x];
 ////////////////////////////
-/// GET Order          ///
+/// GET Order Vista     ///
 //////////////////////////
-router.get("/:cid/purchase", passportCall("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER"]), createOrder);
+router.get("/:cid/purchase", passportCall("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER"]), createOrderView);
 
 export default router;
