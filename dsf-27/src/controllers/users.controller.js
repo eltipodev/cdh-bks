@@ -56,7 +56,7 @@ export const loginPassport = (req, res) => {
 		.redirect("/api/vista/products");
 };
 
-export const profile = async (req, res) => {
+export const current = async (req, res) => {
 
 	const userDto = new UserDto(req.user);
 	const cartId = req.user.cart;

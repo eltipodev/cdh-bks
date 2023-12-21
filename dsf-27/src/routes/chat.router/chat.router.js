@@ -5,5 +5,5 @@ import { passportCall } from "../../utils/utils.js";
 
 const router = express.Router();
 
-router.get("/", passportCall("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER"]), chat);
+router.get("/", passportCall("jwt", { session: false }), authenticateMiddleware(["USER"]), chat);
 export default router;

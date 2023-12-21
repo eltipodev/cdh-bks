@@ -4,8 +4,9 @@
 y rellenar con los campos que faltan
 - npm i
 - npm start:dev
-
 - ruta current ```/api/user/current```
+- La order creada en mongo se puede ver que se creo en la terminal
+-
 
 
 ## ENTREGA DEL PROYECTO FINAL
@@ -29,39 +30,39 @@ y rellenar con los campos que faltan
 
 ### Se debe entregar:
 
-- [ ]  Modificar nuestra capa de persistencia para aplicar los conceptos de Factory (opcional), DAO y DTO.
+- [x]  Modificar nuestra capa de persistencia para aplicar los conceptos de Factory (opcional), DAO y DTO.
 
 - [ ]  Realizar un middleware que pueda trabajar en conjunto con la estrategia "current" para hacer un sistema de autorización y delimitar el acceso a dichos endpoints:
   - [x] Sólo el administrador puede crear, actualizar y eliminar productos.
-  - [ ] Sólo el usuario puede enviar mensajes al chat.
-  - [ ] Sólo el usuario puede agregar productos a su carrito.
+  - [x] Sólo el usuario puede enviar mensajes al chat.
+  - [x] Sólo el usuario puede agregar productos a su carrito.
 
 ### Se debe entregar:
 
-- [ ]  Crear un modelo Ticket que contará con todas las formalizaciones de la compra. Este contará con los campos:
-  - [ ] Id (autogenerado por mongo)
-  - [ ] code: String (autogenerado y único)
-  - [ ] purchase_datetime: Deberá guardar la fecha y hora exacta en la cual se formalizó la compra (básicamente es un created_at)
-  - [ ] amount: Number, total de la compra.
-  - [ ] purchaser: String, contendrá el correo del usuario asociado al carrito.
+- [x]  Crear un modelo Ticket que contará con todas las formalizaciones de la compra. Este contará con los campos:
+  - [x] Id (autogenerado por mongo)
+  - [x] code: String (autogenerado y único)
+  - [x] purchase_datetime: Deberá guardar la fecha y hora exacta en la cual se formalizó la compra (básicamente es un created_at)
+  - [x] amount: Number, total de la compra.
+  - [x] purchaser: String, contendrá el correo del usuario asociado al carrito.
 
-- [ ]  Implementar, en el router de carts, la ruta `/:cid/purchase`, la cual permitirá finalizar el proceso de compra de dicho carrito.
-  - [ ] La compra debe corroborar el stock del producto al momento de finalizarse.
-    - [ ] Si el producto tiene suficiente stock para la cantidad indicada en el producto del carrito, entonces restarlo del stock del producto y continuar.
-    - [ ] Si el producto no tiene suficiente stock para la cantidad indicada en el producto del carrito, entonces no agregar el producto al proceso de compra.
+- [x]  Implementar, en el router de carts, la ruta `/:cid/purchase`, la cual permitirá finalizar el proceso de compra de dicho carrito.
+  - [x] La compra debe corroborar el stock del producto al momento de finalizarse.
+    - [x] Si el producto tiene suficiente stock para la cantidad indicada en el producto del carrito, entonces restarlo del stock del producto y continuar.
+    - [x] Si el producto no tiene suficiente stock para la cantidad indicada en el producto del carrito, entonces no agregar el producto al proceso de compra.
 
 ### Se debe entregar:
 
-- [ ] Al final, utilizar el servicio de Tickets para poder generar un ticket con los datos de la compra .
-- [ ] En caso de existir una compra no completada, devolver el arreglo con los ids de los productos que no pudieron procesarse.
-- [ ] Una vez finalizada la compra, el carrito asociado al usuario que compró deberá contener solo los productos que no pudieron comprarse. Es decir, se filtran los que sí se compraron y se quedan aquellos que no tenían disponibilidad.
+- [x] Al final, utilizar el servicio de Tickets para poder generar un ticket con los datos de la compra .
+- [x] En caso de existir una compra no completada, devolver el arreglo con los ids de los productos que no pudieron procesarse.
+- [x] Una vez finalizada la compra, el carrito asociado al usuario que compró deberá contener solo los productos que no pudieron comprarse. Es decir, se filtran los que sí se compraron y se quedan aquellos que no tenían disponibilidad.
 
 ## Formato
 
-- [ ]  Link al repositorio de Github con el proyecto (sin node_modules)
-- [ ]  Además, archivo .env para poder correr el proyecto.
+- [x]  Link al repositorio de Github con el proyecto (sin node_modules)
+- [x]  Además, archivo .env para poder correr el proyecto.
 
 ## Sugerencias
 
-- [ ]  Te recomendamos ver el vídeo explicativo disponible en la carpeta de clase.
+- [x]  Te recomendamos ver el vídeo explicativo disponible en la carpeta de clase.
 

@@ -1,7 +1,8 @@
 import { cartModel } from "../models/cart.model.js";
 import cartsManager from "../daos/carts.dao.js";
-import productManager from "../daos/products.dao.js";
+import orderManager from "../daos/order.dao.js";
 import { productModel } from "../models/products.model.js";
+import { v4 as uuidv4 } from "uuid";
 
 //[x]
 export const findAll = async () => {
@@ -194,7 +195,7 @@ export const findByPidStock = async (getCartsById) => {
 /// Método efectuar pago    ////
 ///////////////////////////////
 
-export const orderPay = async (cid) => {
+export const orderPay = async (cid, user) => {
 	try {
 
 		const cart = await cartModel
@@ -205,11 +206,14 @@ export const orderPay = async (cid) => {
 
 		let stockAvailable = [];
 		let stockUnAvailable = [];
+		let totalAmount = 0;
 
 		for (let i of products) {
 			if (i.product.stock >= i.quantity) {
 				i.product.stock -= i.quantity;
 				await i.product.save();
+				totalAmount += i.quantity * i.product.price;
+				stockAvailable.push(i);
 			} else {
 				stockUnAvailable.push(i);
 			}
@@ -218,6 +222,20 @@ export const orderPay = async (cid) => {
 		cart.products = stockUnAvailable;
 
 		await cart.save();
+
+		if (stockAvailable.length) {
+			const order = {
+				code: uuidv4(),
+				purchase_datetime: new Date(),
+				amount: totalAmount,
+				purchaser: user.email
+			};
+
+			const paymentStatusCompleted = await orderManager.createOrder(order);
+			return { stockAvailable, totalAmount, paymentStatusCompleted };
+		}
+
+		return stockUnAvailable;
 
 	} catch (error) {
 		console.error("Error al procesar el pedido:", error);

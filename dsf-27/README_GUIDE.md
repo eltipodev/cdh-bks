@@ -1,3 +1,6 @@
+TODO
+[ ] Ver tengo todos los productos con stock pero al comprar devuelve productos sin stock de compra anterior
+
 # Guia
 ## eltipodev
 1. .env.example eliminar el .example y completar los valores

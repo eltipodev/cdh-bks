@@ -46,9 +46,11 @@ passport.use("signup", new LocalStrategy({
 		const createUser = await userManager.creatOne({
 			...req.body, password: hasHedPassword, cart: addCart.payload._id
 		});
-		done(null, createUser, { message: "Usuario creado" });
+		console.log("==> createUser", createUser);
+		return done(null, createUser, { message: "Usuario creado" });
+
 	} catch (error) {
-		done(error);
+		return done(error);
 	}
 }));
 
@@ -80,7 +82,7 @@ passport.use("login", new LocalStrategy({
 		return done(null, userData, { message: "Usuario Creado" });
 
 	} catch (error) {
-		done(error, false, { message: "Error durante la autenticación" });
+		return done(error, false, { message: "Error durante la autenticación" });
 	}
 }));
 
@@ -123,10 +125,10 @@ passport.use("gitHub", new GitHubStrategy(({
 
 			const token = generateToken(createUser);
 
-			done(null, token);
+			return done(null, token);
 
 		} catch (error) {
-			done(error);
+			return done(error);
 		}
 	}));
 ///////////////////////////////
@@ -168,10 +170,10 @@ passport.use("google", new GoogleStrategy(
 
 			const token = generateToken(createUser);
 
-			done(null, token);
+			return done(null, token);
 
 		} catch (error) {
-			done(error);
+			return done(error);
 		}
 	}
 )
@@ -192,10 +194,10 @@ passport.use(
 		async (jwt_payload, done) => {
 			try {
 
-				done(null, jwt_payload);
+				return done(null, jwt_payload);
 			}
 			catch (error) {
-				done(error, false);
+				return done(error, false);
 			}
 		}
 
@@ -205,7 +207,7 @@ passport.use(
 /// Passport serializeUser  ///
 //////////////////////////////
 passport.serializeUser((user, done) => {
-	done(null, user._id);
+	return done(null, user._id);
 });
 
 //////////////////////////////////
@@ -216,6 +218,6 @@ passport.deserializeUser(async (id, done) => {
 		const user = await userManager.findById(id);
 		return done(null, user);
 	} catch (error) {
-		done(error);
+		return done(error);
 	}
 });

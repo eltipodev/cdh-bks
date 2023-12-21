@@ -66,6 +66,11 @@ export const passportCall = (strategy, options) => {
 				return next(err);
 			}
 
+			if (strategy === "signup") {
+
+				return next();
+			}
+
 			if (!user) {
 				return res.status(401).json({
 					error: "Autenticación fallida. Mensaje: " + (info.message || info.toString())

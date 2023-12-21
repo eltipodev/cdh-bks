@@ -278,22 +278,23 @@ export const createOrderView = async (req, res) => {
 ////////////////////////////////
 export const createOrder = async (req, res) => {
 	const cid = req.params.cid;
+	const user = req.user;
 
 	try {
 
 		const cart = await findByCidView(cid);
-		const cartTotalQuantity = await getCartTotalQuantity(cid);
+		// const cartTotalQuantity = await getCartTotalQuantity(cid);
 		let stockAvailable = await findByPidStock(cart);
 
 		stockAvailable = { products: stockAvailable };
 
-		await orderPay(cid, stockAvailable);
+		const orderPurchase = await orderPay(cid, user);
 
 		return res.status(cart.code).json({
 			pageTitle: "Order",
 			user: req.user || "",
 			message: cart.message,
-			cartTotalQuantity,
+			orderPurchase,
 			payload: stockAvailable,
 			status: cart.status,
 			sucess: cart.sucess
