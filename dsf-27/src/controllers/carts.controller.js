@@ -1,4 +1,4 @@
-import { createObj, deleteAll, deleteByCidByPid, findAll, findAllView, findByCidView, findByPidStock, udpateByCidByPId, updateByCidByPidQuantitf, updateByIdByPids } from "../services/carts.service.js";
+import { createObj, deleteAll, deleteByCidByPid, findAll, findAllView, findByCidView, findByPidStock, orderPay, udpateByCidByPId, updateByCidByPidQuantitf, updateByIdByPids } from "../services/carts.service.js";
 import cartsManager from "../daos/carts.dao.js";
 import getCartTotalQuantity from "../utils/getCartTotalQuantity.js";
 
@@ -216,7 +216,7 @@ export const findAllCartView = async (req, res) => {
 
 // [x]
 ////////////////////////////////////////////////////
-/// Método Listar carrito por ID           ////
+/// Método Listar carrito por ID vista         ////
 //////////////////////////////////////////////////
 // eslint-disable-next-line no-unused-vars
 export const findByIdCartView = async (req, res) => {
@@ -252,10 +252,9 @@ export const createOrderView = async (req, res) => {
 	try {
 		const getCartsById = await findByCidView(cid);
 		const cartTotalQuantity = await getCartTotalQuantity(cid);
-
 		let stockAvailable = await findByPidStock(getCartsById);
-
 		stockAvailable = { products: stockAvailable };
+
 		return res.status(getCartsById.code).render("order", {
 			pageTitle: "Order",
 			user: req.user || "",
@@ -274,27 +273,30 @@ export const createOrderView = async (req, res) => {
 
 };
 
-///////////////////////////////////////
+/////////////////////////////////
 /// Método  crear ticket     ////
-/////////////////////////////////////
+////////////////////////////////
 export const createOrder = async (req, res) => {
 	const cid = req.params.cid;
-	try {
-		const getCartsById = await findByCidView(cid);
-		const cartTotalQuantity = await getCartTotalQuantity(cid);
 
-		let stockAvailable = await findByPidStock(getCartsById);
+	try {
+
+		const cart = await findByCidView(cid);
+		const cartTotalQuantity = await getCartTotalQuantity(cid);
+		let stockAvailable = await findByPidStock(cart);
 
 		stockAvailable = { products: stockAvailable };
 
-		return res.status(getCartsById.code).json({
+		await orderPay(cid, stockAvailable);
+
+		return res.status(cart.code).json({
 			pageTitle: "Order",
 			user: req.user || "",
-			message: getCartsById.message,
+			message: cart.message,
 			cartTotalQuantity,
 			payload: stockAvailable,
-			status: getCartsById.status,
-			sucess: getCartsById.sucess
+			status: cart.status,
+			sucess: cart.sucess
 		});
 	} catch (error) {
 		res.status(500).json(

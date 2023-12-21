@@ -1,5 +1,6 @@
 import { cartModel } from "../models/cart.model.js";
 import cartsManager from "../daos/carts.dao.js";
+import productManager from "../daos/products.dao.js";
 import { productModel } from "../models/products.model.js";
 
 //[x]
@@ -118,7 +119,7 @@ export const updateByCidByPidQuantitf = async (cid, pid, obj) => {
 	}
 };
 
-// [ ]
+// [x]
 ///////////////////////////////////////
 /// Método Actualizar Stock        ///
 /////////////////////////////////////
@@ -176,7 +177,6 @@ export const findByCidView = async (cid) => {
 export const findByPidStock = async (getCartsById) => {
 
 	const cartOrder = await getCartsById.payload.products;
-
 	cartOrder.forEach((e) => {
 
 		if (e.quantity <= e.product.stock) {
@@ -189,3 +189,47 @@ export const findByPidStock = async (getCartsById) => {
 	return cartOrder;
 };
 
+// [x]
+/////////////////////////////////
+/// Método efectuar pago    ////
+///////////////////////////////
+
+export const orderPay = async (cid) => {
+	try {
+
+		const cart = await cartModel
+			.findById(cid)
+			.populate("products.product");
+
+		let products = cart.products;
+
+		let stockAvailable = [];
+		let stockUnAvailable = [];
+
+		for (let i of products) {
+			if (i.product.stock >= i.quantity) {
+				i.product.stock -= i.quantity;
+				await i.product.save();
+			} else {
+				stockUnAvailable.push(i);
+			}
+		}
+
+		cart.products = stockUnAvailable;
+
+		await cart.save();
+
+	} catch (error) {
+		console.error("Error al procesar el pedido:", error);
+	}
+};
+
+// [x]
+///////////////////(///////////////
+/// Método crear ticket vista ////
+/////////////////////////////////
+export const createOrderView = async () => {
+
+};
+
+// const cart = await cartModel.findById(cid).populate("products.product").lean();

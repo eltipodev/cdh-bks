@@ -54,7 +54,7 @@ router.put("/:cid/products/:pid", passportCall("jwt", { session: false }), authe
 
 // [x];
 ////////////////////////////
-/// GET Order          ///
+/// GET ejecutar Order  ///
 //////////////////////////
 router.get("/:cid/purchase", passportCall("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER"]), createOrder);
 
