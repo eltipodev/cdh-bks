@@ -251,8 +251,11 @@ export const createOrderView = async (req, res) => {
 
 	try {
 		const getCartsById = await cartsService.findByCidView(cid);
+
 		const cartTotalQuantity = await cartsService.getCartTotalQuantity(cid);
+
 		let stockAvailable = await cartsService.findByPidStock(getCartsById);
+
 		stockAvailable = { products: stockAvailable };
 
 		return res.status(getCartsById.code).render("order", {
@@ -283,7 +286,7 @@ export const createOrder = async (req, res) => {
 	try {
 
 		const cart = await cartsService.findByCidView(cid);
-		// const cartTotalQuantity = await cartsService.getCartTotalQuantity(cid);
+
 		let stockAvailable = await cartsService.findByPidStock(cart);
 
 		stockAvailable = { products: stockAvailable };
@@ -296,7 +299,7 @@ export const createOrder = async (req, res) => {
 			message: cart.message,
 			orderPurchase,
 			payload: stockAvailable,
-			status: cart.status,
+			status: orderPurchase.totalAmount ? true : false,
 			sucess: cart.sucess
 		});
 	} catch (error) {

@@ -1,5 +1,6 @@
 TODO
 [ ] Ver tengo todos los productos con stock pero al comprar devuelve productos sin stock de compra anterior
+[ ] Ver tema del ticket que no esta en funcionamiento eb repository
 
 # Guia
 ## eltipodev

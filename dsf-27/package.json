@@ -6,7 +6,8 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "node src/config/server.config.js -e dev -p 8080 nodemon",
-		"start:dev": "node src/config/server.config.js -e dev -p 8080 nodemon",
+		"start:cdh": "node src/config/server.config.js -e cdh -p 8080 nodemon",
+		"start:dev": "node src/config/server.config.js -e cdh -p 8080 nodemon",
 		"start:prod": "node src/config/server.config.js -e prod -p 3000 nodemon"
 	},
 	"keywords": [],

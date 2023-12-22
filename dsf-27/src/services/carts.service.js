@@ -1,6 +1,6 @@
 import { cartModel } from "../DAL/models/cart.model.js";
-import orderMongo from "../DAL/daos/mongo/order.dao.js";
 import { productModel } from "../DAL/models/products.model.js";
+import ticketMongo from "../DAL/daos/mongo/ticket.dao.js";
 import { v4 as uuidv4 } from "uuid";
 
 export default class CartsRepository {
@@ -8,6 +8,10 @@ export default class CartsRepository {
 		this.dao = dao;
 	}
 
+	//[x]
+	/////////////////////////////%////////////
+	/// GET mostrar todos los carritos    ///
+	////////////////////////////////////////
 	//[x]
 	findAll = async () => {
 		const getAllCarts = await this.dao.getAllCarts();
@@ -182,16 +186,21 @@ export default class CartsRepository {
 	findByPidStock = async (getCartsById) => {
 
 		const cartOrder = await getCartsById.payload.products;
-		cartOrder.forEach((e) => {
 
-			if (e.quantity <= e.product.stock) {
-				e.stockAvailable = true;
-			} else {
-				e.stockAvailable = false;
-			}
-		});
+		if (cartOrder && cartOrder.length) {
 
-		return cartOrder;
+			cartOrder.forEach((e) => {
+
+				if (e.quantity <= e.product.stock) {
+					e.stockAvailable = true;
+				} else {
+					e.stockAvailable = false;
+				}
+			});
+
+			return cartOrder;
+		}
+		return [];
 	};
 
 	// [x]
@@ -235,7 +244,7 @@ export default class CartsRepository {
 					purchaser: user.email
 				};
 
-				const paymentStatusCompleted = await orderMongo.createOrder(order);
+				const paymentStatusCompleted = await ticketMongo.createOrder(order);
 				return { stockAvailable, totalAmount, paymentStatusCompleted };
 			}
 
@@ -245,16 +254,6 @@ export default class CartsRepository {
 			console.error("Error al procesar el pedido:", error);
 		}
 	};
-
-	// [x]
-	///////////////////(///////////////
-	/// Método crear ticket vista ////
-	/////////////////////////////////
-	createOrderView = async () => {
-
-	};
-
-	// const cart = await cartModel.findById(cid).populate("products.product").lean();
 
 	// [x]
 	///////////////////////////////////

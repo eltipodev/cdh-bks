@@ -1,13 +1,12 @@
+import { cartsService, usersService } from "../services/index.services.js";
 import { compareData, generateToken, hashData } from "../utils/utils.js";
 import { ExtractJwt } from "passport-jwt";
 import { Strategy as GitHubStrategy } from "passport-github2";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { Strategy as JwtStrategy } from "passport-jwt";
 import { Strategy as LocalStrategy } from "passport-local";
-import cartsManager from "../DAL/daos/mongo/carts.dao.js";
 import config from "./env.config.js";
 import passport from "passport";
-import { usersService } from "../services/index.services.js";
 // import userManager from "../DAL/daos/mongo/users.dao.js";
 
 const clientIdGoogle = config.google_client_id;
@@ -41,7 +40,7 @@ passport.use("signup", new LocalStrategy({
 
 	try {
 
-		const addCart = await cartsManager.createCart();
+		const addCart = await cartsService.createObj();
 		const hasHedPassword = await hashData(password);
 		// eslint-disable-next-line no-unused-vars
 		const createUser = await usersService.creatOne({
@@ -111,7 +110,7 @@ passport.use("gitHub", new GitHubStrategy(({
 				}
 			}
 
-			const addCart = await cartsManager.createCart();
+			const addCart = await cartsService.createObj();
 			const infoUser = {
 				user: profile._json.login,
 				firstName: profile._json.name || "none",
@@ -156,7 +155,7 @@ passport.use("google", new GoogleStrategy(
 				}
 			}
 
-			const addCart = await cartsManager.createCart();
+			const addCart = await cartsService.createObj();
 			const infoUser = {
 				user: profile._json.given_name || "none",
 				firstName: profile._json.family_name || "none",

@@ -43,7 +43,7 @@ export const findAllProductView = async (req, res) => {
 //////////////////////////////////////////////
 
 export const findAllProduct = async (req, res) => {
-
+	const user = req.user.rol;
 	const { limit = "10", page = "1", sort = "default", ...query } = req.query;
 	try {
 
@@ -56,6 +56,7 @@ export const findAllProduct = async (req, res) => {
 			status: getAllProducts.status,
 			sucess: getAllProducts.sucess,
 			cartId: req.user.cart,
+			user,
 			pagination: getAllProducts.pagination,
 		});
 	} catch (error) {

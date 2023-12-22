@@ -1,7 +1,7 @@
 export default class ProductsRepository {
 	constructor(dao) {
 		this.dao = dao;
-		console.log("==> dao2", dao);
+
 	}
 
 	//[x]

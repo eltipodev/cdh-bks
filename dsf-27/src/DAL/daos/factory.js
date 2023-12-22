@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 export let Carts;
 export let Products;
 export let Users;
-// export let Order;
+export let Ticket;
 
 console.log("==> config.persistence ", config.persistence);
 
@@ -22,12 +22,12 @@ switch (config.persistence) {
 		const { default: CartsMongo } = await import("./mongo/carts.dao.js");
 		const { default: ProductsMongo } = await import("./mongo/products.dao.js");
 		const { default: UsersMongo } = await import("./mongo/users.dao.js");
-		// const { default: OrderMongo } = await import("./mongo/order.mongo.js");
+		const { default: TicketMongo } = await import("./mongo/ticket.dao.js");
 
 		Carts = CartsMongo;
 		Products = ProductsMongo;
 		Users = UsersMongo;
-		// Order = OrderMongo;
+		Ticket = TicketMongo;
 		break;
 
 	default:

@@ -1,6 +1,6 @@
 import orderModel from "../../models/order.model.js";
 
-class OrderMongo {
+class TicketMongo {
 
 	async createOrder(order) {
 		const orderCreate = await orderModel.create(order);
@@ -10,5 +10,5 @@ class OrderMongo {
 	}
 }
 
-const orderMongo = new OrderMongo();
+const orderMongo = new TicketMongo();
 export default orderMongo;

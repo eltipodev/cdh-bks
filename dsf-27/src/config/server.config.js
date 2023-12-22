@@ -19,7 +19,7 @@ socketServer.on("connection", (socket) => {
 	});
 
 	socket.on("message", (infoMessage) => {
-		console.log("==> userMessages", infoMessage);
+
 		messages.push(infoMessage);
 		socketServer.emit("chat", messages);
 	});

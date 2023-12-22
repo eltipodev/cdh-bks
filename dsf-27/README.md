@@ -1,12 +1,13 @@
 # Guia
 
-- El ```.env.development.local.example``` renombrar a  ```.env.development.local```
+- El ```.env.example``` renombrar a  ```.env```
 y rellenar con los campos que faltan
 - npm i
-- npm start:dev
-- ruta current ```/api/user/current```
+- ```npm start:cdh``` o ```npm run start:cdh```
 - La order creada en mongo se puede ver que se creo en la terminal
--
+- Tomate, Frutilla, Pasas de Uvas tienen 0 stock para pruebas
+- user: coderHouse pass: coderHouse rol: ADMIN
+
 
 
 ## ENTREGA DEL PROYECTO FINAL
@@ -15,7 +16,7 @@ y rellenar con los campos que faltan
 
 - [x]  El DAO seleccionado (a través de un parámetro en línea de comandos, similar a la implementación anterior) será devuelto por una Factory para que la capa de negocio opere con él. (La Factory puede ser opcional)
 
-- [ ] Implementar el patrón Repository para trabajar con el DAO en la lógica de negocio.
+- [x] Implementar el patrón Repository para trabajar con el DAO en la lógica de negocio.
 
 - [x]  Modificar la ruta `/current` para evitar enviar información sensible. En su lugar, enviar un DTO del usuario con solo la información necesaria.
 
@@ -32,7 +33,7 @@ y rellenar con los campos que faltan
 
 - [x]  Modificar nuestra capa de persistencia para aplicar los conceptos de Factory (opcional), DAO y DTO.
 
-- [ ]  Realizar un middleware que pueda trabajar en conjunto con la estrategia "current" para hacer un sistema de autorización y delimitar el acceso a dichos endpoints:
+- [x]  Realizar un middleware que pueda trabajar en conjunto con la estrategia "current" para hacer un sistema de autorización y delimitar el acceso a dichos endpoints:
   - [x] Sólo el administrador puede crear, actualizar y eliminar productos.
   - [x] Sólo el usuario puede enviar mensajes al chat.
   - [x] Sólo el usuario puede agregar productos a su carrito.

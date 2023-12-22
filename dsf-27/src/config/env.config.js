@@ -11,8 +11,9 @@ dotenv.config({
 		__dirname,
 		environment === "test" ? "../.env.testing" :
 			environment === "prod" ? "../.env.production.local" :
-				environment === "dev" ? "../.env.development.local" :
-					"../.env.development.local"
+				environment === "cdh" ? "../.env" :
+					environment === "dev" ? "../.env.development.local" :
+						"../.env"
 	)
 });
 
