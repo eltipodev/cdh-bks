@@ -1,4 +1,4 @@
-import UserDto from "../dtos/users.dto.js";
+import UserDto from "../DAL/dtos/users.dto.js";
 import { generateToken } from "../utils/utils.js";
 import getCartTotalQuantity from "../utils/getCartTotalQuantity.js";
 

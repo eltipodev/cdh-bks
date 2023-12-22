@@ -1,7 +1,7 @@
-import { cartModel } from "../models/cart.model.js";
-import cartsManager from "../daos/carts.dao.js";
-import orderManager from "../daos/order.dao.js";
-import { productModel } from "../models/products.model.js";
+import { cartModel } from "../DAL/models/cart.model.js";
+import cartsManager from "../DAL/daos/mongo/carts.dao.js";
+import orderManager from "../DAL/daos/mongo/order.dao.js";
+import { productModel } from "../DAL/models/products.model.js";
 import { v4 as uuidv4 } from "uuid";
 
 //[x]

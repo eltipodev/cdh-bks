@@ -1,5 +1,5 @@
 import { createObj, deleteAll, deleteByCidByPid, findAll, findAllView, findByCidView, findByPidStock, orderPay, udpateByCidByPId, updateByCidByPidQuantitf, updateByIdByPids } from "../services/carts.service.js";
-import cartsManager from "../daos/carts.dao.js";
+import cartsManager from "../DAL/daos/mongo/carts.dao.js";
 import getCartTotalQuantity from "../utils/getCartTotalQuantity.js";
 
 //[x]

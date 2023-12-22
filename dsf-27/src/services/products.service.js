@@ -1,4 +1,4 @@
-import productManager from "../daos/products.dao.js";
+import productManager from "../DAL/daos/mongo/products.dao.js";
 
 //[x]
 export const findAll = async (limit, page, sort, query) => {

@@ -4,10 +4,10 @@ import { Strategy as GitHubStrategy } from "passport-github2";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { Strategy as JwtStrategy } from "passport-jwt";
 import { Strategy as LocalStrategy } from "passport-local";
-import cartsManager from "../daos/carts.dao.js";
+import cartsManager from "../DAL/daos/mongo/carts.dao.js";
 import config from "./env.config.js";
 import passport from "passport";
-import userManager from "../daos/users.dao.js";
+import userManager from "../DAL/daos/mongo/users.dao.js";
 
 const clientIdGoogle = config.google_client_id;
 const clientSecretGoogle = config.google_client_secret;

@@ -1,6 +1,6 @@
-import { cartModel } from "../models/cart.model.js";
+import { cartModel } from "../../models/cart.model.js";
 import { mongoose } from "mongoose";
-import { productModel } from "../models/products.model.js";
+import { productModel } from "../../models/products.model.js";
 
 class ProductsManager {
 	constructor() {
