@@ -284,6 +284,6 @@ class CartsMongo {
 
 }
 
-const cartsMongo = new CartsMongo();
-export default cartsMongo;
+// const cartsMongo = new CartsMongo();
+export default CartsMongo;
 

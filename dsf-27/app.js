@@ -1,6 +1,8 @@
 
-import "./src/config/mongo.config.js";
+// import "./src/config/mongo.config.js";
 import "./src/config/passport.config.js";
+
+import "./src/DAL/daos/factory.js";
 
 // import { __dirname, cookieParser, exphbs, express, indexRouter, passport } from "./src/utils/import.utils.js";
 

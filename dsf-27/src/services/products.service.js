@@ -1,122 +1,126 @@
-import productMongo from "../DAL/daos/mongo/products.dao.js";
-
-//[x]
-export const findAll = async (limit, page, sort, query) => {
-
-	const querys = {};
-	const category = query.category;
-	const stock = query.stock;
-
-	if (category && category !== "Todos") {
-		querys.category = category;
+export default class ProductsRepository {
+	constructor(dao) {
+		this.dao = dao;
 	}
 
-	if (stock === "1 a 20")
-		querys.stock = {
-			$gte: 1,
-			$lte: 20
+	//[x]
+	findAll = async (limit, page, sort, query) => {
+
+		const querys = {};
+		const category = query.category;
+		const stock = query.stock;
+
+		if (category && category !== "Todos") {
+			querys.category = category;
+		}
+
+		if (stock === "1 a 20")
+			querys.stock = {
+				$gte: 1,
+				$lte: 20
+			};
+
+		if (stock === "sin stock")
+			querys.stock = {
+				$gte: 0,
+				$lte: 0
+			};
+
+		if (stock === "mas de 100")
+			querys.stock = {
+				$gte: 100,
+			};
+
+		const sortOptions = {
+			ascd: { price: 1 },
+			desc: { price: -1 },
+			default: ""
 		};
 
-	if (stock === "sin stock")
-		querys.stock = {
-			$gte: 0,
-			$lte: 0
+		const sortSelect = sortOptions[sort] || sortOptions["default"];
+
+		const options = {
+			limit,
+			page,
+			sort: sortSelect,
+			collation: { locale: "en", strength: 2 },
+			lean: true
 		};
 
-	if (stock === "mas de 100")
-		querys.stock = {
-			$gte: 100,
-		};
-
-	const sortOptions = {
-		ascd: { price: 1 },
-		desc: { price: -1 },
-		default: ""
+		const getAllProducts = await this.dao.getAllProducts(querys, options, category);
+		return getAllProducts;
 	};
 
-	const sortSelect = sortOptions[sort] || sortOptions["default"];
+	//[x]
+	findAllView = async (limit, page, sort, query) => {
 
-	const options = {
-		limit,
-		page,
-		sort: sortSelect,
-		collation: { locale: "en", strength: 2 },
-		lean: true
-	};
+		const querys = {};
+		const category = query.category;
+		const stock = query.stock;
 
-	const getAllProducts = await productMongo.getAllProducts(querys, options, category);
-	return getAllProducts;
-};
+		if (category && category !== "Todos") {
+			querys.category = category;
+		}
 
-//[x]
-export const findAllView = async (limit, page, sort, query) => {
+		if (stock === "1 a 20")
+			querys.stock = {
+				$gte: 1,
+				$lte: 20
+			};
 
-	const querys = {};
-	const category = query.category;
-	const stock = query.stock;
+		if (stock === "sin stock")
+			querys.stock = {
+				$gte: 0,
+				$lte: 0
+			};
 
-	if (category && category !== "Todos") {
-		querys.category = category;
-	}
+		if (stock === "mas de 100")
+			querys.stock = {
+				$gte: 100,
+			};
 
-	if (stock === "1 a 20")
-		querys.stock = {
-			$gte: 1,
-			$lte: 20
+		const sortOptions = {
+			ascd: { price: 1 },
+			desc: { price: -1 },
+			default: ""
 		};
 
-	if (stock === "sin stock")
-		querys.stock = {
-			$gte: 0,
-			$lte: 0
+		const sortSelect = sortOptions[sort] || sortOptions["default"];
+
+		const options = {
+			limit,
+			page,
+			sort: sortSelect,
+			collation: { locale: "en", strength: 2 },
+			lean: true
 		};
 
-	if (stock === "mas de 100")
-		querys.stock = {
-			$gte: 100,
-		};
-
-	const sortOptions = {
-		ascd: { price: 1 },
-		desc: { price: -1 },
-		default: ""
+		const getAllProducts = await this.dao.getAllProducts(querys, options, category);
+		return getAllProducts;
 	};
 
-	const sortSelect = sortOptions[sort] || sortOptions["default"];
-
-	const options = {
-		limit,
-		page,
-		sort: sortSelect,
-		collation: { locale: "en", strength: 2 },
-		lean: true
+	//[x]
+	updateById = async (pid) => {
+		const updateProductById = await this.dao.getProductById(pid);
+		return updateProductById;
 	};
 
-	const getAllProducts = await productMongo.getAllProducts(querys, options, category);
-	return getAllProducts;
-};
+	//[x]
+	addByObj = async (prd) => {
+		const addProduct = await this.dao.addProduct(prd);
+		return addProduct;
+	};
 
-//[x]
-export const updateById = async (pid) => {
-	const updateProductById = await productMongo.getProductById(pid);
-	return updateProductById;
-};
+	//[x]
+	deleteById = async (pid) => {
+		const deleteById = await this.dao.deleteProductById(pid);
+		return deleteById;
 
-//[x]
-export const addByObj = async (prd) => {
-	const addProduct = await productMongo.addProduct(prd);
-	return addProduct;
-};
+	};
 
-//[x]
-export const deleteById = async (pid) => {
-	const deleteById = await productMongo.deleteProductById(pid);
-	return deleteById;
+	findById = async (pid) => {
+		const getProductById = await this.dao.getProductById(pid);
+		return getProductById;
+	};
 
-};
-
-export const findById = async (pid) => {
-	const getProductById = await productMongo.getProductById(pid);
-	return getProductById;
-};
-
+}

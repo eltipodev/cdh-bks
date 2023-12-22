@@ -157,6 +157,5 @@ class ProductsMongo {
 	}
 }
 
-const productMongo = new ProductsMongo();
-export default productMongo;
+export default ProductsMongo;
 

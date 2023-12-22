@@ -1,6 +1,6 @@
-import { createObj, deleteAll, deleteByCidByPid, findAll, findAllView, findByCidView, findByPidStock, orderPay, udpateByCidByPId, updateByCidByPidQuantitf, updateByIdByPids } from "../services/carts.service.js";
 import cartsMongo from "../DAL/daos/mongo/carts.dao.js";
-import { getCartTotalQuantity } from "../services/carts.service.js";
+import { cartsService } from "../services/index.services.js";
+// import { getCartTotalQuantity } from "../services/carts.service.js";
 
 //[x]
 ///////////////////////////////////////////////////
@@ -9,7 +9,7 @@ import { getCartTotalQuantity } from "../services/carts.service.js";
 export const findAllCarts = async (req, res) => {
 	try {
 
-		const getAllCarts = await findAll();
+		const getAllCarts = await cartsService.findAll();
 
 		res.status(getAllCarts.code).json({
 			pageTitle: "Carritos",
@@ -35,7 +35,7 @@ export const findByIdCart = async (req, res) => {
 	try {
 		const getCartsById = await cartsMongo.getCartsById(cid);
 
-		const cartTotalQuantity = await getCartTotalQuantity(cid);
+		const cartTotalQuantity = await cartsService.getCartTotalQuantity(cid);
 
 		return res.status(getCartsById.code).json({
 			pageTitle: "Carrito",
@@ -59,7 +59,7 @@ export const findByIdCart = async (req, res) => {
 //////////////////////////////////////////////
 export const createCart = async (req, res) => {
 	try {
-		const addCart = await createObj();
+		const addCart = await cartsService.createObj();
 		return res.status(addCart.code).json({
 			pageTitle: "Carrito",
 			message: addCart.message,
@@ -83,7 +83,7 @@ export const addByProductCart = async (req, res) => {
 	const { cid, pid } = req.params;
 
 	try {
-		const addCart = await udpateByCidByPId(cid, pid);
+		const addCart = await cartsService.udpateByCidByPId(cid, pid);
 		return res.status(addCart.code).json({
 			pageTitle: "Carrito",
 			message: addCart.message,
@@ -105,7 +105,7 @@ export const deleteByIdProductCart = async (req, res) => {
 
 	const { cid, pid } = req.params;
 	try {
-		const deleteProductToCartById = await deleteByCidByPid(cid, pid);
+		const deleteProductToCartById = await cartsService.deleteByCidByPid(cid, pid);
 
 		return res.status(deleteProductToCartById.code).json({
 			pageTitle: "Carrito",
@@ -128,7 +128,7 @@ export const deleteByIdProductCart = async (req, res) => {
 export const deleteAllCarts = async (req, res) => {
 	const cid = req.params.cid;
 	try {
-		const deleteAllProductsByCart = await deleteAll(cid);
+		const deleteAllProductsByCart = await cartsService.deleteAll(cid);
 		return res.status(deleteAllProductsByCart.code).json({
 			pageTitle: "Carrito",
 			message: deleteAllProductsByCart.message,
@@ -153,7 +153,7 @@ export const updateByCartPids = async (req, res) => {
 	const pids = req.body;
 
 	try {
-		const updateCartById = await updateByIdByPids(cid, pids);
+		const updateCartById = await cartsService.updateByIdByPids(cid, pids);
 		return res.status(updateCartById.code).json({
 			pageTitle: "Carrito",
 			message: updateCartById.message,
@@ -175,7 +175,7 @@ export const updateByBodyCart = async (req, res) => {
 	const { cid, pid } = req.params;
 	const obj = req.body;
 	try {
-		const updateCartByIdBody = await updateByCidByPidQuantitf(cid, pid, obj);
+		const updateCartByIdBody = await cartsService.updateByCidByPidQuantitf(cid, pid, obj);
 		return res.status(updateCartByIdBody.code).json({
 			pageTitle: "Carrito",
 			message: updateCartByIdBody.message,
@@ -197,7 +197,7 @@ export const findAllCartView = async (req, res) => {
 	try {
 		const { limit = "10", page = "", sort = "", query = "" } = req.query;
 
-		const getAllCarts = await findAllView(limit, page, sort, query);
+		const getAllCarts = await cartsService.findAllView(limit, page, sort, query);
 
 		res.status(getAllCarts.code).render("cart", {
 			pageTitle: "Carritos",
@@ -222,9 +222,9 @@ export const findAllCartView = async (req, res) => {
 export const findByIdCartView = async (req, res) => {
 	const cid = req.params.cid;
 	try {
-		const getCartsById = await findByCidView(cid);
+		const getCartsById = await cartsService.findByCidView(cid);
 
-		const cartTotalQuantity = await getCartTotalQuantity(cid);
+		const cartTotalQuantity = await cartsService.getCartTotalQuantity(cid);
 
 		return res.status(getCartsById.code).render("cart", {
 			pageTitle: "Carrito",
@@ -250,9 +250,9 @@ export const createOrderView = async (req, res) => {
 	const cid = req.params.cid;
 
 	try {
-		const getCartsById = await findByCidView(cid);
-		const cartTotalQuantity = await getCartTotalQuantity(cid);
-		let stockAvailable = await findByPidStock(getCartsById);
+		const getCartsById = await cartsService.findByCidView(cid);
+		const cartTotalQuantity = await cartsService.getCartTotalQuantity(cid);
+		let stockAvailable = await cartsService.findByPidStock(getCartsById);
 		stockAvailable = { products: stockAvailable };
 
 		return res.status(getCartsById.code).render("order", {
@@ -282,13 +282,13 @@ export const createOrder = async (req, res) => {
 
 	try {
 
-		const cart = await findByCidView(cid);
-		// const cartTotalQuantity = await getCartTotalQuantity(cid);
-		let stockAvailable = await findByPidStock(cart);
+		const cart = await cartsService.findByCidView(cid);
+		// const cartTotalQuantity = await cartsService.getCartTotalQuantity(cid);
+		let stockAvailable = await cartsService.findByPidStock(cart);
 
 		stockAvailable = { products: stockAvailable };
 
-		const orderPurchase = await orderPay(cid, user);
+		const orderPurchase = await cartsService.orderPay(cid, user);
 
 		return res.status(cart.code).json({
 			pageTitle: "Order",

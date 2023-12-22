@@ -1,293 +1,299 @@
 import { cartModel } from "../DAL/models/cart.model.js";
-import cartsMongo from "../DAL/daos/mongo/carts.dao.js";
 import orderMongo from "../DAL/daos/mongo/order.dao.js";
 import { productModel } from "../DAL/models/products.model.js";
 import { v4 as uuidv4 } from "uuid";
 
-//[x]
-export const findAll = async () => {
-	const getAllCarts = await cartsMongo.getAllCarts();
-	return getAllCarts;
-};
-
-//[x]
-////////////////////////////////////////////////
-/// POST agregar un Producto a l Carrito    ///
-//////////////////////////////////////////////
-export const udpateByCidByPId = async (cid, pid) => {
-	const addProductToCartById = await cartsMongo.addProductToCartById(cid, pid);
-	return addProductToCartById;
-};
-
-// [x]
-/////////////////////////////////////////////////////////
-/// Métodor Elimimar un producto al carrito          ///
-///////////////////////////////////////////////////////
-export const deleteByCidByPid = async (cid, pid) => {
-	const deleteProductToCartById = await cartsMongo.deleteProductToCartById(cid, pid);
-	return deleteProductToCartById;
-};
-
-// [x]
-///////////////////////////////////////////////////////
-/// Método Borrar Todos los productos de un carrito///
-/////////////////////////////////////////////////////
-export const deleteAll = async (cid) => {
-	const deleteAllProductsByCart = await cartsMongo.deleteAllProductsByCart(cid);
-	return deleteAllProductsByCart;
-};
-
-//[x]
-////////////////////////////////////////////////
-/// Método para agregar Carrito             ///
-//////////////////////////////////////////////
-export const createObj = async () => {
-	const addCart = await cartsMongo.createCart();
-	return addCart;
-};
-
-////////////////////////////////////////////////////
-/// GET Método Listar carrito por ID           ////
-//////////////////////////////////////////////////
-//[x]
-export const findById = async (cid) => {
-	const getCartsById = await cartsMongo.getCartsById(cid);
-	return getCartsById;
-};
-
-//[x]
-//////////////////////////////////////////////////////////
-/// Método actualizar el carrito con productos        ///
-////////////////////////////////////////////////////////
-export const updateByIdByPids = async (cid, pids) => {
-	const updateCartByPids = await cartsMongo.updateCartByPids(cid, pids);
-	return updateCartByPids;
-
-};
-
-// [x]
-/////////////////////////////////////////////////////////
-/// Método Actualizar quantitf en el  carrito        ///
-///////////////////////////////////////////////////////
-export const updateByCidByPidQuantitf = async (cid, pid, obj) => {
-
-	const objKey = Object.keys(obj)[0];
-
-	if (objKey !== "quantity") {
-		return {
-			code: 404,
-			status: "error",
-			message: "Solo esta permitido la propieda quantitf",
-			payload: []
-		};
+export default class CartsRepository {
+	constructor(dao) {
+		this.dao = dao;
 	}
 
-	const objValue = obj[objKey];
+	//[x]
+	findAll = async () => {
+		const getAllCarts = await this.dao.getAllCarts();
+		return getAllCarts;
+	};
 
-	const existsCart = await cartModel.findById(cid);
-	if (!existsCart) {
-		return ({
-			code: 404,
-			status: "error",
-			message: "No existe el Carrito",
-			payload: existsCart
-		});
-	}
+	//[x]
+	////////////////////////////////////////////////
+	/// POST agregar un Producto a l Carrito    ///
+	//////////////////////////////////////////////
+	udpateByCidByPId = async (cid, pid) => {
+		const addProductToCartById = await this.dao.addProductToCartById(cid, pid);
+		return addProductToCartById;
+	};
 
-	const existsProduct = await productModel.findById(pid);
+	// [x]
+	/////////////////////////////////////////////////////////
+	/// Métodor Elimimar un producto al carrito          ///
+	///////////////////////////////////////////////////////
+	deleteByCidByPid = async (cid, pid) => {
+		const deleteProductToCartById = await this.dao.deleteProductToCartById(cid, pid);
+		return deleteProductToCartById;
+	};
 
-	if (!existsProduct) {
-		return ({
-			code: 404,
-			status: "error",
-			message: "No existe el Producto",
-			payload: existsCart
-		});
-	}
+	// [x]
+	///////////////////////////////////////////////////////
+	/// Método Borrar Todos los productos de un carrito///
+	/////////////////////////////////////////////////////
+	deleteAll = async (cid) => {
+		const deleteAllProductsByCart = await this.dao.deleteAllProductsByCart(cid);
+		return deleteAllProductsByCart;
+	};
 
-	const productIndex = existsCart.products.findIndex(product => product
-		.product.toString() === pid.toString());
+	//[x]
+	////////////////////////////////////////////////
+	/// Método para agregar Carrito             ///
+	//////////////////////////////////////////////
+	createObj = async () => {
+		const addCart = await this.dao.createCart();
+		return addCart;
+	};
 
-	if (productIndex !== -1) {
+	////////////////////////////////////////////////////
+	/// GET Método Listar carrito por ID           ////
+	//////////////////////////////////////////////////
+	//[x]
+	findById = async (cid) => {
+		const getCartsById = await this.dao.getCartsById(cid);
+		return getCartsById;
+	};
 
-		const updateQuantity = {
-			$set: { "products.$.quantity": objValue }
-		};
+	//[x]
+	//////////////////////////////////////////////////////////
+	/// Método actualizar el carrito con productos        ///
+	////////////////////////////////////////////////////////
+	updateByIdByPids = async (cid, pids) => {
+		const updateCartByPids = await this.dao.updateCartByPids(cid, pids);
+		return updateCartByPids;
 
-		const updateByCidByPidQuantitf = await cartsMongo.updateCartByIdBodyQuantify(cid, pid, updateQuantity);
-		return updateByCidByPidQuantitf;
+	};
 
-	}
-};
+	// [x]
+	/////////////////////////////////////////////////////////
+	/// Método Actualizar quantitf en el  carrito        ///
+	///////////////////////////////////////////////////////
+	updateByCidByPidQuantitf = async (cid, pid, obj) => {
 
-// [x]
-///////////////////////////////////////
-/// Método Actualizar Stock        ///
-/////////////////////////////////////
-export const updateByPidByStock = async (pid, cstk) => {
+		const objKey = Object.keys(obj)[0];
 
-	// const objKey = Object.keys(obj)[0];
-
-	if (!cstk.lenght) {
-		return {
-			code: 404,
-			status: "error",
-			message: "Solo esta permitido la propieda quantitf",
-			payload: []
-		};
-	}
-
-	const existsProduct = await productModel.findById(pid);
-
-	if (!existsProduct) {
-		return ({
-			code: 404,
-			status: "error",
-			message: "No existe el Producto",
-			payload: existsProduct
-		});
-	}
-
-	const updateByPidByStock = await cartsMongo.updateCartByIdBodyQuantify(pid, cstk);
-	return updateByPidByStock;
-
-};
-
-//[X]
-/////////////////////////////////////////////////
-/// GET Método mostrar todos los carrito    ////
-///////////////////////////////////////////////
-export const findAllView = async (limit, page, sort, query) => {
-	const getAllCarts = await cartsMongo.getAllCarts(limit, page, sort, query);
-	return getAllCarts;
-};
-
-// [x]
-////////////////////////////////////////////////
-/// Método Listar carrito por ID           ////
-//////////////////////////////////////////////
-export const findByCidView = async (cid) => {
-	const getCartsById = await cartsMongo.getCartsById(cid);
-	return getCartsById;
-};
-
-// [x]
-///////////////////////////////////////////
-/// Método ver cantidad  el Stock     ////
-/////////////////////////////////////////
-export const findByPidStock = async (getCartsById) => {
-
-	const cartOrder = await getCartsById.payload.products;
-	cartOrder.forEach((e) => {
-
-		if (e.quantity <= e.product.stock) {
-			e.stockAvailable = true;
-		} else {
-			e.stockAvailable = false;
-		}
-	});
-
-	return cartOrder;
-};
-
-// [x]
-/////////////////////////////////
-/// Método efectuar pago    ////
-///////////////////////////////
-
-export const orderPay = async (cid, user) => {
-	try {
-
-		const cart = await cartModel
-			.findById(cid)
-			.populate("products.product");
-
-		let products = cart.products;
-
-		let stockAvailable = [];
-		let stockUnAvailable = [];
-		let totalAmount = 0;
-
-		for (let i of products) {
-			if (i.product.stock >= i.quantity) {
-				i.product.stock -= i.quantity;
-				await i.product.save();
-				totalAmount += i.quantity * i.product.price;
-				stockAvailable.push(i);
-			} else {
-				stockUnAvailable.push(i);
-			}
+		if (objKey !== "quantity") {
+			return {
+				code: 404,
+				status: "error",
+				message: "Solo esta permitido la propieda quantitf",
+				payload: []
+			};
 		}
 
-		cart.products = stockUnAvailable;
+		const objValue = obj[objKey];
 
-		await cart.save();
+		const existsCart = await cartModel.findById(cid);
+		if (!existsCart) {
+			return ({
+				code: 404,
+				status: "error",
+				message: "No existe el Carrito",
+				payload: existsCart
+			});
+		}
 
-		if (stockAvailable.length) {
-			const order = {
-				code: uuidv4(),
-				purchase_datetime: new Date(),
-				amount: totalAmount,
-				purchaser: user.email
+		const existsProduct = await productModel.findById(pid);
+
+		if (!existsProduct) {
+			return ({
+				code: 404,
+				status: "error",
+				message: "No existe el Producto",
+				payload: existsCart
+			});
+		}
+
+		const productIndex = existsCart.products.findIndex(product => product
+			.product.toString() === pid.toString());
+
+		if (productIndex !== -1) {
+
+			const updateQuantity = {
+				$set: { "products.$.quantity": objValue }
 			};
 
-			const paymentStatusCompleted = await orderMongo.createOrder(order);
-			return { stockAvailable, totalAmount, paymentStatusCompleted };
+			const updateByCidByPidQuantitf = await this.dao.updateCartByIdBodyQuantify(cid, pid, updateQuantity);
+			return updateByCidByPidQuantitf;
+
+		}
+	};
+
+	// [x]
+	///////////////////////////////////////
+	/// Método Actualizar Stock        ///
+	/////////////////////////////////////
+	updateByPidByStock = async (pid, cstk) => {
+
+		// const objKey = Object.keys(obj)[0];
+
+		if (!cstk.lenght) {
+			return {
+				code: 404,
+				status: "error",
+				message: "Solo esta permitido la propieda quantitf",
+				payload: []
+			};
 		}
 
-		return stockUnAvailable;
+		const existsProduct = await productModel.findById(pid);
 
-	} catch (error) {
-		console.error("Error al procesar el pedido:", error);
-	}
-};
+		if (!existsProduct) {
+			return ({
+				code: 404,
+				status: "error",
+				message: "No existe el Producto",
+				payload: existsProduct
+			});
+		}
 
-// [x]
-///////////////////(///////////////
-/// Método crear ticket vista ////
-/////////////////////////////////
-export const createOrderView = async () => {
+		const updateByPidByStock = await this.dao.updateCartByIdBodyQuantify(pid, cstk);
+		return updateByPidByStock;
 
-};
+	};
 
-// const cart = await cartModel.findById(cid).populate("products.product").lean();
+	//[X]
+	/////////////////////////////////////////////////
+	/// GET Método mostrar todos los carrito    ////
+	///////////////////////////////////////////////
+	findAllView = async (limit, page, sort, query) => {
+		const getAllCarts = await this.dao.getAllCarts(limit, page, sort, query);
+		return getAllCarts;
+	};
 
-// [x]
-///////////////////////////////////
-/// Método calcular cantidad  ////
-/////////////////////////////////
-export const getCartTotalQuantity = async (cid) => {
-	try {
-		const getCartsById = await findByCidView(cid);
+	// [x]
+	////////////////////////////////////////////////
+	/// Método Listar carrito por ID           ////
+	//////////////////////////////////////////////
+	findByCidView = async (cid) => {
+		const getCartsById = await this.dao.getCartsById(cid);
+		return getCartsById;
+	};
 
-		if (getCartsById && getCartsById.payload && getCartsById.payload.products && Array.isArray(getCartsById.payload.products)) {
+	// [x]
+	///////////////////////////////////////////
+	/// Método ver cantidad  el Stock     ////
+	/////////////////////////////////////////
+	findByPidStock = async (getCartsById) => {
 
-			if (getCartsById.payload.products.length > 0) {
+		const cartOrder = await getCartsById.payload.products;
+		cartOrder.forEach((e) => {
 
-				const cartTotals = getCartsById.payload.products.reduce((totals, product) => {
-					if (product.product && product.quantity && product.product.price) {
-						totals.quantity += product.quantity;
-						totals.totalPrice += product.quantity * product.product.price;
-					}
+			if (e.quantity <= e.product.stock) {
+				e.stockAvailable = true;
+			} else {
+				e.stockAvailable = false;
+			}
+		});
 
-					return totals;
+		return cartOrder;
+	};
 
-				}, { quantity: 0, totalPrice: 0 });
+	// [x]
+	/////////////////////////////////
+	/// Método efectuar pago    ////
+	///////////////////////////////
 
-				cartTotals.totalPrice = Number(cartTotals.totalPrice.toFixed(2));
-				return cartTotals;
+	orderPay = async (cid, user) => {
+		try {
+
+			const cart = await cartModel
+				.findById(cid)
+				.populate("products.product");
+
+			let products = cart.products;
+
+			let stockAvailable = [];
+			let stockUnAvailable = [];
+			let totalAmount = 0;
+
+			for (let i of products) {
+				if (i.product.stock >= i.quantity) {
+					i.product.stock -= i.quantity;
+					await i.product.save();
+					totalAmount += i.quantity * i.product.price;
+					stockAvailable.push(i);
+				} else {
+					stockUnAvailable.push(i);
+				}
+			}
+
+			cart.products = stockUnAvailable;
+
+			await cart.save();
+
+			if (stockAvailable.length) {
+				const order = {
+					code: uuidv4(),
+					purchase_datetime: new Date(),
+					amount: totalAmount,
+					purchaser: user.email
+				};
+
+				const paymentStatusCompleted = await orderMongo.createOrder(order);
+				return { stockAvailable, totalAmount, paymentStatusCompleted };
+			}
+
+			return stockUnAvailable;
+
+		} catch (error) {
+			console.error("Error al procesar el pedido:", error);
+		}
+	};
+
+	// [x]
+	///////////////////(///////////////
+	/// Método crear ticket vista ////
+	/////////////////////////////////
+	createOrderView = async () => {
+
+	};
+
+	// const cart = await cartModel.findById(cid).populate("products.product").lean();
+
+	// [x]
+	///////////////////////////////////
+	/// Método calcular cantidad  ////
+	/////////////////////////////////
+	getCartTotalQuantity = async (cid) => {
+		try {
+			const getCartsById = await this.findByCidView(cid);
+
+			if (getCartsById && getCartsById.payload && getCartsById.payload.products && Array.isArray(getCartsById.payload.products)) {
+
+				if (getCartsById.payload.products.length > 0) {
+
+					const cartTotals = getCartsById.payload.products.reduce((totals, product) => {
+						if (product.product && product.quantity && product.product.price) {
+							totals.quantity += product.quantity;
+							totals.totalPrice += product.quantity * product.product.price;
+						}
+
+						return totals;
+
+					}, { quantity: 0, totalPrice: 0 });
+
+					cartTotals.totalPrice = Number(cartTotals.totalPrice.toFixed(2));
+					return cartTotals;
+
+				} else {
+					return { quantity: 0, totalPrice: 0 };
+				}
 
 			} else {
 				return { quantity: 0, totalPrice: 0 };
 			}
 
-		} else {
-			return { quantity: 0, totalPrice: 0 };
+		} catch (error) {
+			console.error("Error:", error);
+
+			return 0;
 		}
+	};
 
-	} catch (error) {
-		console.error("Error:", error);
-
-		return 0;
-	}
-};
+}
