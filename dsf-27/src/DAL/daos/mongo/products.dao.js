@@ -1,6 +1,6 @@
 import { productModel } from "../../models/products.model.js";
 
-class ProductsManager {
+class ProductsMongo {
 	constructor() {
 	}
 
@@ -157,6 +157,6 @@ class ProductsManager {
 	}
 }
 
-const productManager = new ProductsManager();
-export default productManager;
+const productMongo = new ProductsMongo();
+export default productMongo;
 

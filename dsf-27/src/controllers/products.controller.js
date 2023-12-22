@@ -1,6 +1,6 @@
 // [x]
 import { addByObj, deleteById, findAll, findAllView, findById, updateById } from "../services/products.service.js";
-import getCartTotalQuantity from "../utils/getCartTotalQuantity.js";
+import { getCartTotalQuantity } from "../services/carts.service.js";
 
 ////////////////////////////////////////////////
 /// GET Lista todos los productos en vista  ///

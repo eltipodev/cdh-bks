@@ -2,7 +2,7 @@ import { cartModel } from "../../models/cart.model.js";
 import { mongoose } from "mongoose";
 import { productModel } from "../../models/products.model.js";
 
-class ProductsManager {
+class CartsMongo {
 	constructor() {
 	}
 
@@ -284,6 +284,6 @@ class ProductsManager {
 
 }
 
-const cartsManager = new ProductsManager();
-export default cartsManager;
+const cartsMongo = new CartsMongo();
+export default cartsMongo;
 

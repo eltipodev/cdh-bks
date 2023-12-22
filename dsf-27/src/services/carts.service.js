@@ -1,12 +1,12 @@
 import { cartModel } from "../DAL/models/cart.model.js";
-import cartsManager from "../DAL/daos/mongo/carts.dao.js";
-import orderManager from "../DAL/daos/mongo/order.dao.js";
+import cartsMongo from "../DAL/daos/mongo/carts.dao.js";
+import orderMongo from "../DAL/daos/mongo/order.dao.js";
 import { productModel } from "../DAL/models/products.model.js";
 import { v4 as uuidv4 } from "uuid";
 
 //[x]
 export const findAll = async () => {
-	const getAllCarts = await cartsManager.getAllCarts();
+	const getAllCarts = await cartsMongo.getAllCarts();
 	return getAllCarts;
 };
 
@@ -15,7 +15,7 @@ export const findAll = async () => {
 /// POST agregar un Producto a l Carrito    ///
 //////////////////////////////////////////////
 export const udpateByCidByPId = async (cid, pid) => {
-	const addProductToCartById = await cartsManager.addProductToCartById(cid, pid);
+	const addProductToCartById = await cartsMongo.addProductToCartById(cid, pid);
 	return addProductToCartById;
 };
 
@@ -24,7 +24,7 @@ export const udpateByCidByPId = async (cid, pid) => {
 /// Métodor Elimimar un producto al carrito          ///
 ///////////////////////////////////////////////////////
 export const deleteByCidByPid = async (cid, pid) => {
-	const deleteProductToCartById = await cartsManager.deleteProductToCartById(cid, pid);
+	const deleteProductToCartById = await cartsMongo.deleteProductToCartById(cid, pid);
 	return deleteProductToCartById;
 };
 
@@ -33,7 +33,7 @@ export const deleteByCidByPid = async (cid, pid) => {
 /// Método Borrar Todos los productos de un carrito///
 /////////////////////////////////////////////////////
 export const deleteAll = async (cid) => {
-	const deleteAllProductsByCart = await cartsManager.deleteAllProductsByCart(cid);
+	const deleteAllProductsByCart = await cartsMongo.deleteAllProductsByCart(cid);
 	return deleteAllProductsByCart;
 };
 
@@ -42,7 +42,7 @@ export const deleteAll = async (cid) => {
 /// Método para agregar Carrito             ///
 //////////////////////////////////////////////
 export const createObj = async () => {
-	const addCart = await cartsManager.createCart();
+	const addCart = await cartsMongo.createCart();
 	return addCart;
 };
 
@@ -51,7 +51,7 @@ export const createObj = async () => {
 //////////////////////////////////////////////////
 //[x]
 export const findById = async (cid) => {
-	const getCartsById = await cartsManager.getCartsById(cid);
+	const getCartsById = await cartsMongo.getCartsById(cid);
 	return getCartsById;
 };
 
@@ -60,7 +60,7 @@ export const findById = async (cid) => {
 /// Método actualizar el carrito con productos        ///
 ////////////////////////////////////////////////////////
 export const updateByIdByPids = async (cid, pids) => {
-	const updateCartByPids = await cartsManager.updateCartByPids(cid, pids);
+	const updateCartByPids = await cartsMongo.updateCartByPids(cid, pids);
 	return updateCartByPids;
 
 };
@@ -114,7 +114,7 @@ export const updateByCidByPidQuantitf = async (cid, pid, obj) => {
 			$set: { "products.$.quantity": objValue }
 		};
 
-		const updateByCidByPidQuantitf = await cartsManager.updateCartByIdBodyQuantify(cid, pid, updateQuantity);
+		const updateByCidByPidQuantitf = await cartsMongo.updateCartByIdBodyQuantify(cid, pid, updateQuantity);
 		return updateByCidByPidQuantitf;
 
 	}
@@ -148,7 +148,7 @@ export const updateByPidByStock = async (pid, cstk) => {
 		});
 	}
 
-	const updateByPidByStock = await cartsManager.updateCartByIdBodyQuantify(pid, cstk);
+	const updateByPidByStock = await cartsMongo.updateCartByIdBodyQuantify(pid, cstk);
 	return updateByPidByStock;
 
 };
@@ -158,7 +158,7 @@ export const updateByPidByStock = async (pid, cstk) => {
 /// GET Método mostrar todos los carrito    ////
 ///////////////////////////////////////////////
 export const findAllView = async (limit, page, sort, query) => {
-	const getAllCarts = await cartsManager.getAllCarts(limit, page, sort, query);
+	const getAllCarts = await cartsMongo.getAllCarts(limit, page, sort, query);
 	return getAllCarts;
 };
 
@@ -167,7 +167,7 @@ export const findAllView = async (limit, page, sort, query) => {
 /// Método Listar carrito por ID           ////
 //////////////////////////////////////////////
 export const findByCidView = async (cid) => {
-	const getCartsById = await cartsManager.getCartsById(cid);
+	const getCartsById = await cartsMongo.getCartsById(cid);
 	return getCartsById;
 };
 
@@ -231,7 +231,7 @@ export const orderPay = async (cid, user) => {
 				purchaser: user.email
 			};
 
-			const paymentStatusCompleted = await orderManager.createOrder(order);
+			const paymentStatusCompleted = await orderMongo.createOrder(order);
 			return { stockAvailable, totalAmount, paymentStatusCompleted };
 		}
 
@@ -251,3 +251,43 @@ export const createOrderView = async () => {
 };
 
 // const cart = await cartModel.findById(cid).populate("products.product").lean();
+
+// [x]
+///////////////////////////////////
+/// Método calcular cantidad  ////
+/////////////////////////////////
+export const getCartTotalQuantity = async (cid) => {
+	try {
+		const getCartsById = await findByCidView(cid);
+
+		if (getCartsById && getCartsById.payload && getCartsById.payload.products && Array.isArray(getCartsById.payload.products)) {
+
+			if (getCartsById.payload.products.length > 0) {
+
+				const cartTotals = getCartsById.payload.products.reduce((totals, product) => {
+					if (product.product && product.quantity && product.product.price) {
+						totals.quantity += product.quantity;
+						totals.totalPrice += product.quantity * product.product.price;
+					}
+
+					return totals;
+
+				}, { quantity: 0, totalPrice: 0 });
+
+				cartTotals.totalPrice = Number(cartTotals.totalPrice.toFixed(2));
+				return cartTotals;
+
+			} else {
+				return { quantity: 0, totalPrice: 0 };
+			}
+
+		} else {
+			return { quantity: 0, totalPrice: 0 };
+		}
+
+	} catch (error) {
+		console.error("Error:", error);
+
+		return 0;
+	}
+};

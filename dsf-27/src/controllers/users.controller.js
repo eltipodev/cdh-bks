@@ -1,6 +1,6 @@
 import UserDto from "../DAL/dtos/users.dto.js";
 import { generateToken } from "../utils/utils.js";
-import getCartTotalQuantity from "../utils/getCartTotalQuantity.js";
+import { getCartTotalQuantity } from "../services/carts.service.js";
 
 export const loginUser = (req, res) => {
 

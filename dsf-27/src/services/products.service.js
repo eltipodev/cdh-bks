@@ -1,4 +1,4 @@
-import productManager from "../DAL/daos/mongo/products.dao.js";
+import productMongo from "../DAL/daos/mongo/products.dao.js";
 
 //[x]
 export const findAll = async (limit, page, sort, query) => {
@@ -44,7 +44,7 @@ export const findAll = async (limit, page, sort, query) => {
 		lean: true
 	};
 
-	const getAllProducts = await productManager.getAllProducts(querys, options, category);
+	const getAllProducts = await productMongo.getAllProducts(querys, options, category);
 	return getAllProducts;
 };
 
@@ -92,31 +92,31 @@ export const findAllView = async (limit, page, sort, query) => {
 		lean: true
 	};
 
-	const getAllProducts = await productManager.getAllProducts(querys, options, category);
+	const getAllProducts = await productMongo.getAllProducts(querys, options, category);
 	return getAllProducts;
 };
 
 //[x]
 export const updateById = async (pid) => {
-	const updateProductById = await productManager.getProductById(pid);
+	const updateProductById = await productMongo.getProductById(pid);
 	return updateProductById;
 };
 
 //[x]
 export const addByObj = async (prd) => {
-	const addProduct = await productManager.addProduct(prd);
+	const addProduct = await productMongo.addProduct(prd);
 	return addProduct;
 };
 
 //[x]
 export const deleteById = async (pid) => {
-	const deleteById = await productManager.deleteProductById(pid);
+	const deleteById = await productMongo.deleteProductById(pid);
 	return deleteById;
 
 };
 
 export const findById = async (pid) => {
-	const getProductById = await productManager.getProductById(pid);
+	const getProductById = await productMongo.getProductById(pid);
 	return getProductById;
 };
 

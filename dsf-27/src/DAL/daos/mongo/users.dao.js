@@ -1,6 +1,6 @@
 import userModel from "../../models/users.model.js";
 
-class UserManager {
+class UserMongo {
 
 	async findById(id) {
 		const findById = await userModel.findById(id);
@@ -28,6 +28,6 @@ class UserManager {
 	}
 }
 
-const userManager = new UserManager();
+const userMongo = new UserMongo();
 
-export default userManager;
+export default userMongo;

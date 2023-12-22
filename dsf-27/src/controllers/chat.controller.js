@@ -1,4 +1,4 @@
-import getCartTotalQuantity from "../utils/getCartTotalQuantity.js";
+import { getCartTotalQuantity } from "../services/carts.service.js";
 
 export const chat = async (req, res) => {
 

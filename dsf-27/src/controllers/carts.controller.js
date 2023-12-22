@@ -1,6 +1,6 @@
 import { createObj, deleteAll, deleteByCidByPid, findAll, findAllView, findByCidView, findByPidStock, orderPay, udpateByCidByPId, updateByCidByPidQuantitf, updateByIdByPids } from "../services/carts.service.js";
-import cartsManager from "../DAL/daos/mongo/carts.dao.js";
-import getCartTotalQuantity from "../utils/getCartTotalQuantity.js";
+import cartsMongo from "../DAL/daos/mongo/carts.dao.js";
+import { getCartTotalQuantity } from "../services/carts.service.js";
 
 //[x]
 ///////////////////////////////////////////////////
@@ -33,7 +33,7 @@ export const findAllCarts = async (req, res) => {
 export const findByIdCart = async (req, res) => {
 	const cid = req.params.cid;
 	try {
-		const getCartsById = await cartsManager.getCartsById(cid);
+		const getCartsById = await cartsMongo.getCartsById(cid);
 
 		const cartTotalQuantity = await getCartTotalQuantity(cid);
 
