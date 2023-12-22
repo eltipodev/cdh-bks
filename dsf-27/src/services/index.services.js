@@ -1,8 +1,10 @@
-import { Carts, Products } from "../DAL/daos/factory.js";
+import { Carts, Products, Users } from "../DAL/daos/factory.js";
 import CartsRepository from "./carts.service.js";
-import ProductRepository from "./products.service.js";
+import ProductsRepository from "./products.service.js";
+import UsersRepository from "./users.service.js";
+// import TicketsRepository from "./ticketsRepository.js";
 
-// eslint-disable-next-line no-unused-vars
-const productService = new ProductRepository(new Products());
-// eslint-disable-next-line no-unused-vars
-const cartsService = new CartsRepository(new Carts());
+export const usersService = new UsersRepository(new Users());
+export const productsService = new ProductsRepository(new Products());
+export const cartsService = new CartsRepository(new Carts());
+// export const ticketsService = new TicketsRepository(new Tickets());

@@ -1,6 +1,6 @@
 // [x]
-import { addByObj, deleteById, findAll, findAllView, findById, updateById } from "../services/products.service.js";
-import getCartTotalQuantity from "../utils/getCartTotalQuantity.js";
+// import { getCartTotalQuantity } from "../services/carts.service.js";
+import { cartsService, productsService } from "../services/index.services.js";
 
 ////////////////////////////////////////////////
 /// GET Lista todos los productos en vista  ///
@@ -12,11 +12,11 @@ export const findAllProductView = async (req, res) => {
 	// eslint-disable-next-line no-unused-vars
 	const { limit = "10", page = "1", sort = "default", ...query } = req.query;
 
-	const cartTotalQuantity = await getCartTotalQuantity(cid);
+	const cartTotalQuantity = await cartsService.getCartTotalQuantity(cid);
 
 	try {
 
-		const getAllProducts = await findAllView(limit, page, sort, query);
+		const getAllProducts = await productsService.findAllView(limit, page, sort, query);
 
 		res.status(getAllProducts.code).render("products", {
 			pageTitle: "Productos",
@@ -43,11 +43,11 @@ export const findAllProductView = async (req, res) => {
 //////////////////////////////////////////////
 
 export const findAllProduct = async (req, res) => {
-
+	const user = req.user.rol;
 	const { limit = "10", page = "1", sort = "default", ...query } = req.query;
 	try {
 
-		const getAllProducts = await findAll(limit, page, sort, query);
+		const getAllProducts = await productsService.findAll(limit, page, sort, query);
 
 		res.status(getAllProducts.code).json({
 			pageTitle: "Productos",
@@ -56,6 +56,7 @@ export const findAllProduct = async (req, res) => {
 			status: getAllProducts.status,
 			sucess: getAllProducts.sucess,
 			cartId: req.user.cart,
+			user,
 			pagination: getAllProducts.pagination,
 		});
 	} catch (error) {
@@ -76,11 +77,11 @@ export const findByIdProductView = async (req, res) => {
 
 	const cid = req.user.cart;
 
-	const cartTotalQuantity = await getCartTotalQuantity(cid);
+	const cartTotalQuantity = await cartsService.getCartTotalQuantity(cid);
 
 	try {
 
-		const updateProductById = await updateById(pid);
+		const updateProductById = await productsService.updateById(pid);
 
 		return res.status(updateProductById.code).render("products", {
 			pageTitle: "Producto",
@@ -108,7 +109,7 @@ export const addProduct = async (req, res) => {
 	const prd = req.body;
 
 	try {
-		const addProduct = await addByObj(prd);
+		const addProduct = await productsService.addByObj(prd);
 
 		return res.status(addProduct.code).json({
 			pageTitle: "Productos",
@@ -132,7 +133,7 @@ export const deleteByIdProduct = async (req, res) => {
 	const pid = req.params.pid;
 	try {
 
-		const deleteProductById = await deleteById(pid);
+		const deleteProductById = await productsService.deleteById(pid);
 
 		return res.status(deleteProductById.code).json({
 			pageTitle: "Productos",
@@ -158,7 +159,7 @@ export const updateProductById = async (req, res) => {
 
 	try {
 
-		const updateProductById = await updateById(pid, body);
+		const updateProductById = await productsService.updateById(pid, body);
 
 		return res.status(updateProductById.code).json({
 			pageTitle: "Productos",
@@ -181,7 +182,7 @@ export const updateProductById = async (req, res) => {
 export const findByIdProduct = async (req, res) => {
 	try {
 		const pid = req.params.pid;
-		const updateProductById = await findById(pid);
+		const updateProductById = await productsService.findById(pid);
 
 		return res.status(updateProductById.code).json({
 			pageTitle: "Productos",

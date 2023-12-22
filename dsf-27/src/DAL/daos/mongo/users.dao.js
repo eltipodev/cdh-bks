@@ -1,7 +1,8 @@
-import userModel from "../../models/users.model.js";
+import { userModel } from "../../models/users.model.js";
 
-class UserManager {
-
+class UsersMongo {
+	constructor() {
+	}
 	async findById(id) {
 		const findById = await userModel.findById(id);
 		return findById;
@@ -28,6 +29,4 @@ class UserManager {
 	}
 }
 
-const userManager = new UserManager();
-
-export default userManager;
+export default UsersMongo;

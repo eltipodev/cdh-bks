@@ -1,35 +1,36 @@
 /* eslint-disable no-case-declarations */
-import { URI } from "../../config/mongo.config";
+import URI from "../../config/mongo.config.js";
 import config from "../../config/env.config.js";
+import mongoose from "mongoose";
 
-export let Basic;
-export let Order;
-export let Products;
 export let Carts;
-export let User;
+export let Products;
+export let Users;
+export let Ticket;
 
-let connection;
+console.log("==> config.persistence ", config.persistence);
 
 switch (config.persistence) {
+
 	case "MONGO":
-		// eslint-disable-next-line no-unused-vars
-		connection = URI;
-		const { default: BasicMongo } = await import("../daos/mongo/carts.dao.js");
-		const { default: orderManager } = await import("../daos/mongo/order.dao.js");
-		const { default: ProductsManager } = await import("../daos/mongo/products.dao.js");
-		const { default: CartsManager } = await import("../daos/mongo/carts.dao.js");
-		const { default: userManager } = await import("../daos/mongo/user.dao.js");
+		// eslint-disable-next-line no-case-declarations, no-unused-vars
+		const connection = mongoose.connect(URI, {
+			useNewUrlParser: true,
+			useUnifiedTopology: true
+		});
 
-		Basic = BasicMongo;
-		Order = orderManager;
-		Products = ProductsManager;
-		Carts = CartsManager;
-		User = userManager;
+		const { default: CartsMongo } = await import("./mongo/carts.dao.js");
+		const { default: ProductsMongo } = await import("./mongo/products.dao.js");
+		const { default: UsersMongo } = await import("./mongo/users.dao.js");
+		const { default: TicketMongo } = await import("./mongo/ticket.dao.js");
 
+		Carts = CartsMongo;
+		Products = ProductsMongo;
+		Users = UsersMongo;
+		Ticket = TicketMongo;
 		break;
+
 	default:
-		console.log("Error no hay persistencia");
+		console.log(" ==> No se suministro persistencia");
 		break;
 }
-
-console.log("==> config.persistence", config.persistence);

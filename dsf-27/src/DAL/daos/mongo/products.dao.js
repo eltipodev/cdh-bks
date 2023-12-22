@@ -1,10 +1,7 @@
-import BasicManager from "./_basic.dao.js";
-
 import { productModel } from "../../models/products.model.js";
 
-class ProductsManager extends BasicManager {
+class ProductsMongo {
 	constructor() {
-		super(productModel);
 	}
 
 	////////////////////////////////////////////////////
@@ -160,7 +157,5 @@ class ProductsManager extends BasicManager {
 	}
 }
 
-const productManager = new ProductsManager();
-export default productManager;
-// export default productManager ;
+export default ProductsMongo;
 

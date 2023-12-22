@@ -1,13 +1,14 @@
+/* eslint-disable quotes */
 
 export const renderProductsHTML = (messages = "") => {
 	const productsElement = document.querySelector(".section-products");
 	const paginationElement = document.querySelector(".paginate-ctn");
+	const isAdmin = messages.user === "ADMIN";
 
 	const productsHtml = messages.payload.docs.map(element => `
-      <div class="products-ctn">
-        <div class="products-main">
-          <img class="button-actions delete" prodId="${element._id}" src="/img/empty-wood-bucket-svgrepo-com.svg" alt="">
-          <img class="button-actions add" prodId="${element._id}"  cartid="${messages.cartId}" src="/img/plus-sign-in-a-circle-svgrepo-com.svg" alt="">
+      <div class="products-ctn"> <div class="products-main">
+				${isAdmin ? ' <img class="button-actions delete" prodId="${element._id}" src="/img/empty-wood-bucket-svgrepo-com.svg" alt="">' : ""}
+        <img class="button-actions add ${isAdmin ? '' : 'move'}" prodId="${element._id}" cartid="${messages.cartId}" src="/img/plus-sign-in-a-circle-svgrepo-com.svg" alt="">
           <div>
             <img src="${element.thumbnails || "/img/imagen_v acio.png"}" alt="imagen de una ${element.title}" class="products-main-img">
             <div class="products-footer-credits"><span>Foto generada con IA</span></div>

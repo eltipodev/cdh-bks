@@ -1,13 +1,13 @@
+import { cartsService, usersService } from "../services/index.services.js";
 import { compareData, generateToken, hashData } from "../utils/utils.js";
 import { ExtractJwt } from "passport-jwt";
 import { Strategy as GitHubStrategy } from "passport-github2";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { Strategy as JwtStrategy } from "passport-jwt";
 import { Strategy as LocalStrategy } from "passport-local";
-import cartsManager from "../daos/carts.dao.js";
 import config from "./env.config.js";
 import passport from "passport";
-import userManager from "../daos/users.dao.js";
+// import userManager from "../DAL/daos/mongo/users.dao.js";
 
 const clientIdGoogle = config.google_client_id;
 const clientSecretGoogle = config.google_client_secret;
@@ -31,8 +31,8 @@ passport.use("signup", new LocalStrategy({
 	if (!firstName || !lastName || !email || !user || !password) {
 		return done(null, false, { message: "Todos los campos tienen que estar completos" });
 	}
-	const isUser = await userManager.findByUser(user);
-	const isEmail = await userManager.findByEmail(email);
+	const isUser = await usersService.findByUser(user);
+	const isEmail = await usersService.findByEmail(email);
 
 	if (isUser || isEmail) {
 		return done(null, false, { message: "Usuario se encuentra registrado" });
@@ -40,10 +40,10 @@ passport.use("signup", new LocalStrategy({
 
 	try {
 
-		const addCart = await cartsManager.createCart();
+		const addCart = await cartsService.createObj();
 		const hasHedPassword = await hashData(password);
 		// eslint-disable-next-line no-unused-vars
-		const createUser = await userManager.creatOne({
+		const createUser = await usersService.creatOne({
 			...req.body, password: hasHedPassword, cart: addCart.payload._id
 		});
 		console.log("==> createUser", createUser);
@@ -67,7 +67,7 @@ passport.use("login", new LocalStrategy({
 
 	try {
 
-		const userData = await userManager.findByUser(user);
+		const userData = await usersService.findByUser(user);
 
 		if (!userData) {
 			return done(null, false, { message: "Usuario o Contraseña incorrecto" });
@@ -97,7 +97,7 @@ passport.use("gitHub", new GitHubStrategy(({
 	async (accessToken, refreshToken, profile, done) => {
 		try {
 
-			const userByDB = await userManager.findByUser(profile._json.login);
+			const userByDB = await usersService.findByUser(profile._json.login);
 
 			if (userByDB) {
 				if (userByDB.isGitHub) {
@@ -110,7 +110,7 @@ passport.use("gitHub", new GitHubStrategy(({
 				}
 			}
 
-			const addCart = await cartsManager.createCart();
+			const addCart = await cartsService.createObj();
 			const infoUser = {
 				user: profile._json.login,
 				firstName: profile._json.name || "none",
@@ -121,7 +121,7 @@ passport.use("gitHub", new GitHubStrategy(({
 				cart: addCart.payload._id
 			};
 
-			const createUser = await userManager.creatOne(infoUser);
+			const createUser = await usersService.creatOne(infoUser);
 
 			const token = generateToken(createUser);
 
@@ -142,7 +142,7 @@ passport.use("google", new GoogleStrategy(
 	}, async function (accessToken, refreshToken, profile, done) {
 		try {
 
-			const userByDB = await userManager.findByUser(profile._json.login);
+			const userByDB = await usersService.findByUser(profile._json.login);
 
 			if (userByDB) {
 				if (userByDB.isGoogle) {
@@ -155,7 +155,7 @@ passport.use("google", new GoogleStrategy(
 				}
 			}
 
-			const addCart = await cartsManager.createCart();
+			const addCart = await cartsService.createObj();
 			const infoUser = {
 				user: profile._json.given_name || "none",
 				firstName: profile._json.family_name || "none",
@@ -166,7 +166,7 @@ passport.use("google", new GoogleStrategy(
 				cart: addCart.payload._id
 			};
 
-			const createUser = await userManager.creatOne(infoUser);
+			const createUser = await usersService.creatOne(infoUser);
 
 			const token = generateToken(createUser);
 
@@ -215,7 +215,7 @@ passport.serializeUser((user, done) => {
 ////////////////////////////////
 passport.deserializeUser(async (id, done) => {
 	try {
-		const user = await userManager.findById(id);
+		const user = await usersService.findById(id);
 		return done(null, user);
 	} catch (error) {
 		return done(error);

@@ -1,6 +1,6 @@
-import UserDto from "../dtos/users.dto.js";
+import UserDto from "../DAL/dtos/users.dto.js";
+import { cartsService } from "../services/index.services.js";
 import { generateToken } from "../utils/utils.js";
-import getCartTotalQuantity from "../utils/getCartTotalQuantity.js";
 
 export const loginUser = (req, res) => {
 
@@ -61,7 +61,7 @@ export const current = async (req, res) => {
 	const userDto = new UserDto(req.user);
 	const cartId = req.user.cart;
 
-	const cartTotalQuantity = await getCartTotalQuantity(cartId);
+	const cartTotalQuantity = await cartsService.getCartTotalQuantity(cartId);
 
 	try {
 
