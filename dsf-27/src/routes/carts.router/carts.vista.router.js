@@ -1,8 +1,10 @@
 
-import { createOrderView, findAllCartView, findByIdCartView } from "../../controllers/carts.controller.js";
+import { findAllCartView, findByIdCartView } from "../../controllers/carts.controller.js";
 import authenticateMiddleware from "../../middleware/authenticate.middleware.js";
+import { createOrderView } from "../../controllers/ticket.controller.js";
 import express from "express";
 import { passportCall } from "../../utils/utils.js";
+
 const router = express.Router();
 
 // [x];

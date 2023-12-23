@@ -1,6 +1,7 @@
 
-import { addByProductCart, createCart, createOrder, deleteAllCarts, deleteByIdProductCart, findAllCarts, findByIdCart, updateByBodyCart, updateByCartPids } from "../../controllers/carts.controller.js";
+import { addByProductCart, createCart, deleteAllCarts, deleteByIdProductCart, findAllCarts, findByIdCart, updateByBodyCart, updateByCartPids } from "../../controllers/carts.controller.js";
 import authenticateMiddleware from "../../middleware/authenticate.middleware.js";
+import { createOrder } from "../../controllers/ticket.controller.js";
 import express from "express";
 import { passportCall } from "../../utils/utils.js";
 const router = express.Router();

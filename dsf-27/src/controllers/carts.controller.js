@@ -18,6 +18,7 @@ export const findAllCarts = async (req, res) => {
 			status: getAllCarts.status,
 			sucess: getAllCarts.sucess
 		});
+
 	} catch (error) {
 		res.status(500).json(
 			{
@@ -243,70 +244,70 @@ export const findByIdCartView = async (req, res) => {
 	}
 };
 
-///////////////////////////////////////
-/// Método Vista crear ticket     ////
-/////////////////////////////////////
-export const createOrderView = async (req, res) => {
-	const cid = req.params.cid;
+// ///////////////////////////////////////
+// /// Método Vista crear ticket     ////
+// /////////////////////////////////////
+// export const createOrderView = async (req, res) => {
+// 	const cid = req.params.cid;
 
-	try {
-		const getCartsById = await cartsService.findByCidView(cid);
+// 	try {
+// 		const getCartsById = await cartsService.findByCidView(cid);
 
-		const cartTotalQuantity = await cartsService.getCartTotalQuantity(cid);
+// 		const cartTotalQuantity = await cartsService.getCartTotalQuantity(cid);
 
-		let stockAvailable = await cartsService.findByPidStock(getCartsById);
+// 		let stockAvailable = await cartsService.findByPidStock(getCartsById);
 
-		stockAvailable = { products: stockAvailable };
+// 		stockAvailable = { products: stockAvailable };
 
-		return res.status(getCartsById.code).render("order", {
-			pageTitle: "Order",
-			user: req.user || "",
-			message: getCartsById.message,
-			cartTotalQuantity,
-			payload: stockAvailable,
-			status: getCartsById.status,
-			sucess: getCartsById.sucess
-		});
-	} catch (error) {
-		res.status(500).json(
-			{
-				error: error.message
-			});
-	}
+// 		return res.status(getCartsById.code).render("order", {
+// 			pageTitle: "Order",
+// 			user: req.user || "",
+// 			message: getCartsById.message,
+// 			cartTotalQuantity,
+// 			payload: stockAvailable,
+// 			status: getCartsById.status,
+// 			sucess: getCartsById.sucess
+// 		});
+// 	} catch (error) {
+// 		res.status(500).json(
+// 			{
+// 				error: error.message
+// 			});
+// 	}
 
-};
+// };
 
-/////////////////////////////////
-/// Método  crear ticket     ////
-////////////////////////////////
-export const createOrder = async (req, res) => {
-	const cid = req.params.cid;
-	const user = req.user;
+// /////////////////////////////////
+// /// Método  crear ticket     ////
+// ////////////////////////////////
+// export const createOrder = async (req, res) => {
+// 	const cid = req.params.cid;
+// 	const user = req.user;
 
-	try {
+// 	try {
 
-		const cart = await cartsService.findByCidView(cid);
+// 		const cart = await cartsService.findByCidView(cid);
 
-		let stockAvailable = await cartsService.findByPidStock(cart);
+// 		let stockAvailable = await cartsService.findByPidStock(cart);
 
-		stockAvailable = { products: stockAvailable };
+// 		stockAvailable = { products: stockAvailable };
 
-		const orderPurchase = await cartsService.orderPay(cid, user);
+// 		const orderPurchase = await cartsService.orderPay(cid, user);
 
-		return res.status(cart.code).json({
-			pageTitle: "Order",
-			user: req.user || "",
-			message: cart.message,
-			orderPurchase,
-			payload: stockAvailable,
-			status: orderPurchase.totalAmount ? true : false,
-			sucess: cart.sucess
-		});
-	} catch (error) {
-		res.status(500).json(
-			{
-				error: error.message
-			});
-	}
+// 		return res.status(cart.code).json({
+// 			pageTitle: "Order",
+// 			user: req.user || "",
+// 			message: cart.message,
+// 			orderPurchase,
+// 			payload: stockAvailable,
+// 			status: orderPurchase.totalAmount ? true : false,
+// 			sucess: cart.sucess
+// 		});
+// 	} catch (error) {
+// 		res.status(500).json(
+// 			{
+// 				error: error.message
+// 			});
+// 	}
 
-};
+// };

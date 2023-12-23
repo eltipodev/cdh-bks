@@ -1,3 +1,4 @@
+import { cartModel } from "../DAL/models/cart.model.js";
 import { v4 as uuidv4 } from "uuid";
 
 export default class TicketRepository {
@@ -20,11 +21,10 @@ export default class TicketRepository {
 	/////////////////////////////////
 	/// Método efectuar pago    ////
 	///////////////////////////////
-
 	orderPay = async (cid, user) => {
 		try {
 
-			const cart = await this.dao
+			const cart = await cartModel
 				.findById(cid)
 				.populate("products.product");
 

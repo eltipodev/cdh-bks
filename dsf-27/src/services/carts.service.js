@@ -1,7 +1,5 @@
 import { cartModel } from "../DAL/models/cart.model.js";
 import { productModel } from "../DAL/models/products.model.js";
-import ticketMongo from "../DAL/daos/mongo/ticket.dao.js";
-import { v4 as uuidv4 } from "uuid";
 
 export default class CartsRepository {
 	constructor(dao) {
@@ -203,57 +201,56 @@ export default class CartsRepository {
 		return [];
 	};
 
-	// [x]
-	/////////////////////////////////
-	/// Método efectuar pago    ////
-	///////////////////////////////
+	// // [x]
+	// /////////////////////////////////
+	// /// Método efectuar pago    ////
+	// ///////////////////////////////
+	// orderPay = async (cid, user) => {
+	// 	try {
 
-	orderPay = async (cid, user) => {
-		try {
+	// 		const cart = await cartModel
+	// 			.findById(cid)
+	// 			.populate("products.product");
 
-			const cart = await cartModel
-				.findById(cid)
-				.populate("products.product");
+	// 		let products = cart.products;
 
-			let products = cart.products;
+	// 		let stockAvailable = [];
+	// 		let stockUnAvailable = [];
+	// 		let totalAmount = 0;
 
-			let stockAvailable = [];
-			let stockUnAvailable = [];
-			let totalAmount = 0;
+	// 		for (let i of products) {
+	// 			if (i.product.stock >= i.quantity) {
+	// 				i.product.stock -= i.quantity;
+	// 				await i.product.save();
+	// 				totalAmount += i.quantity * i.product.price;
+	// 				stockAvailable.push(i);
+	// 			} else {
+	// 				stockUnAvailable.push(i);
+	// 			}
+	// 		}
 
-			for (let i of products) {
-				if (i.product.stock >= i.quantity) {
-					i.product.stock -= i.quantity;
-					await i.product.save();
-					totalAmount += i.quantity * i.product.price;
-					stockAvailable.push(i);
-				} else {
-					stockUnAvailable.push(i);
-				}
-			}
+	// 		cart.products = stockUnAvailable;
 
-			cart.products = stockUnAvailable;
+	// 		await cart.save();
 
-			await cart.save();
+	// 		if (stockAvailable.length) {
+	// 			const order = {
+	// 				code: uuidv4(),
+	// 				purchase_datetime: new Date(),
+	// 				amount: totalAmount,
+	// 				purchaser: user.email
+	// 			};
 
-			if (stockAvailable.length) {
-				const order = {
-					code: uuidv4(),
-					purchase_datetime: new Date(),
-					amount: totalAmount,
-					purchaser: user.email
-				};
+	// 			const paymentStatusCompleted = await ticketMongo.createOrder(order);
+	// 			return { stockAvailable, totalAmount, paymentStatusCompleted };
+	// 		}
 
-				const paymentStatusCompleted = await ticketMongo.createOrder(order);
-				return { stockAvailable, totalAmount, paymentStatusCompleted };
-			}
+	// 		return stockUnAvailable;
 
-			return stockUnAvailable;
-
-		} catch (error) {
-			console.error("Error al procesar el pedido:", error);
-		}
-	};
+	// 	} catch (error) {
+	// 		console.error("Error al procesar el pedido:", error);
+	// 	}
+	// };
 
 	// [x]
 	///////////////////////////////////
