@@ -5,6 +5,10 @@ export default class TicketRepository {
 		this.dao = dao;
 	}
 
+	// [x]
+	//////////////////////////////
+	/// Método crear orden   ////
+	////////////////////////////
 	createOrder = async (order) => {
 		const orderCreate = await this.dao.create(order);
 		console.log("==> orderCreate", orderCreate);
@@ -63,13 +67,4 @@ export default class TicketRepository {
 			console.error("Error al procesar el pedido:", error);
 		}
 	};
-
-	// [x]
-	///////////////////(///////////////
-	/// Método crear ticket vista ////
-	/////////////////////////////////
-	createOrderView = async () => {
-
-	};
-
 }
