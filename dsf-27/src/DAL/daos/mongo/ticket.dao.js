@@ -10,5 +10,4 @@ class TicketMongo {
 	}
 }
 
-const orderMongo = new TicketMongo();
-export default orderMongo;
+export default TicketMongo;
