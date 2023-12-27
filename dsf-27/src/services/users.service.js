@@ -21,10 +21,6 @@ export default class UsersRepository {
 	};
 
 	creatOne = async (obj) => {
-
-		// // eslint-disable-next-line no-unused-vars
-		// const { name, lastname, password } = obj;
-
 		const createOne = await this.dao.creatOne(obj);
 		return createOne;
 	};

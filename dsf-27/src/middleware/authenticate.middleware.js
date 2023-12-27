@@ -1,9 +1,20 @@
-const authenticateMiddleware = (roles) => {
-	return (req, res, next) => {
+import { EErrors, ErrorsMessages, ErrorsName } from "../services/errors/errors.enum.js";
+import CustomError from "../services/errors/error.generator.js";
+import { generateAuthorizationRolErrorInfo } from "../services/errors/info.js";
 
-		if (req.user && req.user.rol) {
-			if (!roles.includes(req.user.rol)) {
-				return res.status(403).json("No autorizado");
+const authenticateMiddleware = (roles) => {
+
+	return (req, res, next) => {
+		const rol = req.user.rol;
+
+		if (req.user && rol) {
+			if (!roles.includes(rol)) {
+				CustomError.createError({
+					name: ErrorsName.ROUTE_ACCESS,
+					cause: generateAuthorizationRolErrorInfo(rol),
+					message: ErrorsMessages.USER_UNAUTHORIZED,
+					code: EErrors.FORBIDDEN
+				});
 			} else {
 				next();
 			}

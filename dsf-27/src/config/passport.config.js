@@ -1,5 +1,8 @@
+import { EErrors, ErrorsMessages, ErrorsName } from "../services/errors/errors.enum.js";
 import { cartsService, usersService } from "../services/index.services.js";
 import { compareData, generateToken, hashData } from "../utils/utils.js";
+import { generateGetLoginErrorInfo, generateUserSignupErrorInfo } from "../services/errors/info.js";
+import CustomError from "../services/errors/error.generator.js";
 import { ExtractJwt } from "passport-jwt";
 import { Strategy as GitHubStrategy } from "passport-github2";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
@@ -26,19 +29,23 @@ passport.use("signup", new LocalStrategy({
 	usernameField: "user"
 }, async (req, user, password, done) => {
 
-	const { firstName, lastName, email } = req.body;
-
-	if (!firstName || !lastName || !email || !user || !password) {
-		return done(null, false, { message: "Todos los campos tienen que estar completos" });
-	}
-	const isUser = await usersService.findByUser(user);
-	const isEmail = await usersService.findByEmail(email);
-
-	if (isUser || isEmail) {
-		return done(null, false, { message: "Usuario se encuentra registrado" });
-	}
-
 	try {
+
+		const { email } = req.body;
+
+		const isUser = await usersService.findByUser(user);
+		const isEmail = await usersService.findByEmail(email);
+
+		if (isUser || isEmail) {
+
+			return done(null, false,
+				CustomError.createError({
+					name: ErrorsName.REGISTER_ERROR,
+					cause: generateUserSignupErrorInfo(user, email),
+					message: ErrorsMessages.DATE_ALREADY_EXISTS,
+					code: EErrors.BAD_REQUEST
+				}));
+		}
 
 		const addCart = await cartsService.createObj();
 		const hasHedPassword = await hashData(password);
@@ -46,10 +53,11 @@ passport.use("signup", new LocalStrategy({
 		const createUser = await usersService.creatOne({
 			...req.body, password: hasHedPassword, cart: addCart.payload._id
 		});
-		console.log("==> createUser", createUser);
+
 		return done(null, createUser, { message: "Usuario creado" });
 
 	} catch (error) {
+
 		return done(error);
 	}
 }));
@@ -62,7 +70,7 @@ passport.use("login", new LocalStrategy({
 }, async (user, password, done) => {
 
 	if (!user || !password) {
-		return done(null, false, { message: "Usuario o Contraseña incorrecto" });
+		return done(null, false, { cause: generateGetLoginErrorInfo() });
 	}
 
 	try {
@@ -70,13 +78,13 @@ passport.use("login", new LocalStrategy({
 		const userData = await usersService.findByUser(user);
 
 		if (!userData) {
-			return done(null, false, { message: "Usuario o Contraseña incorrecto" });
+			return done(null, false, { cause: generateGetLoginErrorInfo() });
 		}
 		// const isValidPassword = password === userData.password;
 		const isValidPassword = await compareData(password, userData.password);
 
 		if (!isValidPassword) {
-			return done(null, false, { message: "Usuario o Contraseña incorrecto" });
+			return done(null, false, { cause: generateGetLoginErrorInfo() });
 		}
 
 		return done(null, userData, { message: "Usuario Creado" });

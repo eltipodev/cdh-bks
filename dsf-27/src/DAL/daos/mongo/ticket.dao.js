@@ -7,7 +7,6 @@ class TicketMongo {
 
 	async createOrder(order) {
 		const orderCreate = await orderModel.create(order);
-		console.log("==> orderCreate", orderCreate);
 
 		return orderCreate;
 	}

@@ -34,7 +34,7 @@ router.post("/login", passportCall("login", { session: false }
 router.post("/signup", passportCall("signup", {
 	session: false,
 	successRedirect: "/api/user/login",
-	// failureRedirect: "/api/error"
+	failureRedirect: "/api/error"
 }));
 
 //////////////////////

@@ -1,8 +1,21 @@
+import { extractFileNameAndLineNumber } from "./error.extrat.file.location.js";
+
 export default class CustomError {
-	static generateErrorg(message, code, name) {
-		const error = new Error(message);
-		error.code = code;
+	static createError({ name = "Error", cause, message, code = 1 }) {
+
+		const error = new Error(message, { cause });
+		const stackTrace = (new Error()).stack;
+
+		const { folder, fileName, lineNumber } = extractFileNameAndLineNumber(stackTrace);
+
 		error.name = name;
+		error.code = code;
+		error.message = message;
+		error.folder = folder;
+		error.fileName = fileName;
+		error.lineNumber = lineNumber;
+
 		throw error;
 	}
 }
+

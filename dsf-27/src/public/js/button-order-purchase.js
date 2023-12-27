@@ -4,7 +4,6 @@ export const btnOrderPurchase = async (cid) => {
 	const response = await fetch(`/api/carts/${cid}/purchase`);
 
 	const order = await response.json();
-	console.log("==> ", order);
 
 	const isProductAvaibleCart = `Su pedido <strong>${order.orderPurchase.paymentStatusCompleted ? order.orderPurchase.paymentStatusCompleted._id : ""}</strong> se ha realizado con exito productos <strong></strong> total: <strong>${order.orderPurchase.totalAmount}</strong>`;
 

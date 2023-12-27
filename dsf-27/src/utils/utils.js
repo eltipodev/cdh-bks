@@ -1,5 +1,8 @@
+import { EErrors, ErrorsMessages, ErrorsName } from "../services/errors/errors.enum.js";
+import CustomError from "../services/errors/error.generator.js";
 import bcrypt from "bcrypt";
 import config from "../config/env.config.js";
+import { generateUserSignupEmptyErrorInfo } from "../services/errors/info.js";
 import jwt from "jsonwebtoken";
 import passport from "passport";
 
@@ -36,44 +39,38 @@ export const generateToken = (user) => {
 	return jwt.sign(payload, KEYJWT);
 };
 
-/////////////////////
-/// passportCall ///
-///////////////////
-// export const passportCall = (strategy) => {
-// 	return (req, res, next) => {
-
-// 		passport.authenticate(strategy, (err, user, info) => {
-// 			if (err) {
-// 				return next(err);
-// 			}
-
-// 			if (!user) {
-// 				return res.status(401).json({
-// 					error: "Autenticación fallida. Mensaje: " + (info.message || info.toString())
-// 				});
-// 			}
-
-// 			req.user = user;
-// 			next();
-// 		})(req, res, next);
-// 	};
-// };
-
 export const passportCall = (strategy, options) => {
 	return (req, res, next) => {
 		passport.authenticate(strategy, options, (err, user, info) => {
+
 			if (err) {
+
 				return next(err);
 			}
 
 			if (strategy === "signup") {
+				const { firstName, lastName, user, email } = req.body;
+
+				if (!user || !firstName || !lastName || !email || passport) {
+
+					CustomError.createError({
+						name: ErrorsName.REGISTER_ERROR,
+						cause: generateUserSignupEmptyErrorInfo(),
+						message: ErrorsMessages.DATE_EMPTY,
+						code: EErrors.BAD_REQUEST
+					});
+				}
 
 				return next();
 			}
 
 			if (!user) {
-				return res.status(401).json({
-					error: "Autenticación fallida. Mensaje: " + (info.message || info.toString())
+
+				CustomError.createError({
+					name: ErrorsName.LOGIN_GET_ERROR,
+					cause: info.cause,
+					message: ErrorsMessages.INVALID_CREDENTIALS,
+					code: EErrors.UNAUTHORIZED
 				});
 			}
 

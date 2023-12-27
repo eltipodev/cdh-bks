@@ -8,6 +8,7 @@ import "./src/DAL/daos/factory.js";
 
 import __dirname from "./src/utils/__dirname.utils.js";
 import cookieParser from "cookie-parser";
+import errosMiddleware from "./src/middleware/erros.middleware.js";
 import exphbs from "express-handlebars";
 import express from "express";
 import indexRouter from "./src/routes/index.js";
@@ -38,6 +39,8 @@ app.use("*", (req, res) => {
 		sucess: true,
 	});
 });
+
+app.use(errosMiddleware);
 
 // Registra el helper "eq"
 const hbs = exphbs.create({});

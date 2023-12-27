@@ -141,3 +141,16 @@ ol{
 .messages-text{
 	margin-top: 22px;
 }
+
+.mockups{
+	align-items: center;
+	background-color: red;
+	color: white;
+	display: flex;
+	font-weight: 800;
+	height: 50px;
+	justify-content: center;
+	margin: 22px;
+	padding: 5px;
+
+}

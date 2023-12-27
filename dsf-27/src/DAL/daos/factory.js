@@ -8,8 +8,6 @@ export let Products;
 export let Users;
 export let Ticket;
 
-console.log("==> config.persistence ", config.persistence);
-
 switch (config.persistence) {
 
 	case "MONGO":

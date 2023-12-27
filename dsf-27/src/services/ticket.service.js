@@ -12,7 +12,6 @@ export default class TicketRepository {
 	////////////////////////////
 	createOrder = async (order) => {
 		const orderCreate = await this.dao.create(order);
-		console.log("==> orderCreate", orderCreate);
 
 		return orderCreate;
 	};

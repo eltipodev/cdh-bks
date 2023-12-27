@@ -1,3 +1,6 @@
+import { EErrors, ErrorsMessages, ErrorsName } from "../../../services/errors/errors.enum.js";
+import { generateGetProductCodeErrorInfo, generateGetProductErrorInfo, generateGetProductNoFoundErrorInfo } from "../../../services/errors/info.js";
+import CustomError from "../../../services/errors/error.generator.js";
 import { productModel } from "../../models/products.model.js";
 
 class ProductsMongo {
@@ -22,13 +25,23 @@ class ProductsMongo {
 
 		if (!getAllProducts) {
 
-			return ({
-				code: 200,
-				status: "error",
-				message: "no hay productos",
+			CustomError.createError({
+				name: ErrorsName.PRODUCT_GET_ERROR,
+				cause: generateGetProductNoFoundErrorInfo(),
+				message: ErrorsMessages.INVALID_PARAMS,
+				code: EErrors.NOT_FOUND,
 				payload: [],
+				status: "error",
 				sucess: false
 			});
+
+			// return ({
+			// 	code: 200,
+			// 	status: "error",
+			// 	message: "no hay productos",
+			// 	payload: [],
+			// 	sucess: false
+			// });
 
 			// throw new Error("No hay productos");
 		}
@@ -52,12 +65,23 @@ class ProductsMongo {
 
 		const exitsCode = await productModel.find({ code: obj.code });
 		if (exitsCode.length) {
-			return ({
-				code: 404,
+
+			CustomError.createError({
+				name: ErrorsName.PRODUCT_GET_ERROR,
+				cause: generateGetProductCodeErrorInfo(),
+				message: ErrorsMessages.INVALID_PARAMS,
+				code: EErrors.NOT_FOUND,
+				payload: [],
 				status: "error",
-				message: "El codigo ya existe",
-				payload: []
+				sucess: false
 			});
+
+			// return ({
+			// 	code: 404,
+			// 	status: "error",
+			// 	message: "El codigo ya existe",
+			// 	payload: []
+			// });
 		}
 
 		const addProduct = await productModel.create(obj);
@@ -87,12 +111,23 @@ class ProductsMongo {
 		const deleteProductById = await productModel.deleteOne({ _id: pid });
 
 		if (deleteProductById.deletedCount === 0) {
-			return ({
-				code: 404,
+
+			CustomError.createError({
+				name: ErrorsName.PRODUCT_GET_ERROR,
+				cause: generateGetProductErrorInfo(pid),
+				message: ErrorsMessages.INVALID_PARAMS,
+				code: EErrors.NOT_FOUND,
+				payload: [],
 				status: "error",
-				message: "No existe el producto",
-				payload: deleteProductById
+				sucess: false
 			});
+
+			// return ({
+			// 	code: 404,
+			// 	status: "error",
+			// 	message: "No existe el producto",
+			// 	payload: deleteProductById
+			// });
 		}
 
 		return ({
@@ -112,12 +147,23 @@ class ProductsMongo {
 		const existsId = await productModel.findById(id);
 
 		if (!existsId) {
-			return ({
-				code: 404,
+
+			CustomError.createError({
+				name: ErrorsName.PRODUCT_GET_ERROR,
+				cause: generateGetProductErrorInfo(id),
+				message: ErrorsMessages.INVALID_PARAMS,
+				code: EErrors.NOT_FOUND,
+				payload: [],
 				status: "error",
-				message: "No existe el producto",
-				payload: existsId
+				sucess: false
 			});
+
+			// return ({
+			// 	code: 404,
+			// 	status: "error",
+			// 	message: "No existe el producto",
+			// 	payload: existsId
+			// });
 		}
 		const updateProductById = await productModel.updateOne({ _id: id }, obj);
 
@@ -137,13 +183,22 @@ class ProductsMongo {
 		const getProductById = await productModel.findById(pid);
 
 		if (!getProductById) {
-			return ({
-				code: 404,
+			CustomError.createError({
+				name: ErrorsName.PRODUCT_GET_ERROR,
+				cause: generateGetProductErrorInfo(pid),
+				message: ErrorsMessages.INVALID_PARAMS,
+				code: EErrors.NOT_FOUND,
+				payload: [],
 				status: "error",
-				message: "No existe id del producto",
-				payload: getProductById,
 				sucess: false
 			});
+			// return ({
+			// 	code: 404,
+			// 	status: "error",
+			// 	message: "No existe id del producto",
+			// 	payload: getProductById,
+			// 	sucess: false
+			// });
 		}
 
 		return ({

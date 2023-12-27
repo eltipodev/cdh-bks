@@ -27,6 +27,7 @@ export const loginUser = (req, res) => {
 };
 
 export const signupUser = (req, res) => {
+
 	if (req.user) {
 		return res.redirect("/api/user/login");
 	}
@@ -35,7 +36,7 @@ export const signupUser = (req, res) => {
 		return res.status(200).render("products", {
 			pageTitle: "Signup",
 			message: "registros de usuarios",
-			user: req.user || "",
+			user: "",
 			status: "sucess",
 			sucess: true,
 		});

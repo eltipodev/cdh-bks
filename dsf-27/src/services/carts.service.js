@@ -1,3 +1,6 @@
+import { EErrors, ErrorsMessages, ErrorsName } from "./errors/errors.enum.js";
+import { generateGetCartErrorInfo, generateGetProductErrorInfo, generateGetProductParamsErrorInfo } from "./errors/info.js";
+import CustomError from "./errors/error.generator.js";
 import { cartModel } from "../DAL/models/cart.model.js";
 import { productModel } from "../DAL/models/products.model.js";
 
@@ -80,35 +83,59 @@ export default class CartsRepository {
 		const objKey = Object.keys(obj)[0];
 
 		if (objKey !== "quantity") {
-			return {
-				code: 404,
-				status: "error",
-				message: "Solo esta permitido la propieda quantitf",
-				payload: []
-			};
+
+			CustomError.createError({
+				name: ErrorsName.CART_GET_ERROR_GET_ERROR,
+				cause: generateGetProductParamsErrorInfo(obj),
+				message: ErrorsMessages.INVALID_PARAMS,
+				code: EErrors.NOT_FOUND,
+			});
+
+			// return {
+			// 	code: 404,
+			// 	status: "error",
+			// 	message: "Solo esta permitido la propieda quantitf",
+			// 	payload: []
+			// };
 		}
 
 		const objValue = obj[objKey];
 
 		const existsCart = await cartModel.findById(cid);
 		if (!existsCart) {
-			return ({
-				code: 404,
-				status: "error",
-				message: "No existe el Carrito",
-				payload: existsCart
+
+			CustomError.createError({
+				name: ErrorsName.CART_GET_ERROR,
+				cause: generateGetCartErrorInfo(cid),
+				message: ErrorsMessages.CART_NOT_FOUND,
+				code: EErrors.NOT_FOUND,
 			});
+
+			// return ({
+			// 	code: 404,
+			// 	status: "error",
+			// 	message: "No existe el Carrito",
+			// 	payload: existsCart
+			// });
 		}
 
 		const existsProduct = await productModel.findById(pid);
 
 		if (!existsProduct) {
-			return ({
-				code: 404,
-				status: "error",
-				message: "No existe el Producto",
-				payload: existsCart
+
+			CustomError.createError({
+				name: ErrorsName.REGISTER_ERROR,
+				cause: generateGetProductErrorInfo(pid),
+				message: ErrorsMessages.PRODUCT_NOT_FOUND,
+				code: EErrors.NOT_FOUND,
 			});
+
+			// return ({
+			// 	code: 404,
+			// 	status: "error",
+			// 	message: "No existe el Producto",
+			// 	payload: existsCart
+			// });
 		}
 
 		const productIndex = existsCart.products.findIndex(product => product
@@ -132,26 +159,40 @@ export default class CartsRepository {
 	/////////////////////////////////////
 	updateByPidByStock = async (pid, cstk) => {
 
-		// const objKey = Object.keys(obj)[0];
-
 		if (!cstk.lenght) {
-			return {
-				code: 404,
-				status: "error",
-				message: "Solo esta permitido la propieda quantitf",
-				payload: []
-			};
+
+			CustomError.createError({
+				name: ErrorsName.PRODUCT_GET_ERROR,
+				cause: generateGetProductParamsErrorInfo(cstk),
+				message: ErrorsMessages.INVALID_PARAMS,
+				code: EErrors.NOT_FOUND,
+			});
+
+			// return {
+			// 	code: 404,
+			// 	status: "error",
+			// 	message: "Solo esta permitido la propieda quantitf",
+			// 	payload: []
+			// };
 		}
 
 		const existsProduct = await productModel.findById(pid);
 
 		if (!existsProduct) {
-			return ({
-				code: 404,
-				status: "error",
-				message: "No existe el Producto",
-				payload: existsProduct
+
+			CustomError.createError({
+				name: ErrorsName.REGISTER_ERROR,
+				cause: generateGetProductErrorInfo(pid),
+				message: ErrorsMessages.PRODUCT_NOT_FOUND,
+				code: EErrors.NOT_FOUND,
 			});
+
+			// return ({
+			// 	code: 404,
+			// 	status: "error",
+			// 	message: "No existe el Producto",
+			// 	payload: existsProduct
+			// });
 		}
 
 		const updateByPidByStock = await this.dao.updateCartByIdBodyQuantify(pid, cstk);
@@ -200,57 +241,6 @@ export default class CartsRepository {
 		}
 		return [];
 	};
-
-	// // [x]
-	// /////////////////////////////////
-	// /// Método efectuar pago    ////
-	// ///////////////////////////////
-	// orderPay = async (cid, user) => {
-	// 	try {
-
-	// 		const cart = await cartModel
-	// 			.findById(cid)
-	// 			.populate("products.product");
-
-	// 		let products = cart.products;
-
-	// 		let stockAvailable = [];
-	// 		let stockUnAvailable = [];
-	// 		let totalAmount = 0;
-
-	// 		for (let i of products) {
-	// 			if (i.product.stock >= i.quantity) {
-	// 				i.product.stock -= i.quantity;
-	// 				await i.product.save();
-	// 				totalAmount += i.quantity * i.product.price;
-	// 				stockAvailable.push(i);
-	// 			} else {
-	// 				stockUnAvailable.push(i);
-	// 			}
-	// 		}
-
-	// 		cart.products = stockUnAvailable;
-
-	// 		await cart.save();
-
-	// 		if (stockAvailable.length) {
-	// 			const order = {
-	// 				code: uuidv4(),
-	// 				purchase_datetime: new Date(),
-	// 				amount: totalAmount,
-	// 				purchaser: user.email
-	// 			};
-
-	// 			const paymentStatusCompleted = await ticketMongo.createOrder(order);
-	// 			return { stockAvailable, totalAmount, paymentStatusCompleted };
-	// 		}
-
-	// 		return stockUnAvailable;
-
-	// 	} catch (error) {
-	// 		console.error("Error al procesar el pedido:", error);
-	// 	}
-	// };
 
 	// [x]
 	///////////////////////////////////
