@@ -1,5 +1,6 @@
 
 export const buttonAddProduct = (cid, pid) => {
+	const cartCount = document.querySelector(".cart-count");
 
 	if (cid) {
 		fetch(`/api/carts/${cid}/products/${pid}`, {
@@ -11,6 +12,9 @@ export const buttonAddProduct = (cid, pid) => {
 			.then(response => response.json())
 			.then(data => {
 
+				cartCount.textContent = data.cartTotalQuantity.quantity;
+
+				console.log("==> data", data);
 				// eslint-disable-next-line no-undef
 				Swal.fire({
 					title: data.pageTitle,
@@ -19,6 +23,7 @@ export const buttonAddProduct = (cid, pid) => {
 					allowOutsideClick: false,
 					confirmButtonText: "Cool"
 				});
+
 			})
 			.catch(error => {
 				console.error("Error al obtener datos:", error);

@@ -1,6 +1,5 @@
 import cartsMongo from "../DAL/daos/mongo/carts.dao.js";
 import { cartsService } from "../services/index.services.js";
-// import { getCartTotalQuantity } from "../services/carts.service.js";
 
 //[x]
 ///////////////////////////////////////////////////
@@ -83,6 +82,8 @@ export const createCart = async (req, res) => {
 export const addByProductCart = async (req, res) => {
 	const { cid, pid } = req.params;
 
+	const cartTotalQuantity = await cartsService.getCartTotalQuantity(cid);
+
 	try {
 		const addCart = await cartsService.udpateByCidByPId(cid, pid);
 		return res.status(addCart.code).json({
@@ -90,6 +91,7 @@ export const addByProductCart = async (req, res) => {
 			message: addCart.message,
 			payload: addCart.payload,
 			status: addCart.status,
+			cartTotalQuantity
 		});
 	} catch (error) {
 		res.status(500).json({

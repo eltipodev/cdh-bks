@@ -1,5 +1,5 @@
 // [x]
-// import { getCartTotalQuantity } from "../services/carts.service.js";
+
 import { cartsService, productsService } from "../services/index.services.js";
 
 ////////////////////////////////////////////////
