@@ -1,0 +1,149 @@
+[
+	{
+		"pageTitle": "Productos",
+		"message": "Productos Encontrados",
+		"payload": {
+			"docs": [
+				{
+					"_id": "6556a4c8488c5c5ef331c694",
+					"title": "Anana",
+					"description": "Piña madura y refrescante.",
+					"code": "P789",
+					"price": 1.99,
+					"status": true,
+					"thumbnails": "/img/imagen_anana.webp",
+					"category": "Frutas",
+					"stock": 38,
+					"id": "6556a4c8488c5c5ef331c694"
+				},
+				{
+					"_id": "6556a4c8488c5c5ef331c695",
+					"title": "Tomillo",
+					"description": "Tomillo fresco y aromático.",
+					"code": "T456",
+					"price": 0.79,
+					"status": true,
+					"thumbnails": "/img/imagen_tomillo.webp",
+					"category": "Especies",
+					"stock": 29,
+					"id": "6556a4c8488c5c5ef331c695"
+				},
+				{
+					"_id": "6556a4c8488c5c5ef331c696",
+					"title": "Sandía",
+					"description": "Sandía jugosa y refrescante.",
+					"code": "S987",
+					"price": 2.49,
+					"status": true,
+					"thumbnails": "/img/imagen_sandia.webp",
+					"category": "Frutas",
+					"stock": 15,
+					"id": "6556a4c8488c5c5ef331c696"
+				},
+				{
+					"_id": "6556a4c8488c5c5ef331c698",
+					"title": "Pimentón",
+					"description": "Pimentón ahumado y dulce.",
+					"code": "PIM333",
+					"price": 1.79,
+					"status": true,
+					"thumbnails": "/img/imagen_pimenton.webp",
+					"category": "Especias",
+					"stock": 18,
+					"id": "6556a4c8488c5c5ef331c698"
+				},
+				{
+					"_id": "6556a4c8488c5c5ef331c699",
+					"title": "Limón",
+					"description": "Limón ácido y refrescante.",
+					"code": "LIM111",
+					"price": 0.69,
+					"status": true,
+					"thumbnails": "/img/imagen_limon.webp",
+					"category": "Frutas",
+					"stock": 22,
+					"id": "6556a4c8488c5c5ef331c699"
+				},
+				{
+					"_id": "6556a4c8488c5c5ef331c69a",
+					"title": "Almendra",
+					"description": "Almendra crujiente y saludable.",
+					"code": "ALM767",
+					"price": 5.99,
+					"status": true,
+					"thumbnails": "/img/imagen_almendra.webp",
+					"category": "Frutos-secos",
+					"stock": 12,
+					"id": "6556a4c8488c5c5ef331c69a"
+				},
+				{
+					"_id": "6556a4c8488c5c5ef331c69b",
+					"title": "Banana Deshidratada",
+					"description": "Banana dulce y deshidratada, perfecta como snack saludable.",
+					"code": "BAN123",
+					"price": 3.49,
+					"status": true,
+					"thumbnails": "/img/imagen_banana_deshidratada.webp",
+					"category": "Frutas Deshidratadas",
+					"stock": 19,
+					"id": "6556a4c8488c5c5ef331c69b"
+				},
+				{
+					"_id": "6556a4c8488c5c5ef331c69c",
+					"title": "Castañas de Caju",
+					"description": "Castañas de caju crujientes y llenas de sabor.",
+					"code": "CAJ456",
+					"price": 7.99,
+					"status": true,
+					"thumbnails": "/img/imagen_castanas.webp",
+					"category": "Frutos-secos",
+					"stock": 15,
+					"id": "6556a4c8488c5c5ef331c69c"
+				},
+				{
+					"_id": "6556a4c8488c5c5ef331c69d",
+					"title": "Pasas de Uvas",
+					"description": "Pasas de uvas jugosas y deliciosas.",
+					"code": "PAS789",
+					"price": 4.99,
+					"status": true,
+					"thumbnails": "/img/imagen_pasasdeuva.webp",
+					"category": "Frutas Secas",
+					"stock": 0,
+					"id": "6556a4c8488c5c5ef331c69d"
+				},
+				{
+					"_id": "6556a4c8488c5c5ef331c69e",
+					"title": "Pecan",
+					"description": "Pecan tostado y lleno de nutrientes.",
+					"code": "PEC234",
+					"price": 8.99,
+					"status": true,
+					"thumbnails": "/img/imagen_pecan.webp",
+					"category": "Frutos-secos",
+					"stock": 17,
+					"id": "6556a4c8488c5c5ef331c69e"
+				}
+			],
+			"totalDocs": 32,
+			"limit": 10,
+			"totalPages": 4,
+			"page": 3,
+			"pagingCounter": 21,
+			"hasPrevPage": true,
+			"hasNextPage": true,
+			"prevPage": 2,
+			"nextPage": 4
+		},
+		"status": "sucess",
+		"sucess": true,
+		"cartId": "6586db45379e87415d57923f",
+		"user": "USER",
+		"pagination": [
+			1,
+			2,
+			3,
+			4
+		]
+	}
+]
