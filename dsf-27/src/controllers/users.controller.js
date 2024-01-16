@@ -19,6 +19,7 @@ export const loginUser = (req, res) => {
 		});
 
 	} catch (error) {
+
 		return res.status(500).json(
 			{
 				error: error.message
@@ -41,6 +42,7 @@ export const signupUser = (req, res) => {
 			sucess: true,
 		});
 	} catch (error) {
+
 		return res.status(500).json(
 			{
 				error: error.message
@@ -49,12 +51,20 @@ export const signupUser = (req, res) => {
 };
 
 export const loginPassport = (req, res) => {
+	try {
 
-	const token = generateToken(req.user);
+		const token = generateToken(req.user);
 
-	res
-		.cookie("token", token, { maxAge: 2 * 60 * 60 * 200, httpOnly: true })// 2 horas
-		.redirect("/api/vista/products");
+		res
+			.cookie("token", token, { maxAge: 2 * 60 * 60 * 200, httpOnly: true })// 2 horas
+			.redirect("/api/vista/products");
+	} catch (error) {
+		return res.status(500).json(
+			{
+				error: error.message
+			});
+	}
+
 };
 
 export const current = async (req, res) => {
@@ -77,6 +87,7 @@ export const current = async (req, res) => {
 		});
 
 	} catch (error) {
+
 		return res.status(500).json(
 			{
 				error: error.message
@@ -91,6 +102,7 @@ export const logout = (req, res) => {
 			res.redirect("/api");
 		});
 	} catch (error) {
+
 		return res.status(500).json({
 			error: error.message
 		});

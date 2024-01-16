@@ -26,6 +26,7 @@ export const createOrderView = async (req, res) => {
 			sucess: getCartsById.sucess
 		});
 	} catch (error) {
+
 		res.status(500).json(
 			{
 				error: error.message
@@ -62,6 +63,7 @@ export const createOrder = async (req, res) => {
 			sucess: cart.sucess
 		});
 	} catch (error) {
+
 		res.status(500).json(
 			{
 				error: error.message

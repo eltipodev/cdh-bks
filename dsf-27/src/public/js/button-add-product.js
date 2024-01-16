@@ -14,7 +14,6 @@ export const buttonAddProduct = (cid, pid) => {
 
 				cartCount.textContent = data.cartTotalQuantity.quantity;
 
-				console.log("==> data", data);
 				// eslint-disable-next-line no-undef
 				Swal.fire({
 					title: data.pageTitle,

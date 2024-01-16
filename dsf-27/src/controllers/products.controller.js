@@ -30,6 +30,7 @@ export const findAllProductView = async (req, res) => {
 
 		});
 	} catch (error) {
+
 		res.status(500).json(
 			{
 				error: error.message
@@ -60,6 +61,7 @@ export const findAllProduct = async (req, res) => {
 			pagination: getAllProducts.pagination,
 		});
 	} catch (error) {
+
 		res.status(500).json(
 			{
 				error: error.message
@@ -94,6 +96,7 @@ export const findByIdProductView = async (req, res) => {
 		});
 
 	} catch (error) {
+
 		res.status(500).json({
 			error: error.message
 		});
@@ -118,6 +121,7 @@ export const addProduct = async (req, res) => {
 			status: addProduct.status,
 		});
 	} catch (error) {
+
 		res.status(500).json({
 			error: error.message
 		});
@@ -142,6 +146,7 @@ export const deleteByIdProduct = async (req, res) => {
 			status: deleteProductById.status,
 		});
 	} catch (error) {
+
 		res.status(500).json({
 			error: error.message
 		});
@@ -169,6 +174,7 @@ export const updateProductById = async (req, res) => {
 		});
 
 	} catch (error) {
+
 		res.status(500).json({
 			error: error.message
 		});
@@ -192,6 +198,7 @@ export const findByIdProduct = async (req, res) => {
 		});
 
 	} catch (error) {
+
 		res.status(500).json({
 			error: error.message
 		});

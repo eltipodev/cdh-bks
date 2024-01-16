@@ -4,6 +4,7 @@ import { generateProducts } from "../../test/faker.js";
 const router = express.Router();
 
 router.get("/", async (req, res) => {
+
 	const products = generateProducts();
 	res.json(products);
 });

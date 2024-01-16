@@ -22,6 +22,7 @@ const config = {
 	admin_email: process.env.ADMIN_EMAIL,
 	port: port || process.env.PORT,
 	environment: process.env.ENVIRONMENT,
+	environmentlogger: process.env.ENVIRONMENTLOGGER,
 	mongo_uri: process.env.MONGO_INITDB_ROOT_USERNAME,
 	mongo_initdb_root_password: process.env.MONGO_INITDB_ROOT_PASSWORD,
 	mongo_initdb_root_database: process.env.MONGO_INITDB_ROOT_DATABASE,

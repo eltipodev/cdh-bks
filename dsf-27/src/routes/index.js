@@ -4,6 +4,7 @@ import cartsVistaRouter from "./carts.router/carts.vista.router.js";
 import chatVistaRouter from "./chat.router/chat.router.js";
 import errorRouter from "./error.router/error.router.js";
 import express from "express";
+import loggerRouter from "./logger.router/logger.router.js";
 import mockingproductsRouter from "./mocking.products.router/mocking.products.router.js";
 import productsRouter from "./products.router/products.router.js";
 import productsVistaRouter from "./products.router/products.vista.router.js";
@@ -22,5 +23,6 @@ router.use("/auth", authRouter);
 router.use("/error", errorRouter);
 
 router.use("/mockingproducts", mockingproductsRouter);
+router.use("/loggerTest", loggerRouter);
 
 export default router;
