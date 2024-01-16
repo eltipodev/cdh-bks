@@ -4,4 +4,4 @@ export default {
 	register(userForm) {
 		return;
 	}
-};
+};  
