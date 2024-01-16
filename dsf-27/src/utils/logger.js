@@ -2,7 +2,7 @@
 import { createLogger, format, transports } from "winston";
 const { combine, colorize, timestamp, printf, simple } = format;
 
-import { config } from "dotenv";
+import config from "../config/env.config.js";
 
 const customLevels = {
 	levels: {
@@ -14,11 +14,11 @@ const customLevels = {
 		debug: 5
 	},
 	colors: {
-		fatal: "bold red",
-		error: "bold red",
-		warning: "bold yellow",
-		info: "bold green",
-		debug: "bold HotPink"
+		fatal: "red",
+		error: "red",
+		warning: "yellow",
+		info: "green",
+		debug: "HotPink"
 	}
 };
 const myFormat = combine(
@@ -27,8 +27,9 @@ const myFormat = combine(
 	printf((info) => `[${info.level}] - ${info.message} - [${info.timestamp}]`)
 );
 
-const environment = config.ENVIRONMENTLOGGER || "dev";
+const environment = config.environmentlogger || "dev";
 
+console.log("==> environment", environment);
 export let logger;
 
 if (environment == "dev") {
