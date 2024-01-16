@@ -17,5 +17,21 @@ export default class CustomError {
 
 		throw error;
 	}
+
+	static createErrorJson({ name = "Error", cause, message, code = 1 }) {
+		const stackTrace = new Error().stack;
+
+		const { folder, fileName, lineNumber } = extractFileNameAndLineNumber(stackTrace);
+
+		return {
+			name,
+			code,
+			message,
+			folder,
+			fileName,
+			lineNumber,
+			cause
+		};
+	}
 }
 

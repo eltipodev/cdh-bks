@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import config from "../config/env.config.js";
 import { generateUserSignupEmptyErrorInfo } from "../services/errors/info.js";
 import jwt from "jsonwebtoken";
+import { logger } from "./logger.js";
 import passport from "passport";
 
 const KEYJWT = config.secret_jwt;
@@ -52,7 +53,16 @@ export const passportCall = (strategy, options) => {
 				const { firstName, lastName, user, email } = req.body;
 
 				if (!user || !firstName || !lastName || !email || passport) {
+					const errorJson = CustomError.createErrorJson({
+						message: {
+							name: `${ErrorsName.REGISTER_ERROR}`,
+							cause: `${generateUserSignupEmptyErrorInfo()}`,
+							message: `${ErrorsMessages.DATE_EMPTY}`,
+							code: `${EErrors.BAD_REQUEST}`
+						}
+					});
 
+					logger.error(errorJson);
 					CustomError.createError({
 						name: ErrorsName.REGISTER_ERROR,
 						cause: generateUserSignupEmptyErrorInfo(),
@@ -65,6 +75,17 @@ export const passportCall = (strategy, options) => {
 			}
 
 			if (!user) {
+
+				const errorJson = CustomError.createErrorJson({
+					message: {
+						name: `${ErrorsName.LOGIN_GET_ERROR}`,
+						cause: `${generateUserSignupEmptyErrorInfo()}`,
+						message: `${ErrorsMessages.INVALID_CREDENTIALS}`,
+						code: `${EErrors.UNAUTHORIZED}`
+					}
+				});
+
+				logger.error(errorJson);
 
 				CustomError.createError({
 					name: ErrorsName.LOGIN_GET_ERROR,

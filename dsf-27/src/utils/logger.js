@@ -24,12 +24,11 @@ const customLevels = {
 const myFormat = combine(
 	colorize({ all: true }),
 	timestamp({ format: "YY-MM-DD HH:MM:SS" }),
-	printf((info) => `[${info.level}] - ${info.message} - [${info.timestamp}]`)
+	printf((info) => `[${info.level}] [${info.timestamp}] ${info.message}`)
 );
 
 const environment = config.environmentlogger || "dev";
 
-console.log("==> environment", environment);
 export let logger;
 
 if (environment == "dev") {

@@ -1,6 +1,7 @@
 import UserDto from "../DAL/dtos/users.dto.js";
 import { cartsService } from "../services/index.services.js";
 import { generateToken } from "../utils/utils.js";
+import { logger } from "../utils/logger.js";
 
 export const loginUser = (req, res) => {
 
