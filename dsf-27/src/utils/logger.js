@@ -33,6 +33,7 @@ export let logger;
 
 if (environment == "dev") {
 	logger = createLogger({
+
 		levels: customLevels.levels,
 		transports: [
 			new transports.Console({
@@ -49,10 +50,7 @@ if (environment == "dev") {
 		transports: [
 			new transports.Console({
 				level: "info",
-				format: combine(
-					colorize({ colors: customLevels.colors }),
-					simple()
-				)
+				format: combine(myFormat)
 			}),
 			new transports.File({
 				filename: "log-prod-error.log",
