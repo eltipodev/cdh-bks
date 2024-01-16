@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
 	try {
-		logger.fatal("Fatal error");
+		// logger.fatal("Fatal error");
 		logger.error("loggerTest");
 		logger.warning("loggerTest");
 		logger.info("loggerTest");
