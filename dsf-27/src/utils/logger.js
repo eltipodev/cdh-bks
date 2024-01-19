@@ -1,8 +1,10 @@
 
 import { createLogger, format, transports } from "winston";
-const { combine, colorize, timestamp, printf, simple } = format;
-
+import { DateTime } from "luxon";
+const { combine, colorize, timestamp, printf } = format;
 import config from "../config/env.config.js";
+
+process.env.TZ = "America/Argentina/Buenos_Aires";
 
 const customLevels = {
 	levels: {
@@ -21,9 +23,12 @@ const customLevels = {
 		debug: "HotPink"
 	}
 };
+
 const myFormat = combine(
 	colorize({ all: true }),
-	timestamp({ format: "YY-MM-DD HH:MM:SS" }),
+	timestamp({
+		format: () => DateTime.now().toFormat("yyyy-mm-dd hh:mm:ss"),
+	}),
 	printf((info) => `[${info.level}] [${info.timestamp}] ${info.message}`)
 );
 

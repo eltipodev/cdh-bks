@@ -1,8 +1,8 @@
 import { EErrors, ErrorsMessages, ErrorsName } from "../services/errors/errors.enum.js";
+import { generateGetLoginErrorInfo, generateUserSignupEmptyErrorInfo, } from "../services/errors/info.js";
 import CustomError from "../services/errors/error.generator.js";
 import bcrypt from "bcrypt";
 import config from "../config/env.config.js";
-import { generateUserSignupEmptyErrorInfo } from "../services/errors/info.js";
 import jwt from "jsonwebtoken";
 import { logger } from "./logger.js";
 import passport from "passport";
@@ -50,9 +50,10 @@ export const passportCall = (strategy, options) => {
 			}
 
 			if (strategy === "signup") {
-				const { firstName, lastName, user, email } = req.body;
+				const { firstName, lastName, user, email, password } = req.body;
 
-				if (!user || !firstName || !lastName || !email || passport) {
+				if (!user || !firstName || !lastName || !email || !password) {
+					console.log("==> error", req.body);
 					const errorJson = CustomError.createErrorJson({
 						message: {
 							name: `${ErrorsName.REGISTER_ERROR}`,
@@ -71,6 +72,7 @@ export const passportCall = (strategy, options) => {
 					});
 				}
 
+				console.log("==> todo ok", req.body);
 				return next();
 			}
 
@@ -79,7 +81,7 @@ export const passportCall = (strategy, options) => {
 				const errorJson = CustomError.createErrorJson({
 					message: {
 						name: `${ErrorsName.LOGIN_GET_ERROR}`,
-						cause: `${generateUserSignupEmptyErrorInfo()}`,
+						cause: `${generateGetLoginErrorInfo()}`,
 						message: `${ErrorsMessages.INVALID_CREDENTIALS}`,
 						code: `${EErrors.UNAUTHORIZED}`
 					}
@@ -94,7 +96,6 @@ export const passportCall = (strategy, options) => {
 					code: EErrors.UNAUTHORIZED
 				});
 			}
-
 			req.user = user;
 			next();
 		})(req, res, next);

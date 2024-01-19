@@ -1,7 +1,6 @@
 import UserDto from "../DAL/dtos/users.dto.js";
 import { cartsService } from "../services/index.services.js";
 import { generateToken } from "../utils/utils.js";
-import { logger } from "../utils/logger.js";
 
 export const loginUser = (req, res) => {
 
@@ -58,7 +57,8 @@ export const loginPassport = (req, res) => {
 
 		res
 			.cookie("token", token, { maxAge: 2 * 60 * 60 * 200, httpOnly: true })// 2 horas
-			.redirect("/api/vista/products");
+			// .redirect("/api/vista/products");
+			.redirect("http://localhost:5173/#/products/all");
 	} catch (error) {
 		return res.status(500).json(
 			{

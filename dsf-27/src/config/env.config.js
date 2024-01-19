@@ -31,7 +31,8 @@ const config = {
 	github_client_secret: process.env.GITHUB_CLIENT_SECRET,
 	google_client_id: process.env.GOOGLE_CLIENT_ID,
 	google_client_secret: process.env.GOOGLE_CLIENT_SECRET,
-	persistence: process.env.PERSISTENCE
+	persistence: process.env.PERSISTENCE,
+	whitelist_url_frontEnd: process.env.WHITELIST_URL_FRONTEND
 };
 
 export default config;

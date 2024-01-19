@@ -3,22 +3,32 @@
 import "./src/config/passport.config.js";
 import "./src/DAL/daos/factory.js";
 import __dirname from "./src/utils/__dirname.utils.js";
+import config from "./src/config/env.config.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-
 // import { __dirname, cookieParser, exphbs, express, indexRouter, passport } from "./src/utils/import.utils.js";
-
 import errosMiddleware from "./src/middleware/erros.middleware.js";
 import exphbs from "express-handlebars";
 import express from "express";
 import indexRouter from "./src/routes/index.js";
 import passport from "passport";
 
-// import bodyParser from "body-parser";
+const WHITELIST = config.whitelist_url_frontEnd;
+
+const corsOptions = {
+	origin: function (origin, callback) {
+		if (WHITELIST.includes(origin)) {
+			callback(null, true);
+		} else {
+			callback(new Error("Cors Error"));
+		}
+	},
+	credentials: true
+};
 
 const app = express();//[x] 5.1.1
+app.use(cors(corsOptions));
 app.use(express.json());//[x] 5.1.2
-app.use(cors());
 app.use(express.urlencoded({ extended: true }));// 5.2.2
 app.use(cookieParser("SecretCookie"));
 app.use(express.static(__dirname + "/public"));// 5.2.3

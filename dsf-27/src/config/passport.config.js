@@ -9,6 +9,7 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { Strategy as JwtStrategy } from "passport-jwt";
 import { Strategy as LocalStrategy } from "passport-local";
 import config from "./env.config.js";
+import { logger } from "../utils/logger.js";
 import passport from "passport";
 // import userManager from "../DAL/daos/mongo/users.dao.js";
 
@@ -70,6 +71,7 @@ passport.use("login", new LocalStrategy({
 }, async (user, password, done) => {
 
 	if (!user || !password) {
+		console.log("error pass user 1");
 		return done(null, false, { cause: generateGetLoginErrorInfo() });
 	}
 
@@ -78,16 +80,25 @@ passport.use("login", new LocalStrategy({
 		const userData = await usersService.findByUser(user);
 
 		if (!userData) {
+			console.log("error datos  2");
 			return done(null, false, { cause: generateGetLoginErrorInfo() });
 		}
 		// const isValidPassword = password === userData.password;
 		const isValidPassword = await compareData(password, userData.password);
 
 		if (!isValidPassword) {
+			console.log("error password  3");
 			return done(null, false, { cause: generateGetLoginErrorInfo() });
 		}
 
-		return done(null, userData, { message: "Usuario Creado" });
+		logger.info({
+			message: {
+				message: "Usuario se logueo",
+			}
+		});
+
+		console.log("userData", userData);
+		return done(null, userData, { message: "Usuario Logueado" });
 
 	} catch (error) {
 		return done(error, false, { message: "Error durante la autenticación" });

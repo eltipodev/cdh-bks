@@ -3,6 +3,8 @@ import app from "../../app.js";
 import config from "./env.config.js";
 import { logger } from "../utils/logger.js";
 
+process.env.TZ = "America/Argentina/Buenos_Aires";
+
 const PORT = config.port || 3030;
 
 const httpServer = app.listen(PORT, () => {
