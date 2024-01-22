@@ -1,0 +1,11 @@
+<script setup>
+
+</script>
+
+<template>
+	<h1> cartsOneitem</h1>
+</template>
+
+<style lang="css" scoped>
+
+</style>

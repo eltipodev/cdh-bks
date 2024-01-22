@@ -1,0 +1,13 @@
+@import url('./resetCss.css');
+@import url('./base.css');
+
+#app {
+	font-weight: normal;
+	margin: 0;
+
+	padding: 0;
+margin: 0 auto;
+}
+
+
+
