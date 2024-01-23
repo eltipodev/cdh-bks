@@ -26,12 +26,13 @@ export default {
 
 	async oneCart(cartId) {
 		try {
+
 			const response = await api.get(`/carts/${cartId}`);
-			// console.log("==> OneCart response:", response);
+			console.log("==> OneCart response:", response);
 
 			return response;
 		} catch (error) {
-			console.error("==> OneProduct error:", error);
+			console.error("==> OneCart error:", error);
 			throw error;
 		}
 	}

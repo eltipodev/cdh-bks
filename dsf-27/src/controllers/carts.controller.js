@@ -1,4 +1,4 @@
-import cartsMongo from "../DAL/daos/mongo/carts.dao.js";
+
 import { cartsService } from "../services/index.services.js";
 
 //[x]
@@ -34,7 +34,7 @@ export const findAllCarts = async (req, res) => {
 export const findByIdCart = async (req, res) => {
 	const cid = req.params.cid;
 	try {
-		const getCartsById = await cartsMongo.getCartsById(cid);
+		const getCartsById = await cartsService.findById(cid);
 
 		const cartTotalQuantity = await cartsService.getCartTotalQuantity(cid);
 

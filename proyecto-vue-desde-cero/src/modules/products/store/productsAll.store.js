@@ -6,7 +6,7 @@ import servicesApi from "@/api/servicesApi";
 
 export const useProductAllStore = defineStore("products", () => {
 
-	const cartId = ref(null);
+	const cartId = ref("1");
 	const message = ref(null);
 	const pageTitle = ref(null);
 	const productAll = ref([]);
@@ -45,8 +45,23 @@ export const useProductAllStore = defineStore("products", () => {
 	});
 
 	return {
+		cartId,
+		currentPage,
+		hasNextPage,
+		hasPrevPage,
+		isLoading,
+		limit,
+		message,
+		nextPage,
+		page,
+		pageTitle,
+		pagination,
+		pagingCounter,
+		prevPage,
 		productAll,
-		isLoading
+		totalDocs,
+		totalPages,
+		userStatus,
 	};
 }
 );

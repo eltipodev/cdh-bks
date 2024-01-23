@@ -5,7 +5,8 @@ import { RouterLink } from "vue-router";
 defineProps(
 	{
 		to:{
-			type:String
+			type:String,
+			default:null
 		}
 
 	}
@@ -13,10 +14,11 @@ defineProps(
 </script>
 
 <template>
-	<RouterLink class ="nav-filter-item"
+	<RouterLink
+		class="nav-filter-item"
 		:to="{name:to}"
 	>
-		<slot></slot>
+		<slot />
 	</RouterLink>
 </template>
 

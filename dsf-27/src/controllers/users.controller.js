@@ -57,8 +57,8 @@ export const loginPassport = (req, res) => {
 
 		res
 			.cookie("token", token, { maxAge: 2 * 60 * 60 * 200, httpOnly: true })// 2 horas
-			// .redirect("/api/vista/products");
-			.redirect("http://localhost:5173/#/products/all");
+			.redirect("/api/vista/products");
+
 	} catch (error) {
 		return res.status(500).json(
 			{

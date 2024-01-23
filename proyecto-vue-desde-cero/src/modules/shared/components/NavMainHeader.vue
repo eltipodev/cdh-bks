@@ -1,5 +1,6 @@
 
 <script setup>
+import Link from "./LinkNavShared.vue";
 import LogoShared from "./LogoShared.vue";
 import { RouterLink } from "vue-router";
 import { storeToRefs } from "pinia";
@@ -8,9 +9,9 @@ import { useProductAllStore } from "@/modules/products/store/productsAll.store";
 const store = useProductAllStore();
 
 const {cartId} = storeToRefs(store);
-console.log("==> cartId",cartId);
-const isAdmn ="false";
+console.log("==> cartId",cartId.value);
 
+const isAdmn ="false";
 </script>
 
 <template>
@@ -27,9 +28,9 @@ const isAdmn ="false";
 						</Link>
 					</ul> -->
 					<ul>
-						<RouterLink to="products-all">
+						<Link to="products-all">
 							Products
-						</RouterLink>
+						</Link>
 					</ul>
 				</nav>
 				<div class="user-ctn ">
@@ -68,11 +69,11 @@ const isAdmn ="false";
 					></a>
 					<div class="cart-nav-ctn">
 						<div class="cart-img-ctn">
-							<a
+							<RouterLink
 								id="cartId"
 								class="cart-img"
-
-								:href="'/carts/' + cartId"
+								:to="{ name: 'carts-one', params: { id: cartId}
+								}"
 							>
 								<svg
 									width="34px"
@@ -100,7 +101,7 @@ const isAdmn ="false";
 										/>
 									</g>
 								</svg>
-							</a>
+							</RouterLink>
 						</div>
 
 						<div class="cart-count-ctn">
