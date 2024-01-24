@@ -33,6 +33,11 @@ const usersSchema = new mongoose.Schema({
 		default: "USER"
 	}
 	,
+	token: {
+		type: String,
+		default: ""
+	}
+	,
 	cart: {
 		type: mongoose.SchemaTypes.ObjectId,
 		ref: "carts",

@@ -214,3 +214,7 @@ border: 0;
 transform: rotate(-35deg);
 left: -41px;
 }
+
+.stockNoneCtn{
+	filter: grayscale();
+}

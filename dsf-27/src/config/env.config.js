@@ -32,7 +32,9 @@ const config = {
 	google_client_id: process.env.GOOGLE_CLIENT_ID,
 	google_client_secret: process.env.GOOGLE_CLIENT_SECRET,
 	persistence: process.env.PERSISTENCE,
-	whitelist_url_frontEnd: process.env.WHITELIST_URL_FRONTEND
+	whitelist_url_frontEnd: process.env.WHITELIST_URL_FRONTEND,
+	nodeEmailer_User: process.env.NODEMAILER_USER,
+	nodeEmailer_Password: process.env.NODEMAILER_PASSWORD
 };
 
 export default config;

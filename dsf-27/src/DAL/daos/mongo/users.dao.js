@@ -1,3 +1,4 @@
+
 import { userModel } from "../../models/users.model.js";
 
 class UsersMongo {
@@ -27,6 +28,27 @@ class UsersMongo {
 		const createOne = await userModel.create(obj);
 		return createOne;
 	}
+
+	// [x]
+	////////////////////////////////////////////////
+	///  Método actualizar un  producto por Id  ///
+	//////////////////////////////////////////////
+	async updateUserById(email, token) {
+
+		console.log("==> email1,token1", email, token);
+
+		const updateUserById = await userModel.updateOne({ email: email }, {
+			token: token
+		});
+
+		return ({
+			code: 200,
+			status: "sucess",
+			message: "Producto Eliminado",
+			payload: updateUserById
+		});
+	}
+
 }
 
 export default UsersMongo;

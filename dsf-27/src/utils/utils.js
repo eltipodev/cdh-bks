@@ -23,7 +23,13 @@ export const compareData = async (data, hashData) => {
 /////////////
 /// JWT  ///
 ///////////
-export const generateToken = (user) => {
+export const generateToken = (user, email = null) => {
+
+	if (email) {
+
+		return jwt.sign(email, KEYJWT);
+	}
+
 	const payload = {
 		_id: user._id,
 		firstName: user.firstName,
@@ -35,7 +41,6 @@ export const generateToken = (user) => {
 		isGitHub: user.isGitHub,
 		rol: user.rol,
 		cart: user.cart,
-
 	};
 	return jwt.sign(payload, KEYJWT);
 };

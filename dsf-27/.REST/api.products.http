@@ -56,3 +56,10 @@ Content-Type: application/json
 DELETE  http://localhost:8080/api/products/6556a4c8488c5c5ef331c684
 
 
+###
+POST http://localhost:8080/api/user/resetpass
+Content-Type: application/json
+
+{
+"email": "finquin@gmail.com"
+}

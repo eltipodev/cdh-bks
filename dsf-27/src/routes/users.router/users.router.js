@@ -1,5 +1,5 @@
 
-import { current, loginPassport, loginUser, logout, signupUser } from "../../controllers/users.controller.js";
+import { current, loginPassport, loginUser, logout, resetMsgPassword, resetMsgPasswordPage, signupUser } from "../../controllers/users.controller.js";
 import authenticateMiddleware from "../../middleware/authenticate.middleware.js";
 import express from "express";
 import { passportCall } from "../../utils/utils.js";
@@ -15,6 +15,16 @@ router.get("/login", loginUser);
 /// Get  Signup ///
 //////////////////
 router.get("/signup", signupUser);
+
+////////////////////////////
+/// Post Reset Password ///
+//////////////////////////
+router.post("/resetpass", resetMsgPassword);
+
+////////////////////////////
+/// Post Reset Password ///
+//////////////////////////
+router.get("/resetpass/:tid", resetMsgPasswordPage);
 
 // [x]
 //////////////////////////////

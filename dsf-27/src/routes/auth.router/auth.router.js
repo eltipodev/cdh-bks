@@ -33,4 +33,11 @@ router.get("/google/callback", passport.authenticate("google", { session: false,
 	res.redirect("/api/vista/products");
 });
 
+//////////////////////////////////
+/// EndPoint Reset Passwordk  ///
+////////////////////////////////
+router.get("/google/callback", passport.authenticate("google", { session: false, failureRedirect: "/error" }), (req, res) => {
+	res.redirect("/api/vista/products");
+});
+
 export default router;

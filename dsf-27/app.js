@@ -27,7 +27,8 @@ const corsOptions = {
 };
 
 const app = express();//[x] 5.1.1
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());//[x] 5.1.2
 app.use(express.urlencoded({ extended: true }));// 5.2.2
 app.use(cookieParser("SecretCookie"));

@@ -20,9 +20,17 @@ export default class UsersRepository {
 
 	};
 
+	//[x]
+	updateById = async (email, token) => {
+
+		const updateUserById = await this.dao.updateUserById(email, token);
+		return updateUserById;
+	};
+
 	creatOne = async (obj) => {
 		const createOne = await this.dao.creatOne(obj);
 		return createOne;
 	};
+
 }
 

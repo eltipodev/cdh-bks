@@ -1,4 +1,5 @@
 import { btnOrderPurchase } from "./button-order-purchase.js";
+import { btnResetPassword } from "./button-resetPassword.js";
 import { buttonAddProduct } from "./button-add-product.js";
 import { buttonDeleteProduct } from "./button-delete-product.js";
 // import { fetchPruebas } from "./fetch.pruebas.js";
@@ -30,6 +31,7 @@ document.addEventListener("click", async function (event) {
 	handlePaginationClick(event);
 	handleContainerClick(event);
 	getbtnOrderPurchase(event);
+	getbtnResetPassword(event);
 });
 
 if (container && (pagetitle.textContent === "Productos")) {
@@ -45,6 +47,12 @@ function getbtnOrderPurchase(event) {
 	if (event.target.classList.contains("order-purchase")) {
 		const cid = event.target.attributes.cartId.value;
 		btnOrderPurchase(cid);
+	}
+}
+
+function getbtnResetPassword(event) {
+	if (event.target.classList.contains("form-user-button--reset-pass")) {
+		btnResetPassword();
 	}
 }
 

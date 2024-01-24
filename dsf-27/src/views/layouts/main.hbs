@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="/css/style.css">
-	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link rel="stylesheet" href="/css/card.css">
 	<link rel="stylesheet" href="/css/product.css">
 	<link rel="stylesheet" href="/css/nav.css">
@@ -24,6 +24,8 @@
 	{{else}}
 	{{#if (eq pageTitle "Login")}}
 	{{else}}
+	{{#if (eq pageTitle "Reset Password")}}
+	{{else}}
 	{{>nav}}
 	{{#if user.user}}
 	{{else}}
@@ -34,6 +36,7 @@
 	{{#if (eq pageTitle "Productos")}}
 	{{>nav-filter}}
 	{{else}}
+	{{/if}}
 	{{/if}}
 	{{/if}}
 	{{/if}}
@@ -58,8 +61,9 @@
 	{{/if}}
 	{{/if}}
 	{{>footer}}
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 	<script type="module" src="/js/index.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 </body>
 

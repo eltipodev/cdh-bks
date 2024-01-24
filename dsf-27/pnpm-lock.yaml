@@ -50,6 +50,9 @@ dependencies:
   mongoose-paginate-v2:
     specifier: ^1.7.4
     version: 1.7.4
+  nodemailer:
+    specifier: ^6.9.8
+    version: 6.9.8
   nodemon:
     specifier: ^3.0.2
     version: 3.0.2
@@ -71,6 +74,9 @@ dependencies:
   socket.io:
     specifier: ^4.7.2
     version: 4.7.2
+  sweetalert2:
+    specifier: ^11.10.4
+    version: 11.10.4
   uuid:
     specifier: ^9.0.1
     version: 9.0.1
@@ -2750,6 +2756,11 @@ packages:
       whatwg-url: 5.0.0
     dev: false
 
+  /nodemailer@6.9.8:
+    resolution: {integrity: sha512-cfrYUk16e67Ks051i4CntM9kshRYei1/o/Gi8K1d+R34OIs21xdFnW7Pt7EucmVKA0LKtqUGNcjMZ7ehjl49mQ==}
+    engines: {node: '>=6.0.0'}
+    dev: false
+
   /nodemon@3.0.2:
     resolution: {integrity: sha512-9qIN2LNTrEzpOPBaWHTm4Asy1LxXLSickZStAQ4IZe7zsoIpD/A7LWxhZV3t4Zu352uBcqVnRsDXSMR2Sc3lTA==}
     engines: {node: '>=10'}
@@ -3770,6 +3781,10 @@ packages:
   /svg-tags@1.0.0:
     resolution: {integrity: sha512-ovssysQTa+luh7A5Weu3Rta6FJlFBBbInjOh722LIt6klpU2/HtdUbszju/G4devcvk8PGt7FCLv5wftu3THUA==}
     dev: true
+
+  /sweetalert2@11.10.4:
+    resolution: {integrity: sha512-MOVRuEW/yQsyzgkaiHqAJcYKxW3vhtE5o3Skp6vZdyJejCOWo4FOicbjRfvqHAXTyTMuwDHA+0lYbO6BiHl1Gw==}
+    dev: false
 
   /table@6.8.1:
     resolution: {integrity: sha512-Y4X9zqrCftUhMeH2EptSSERdVKt/nEdijTOacGD/97EKjhQ/Qs8RTlEGABSJNNN8lac9kheH+af7yAkEWlgneA==}
