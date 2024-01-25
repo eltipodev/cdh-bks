@@ -108,8 +108,19 @@ export const findByIdProductView = async (req, res) => {
 //////////////////////////////////////////////
 // [x]
 export const addProduct = async (req, res) => {
+	let id = req.user._id;
 
-	const prd = req.body;
+	if (req.user.rol === "ADMIN") {
+
+		id = "ADMIN";
+
+	}
+
+	const prd = {
+		owner: id,
+		...req.body
+	};
+	console.log("==> prd", prd);
 
 	try {
 		const addProduct = await productsService.addByObj(prd);
@@ -134,7 +145,20 @@ export const addProduct = async (req, res) => {
 // [x]
 export const deleteByIdProduct = async (req, res) => {
 
+	const owner = req.user.owner;
 	const pid = req.params.pid;
+
+	const findProduct = await productsService.findById(pid);
+
+	console.log("==> findProduct", findProduct);
+	console.log("==> owner", owner);
+
+	if (findProduct.owner !== owner) {
+		res.status(500).send({
+			message: "No puede modificar el producto"
+		});
+	}
+
 	try {
 
 		const deleteProductById = await productsService.deleteById(pid);

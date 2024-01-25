@@ -1,11 +1,13 @@
 import { EErrors, ErrorsMessages, ErrorsName } from "../services/errors/errors.enum.js";
 import { cartsService, usersService } from "../services/index.services.js";
+import { generateToken, hashData, verifyToken } from "../utils/utils.js";
 import CustomError from "../services/errors/error.generator.js";
 import UserDto from "../DAL/dtos/users.dto.js";
-import { generateToken } from "../utils/utils.js";
+import bcrypt from "bcrypt";
 import { generateUserSignupErrorInfo } from "../services/errors/info.js";
 import { logger } from "../utils/logger.js";
 import { transporter } from "../utils/nodeMailer.js";
+import { userModel } from "../DAL/models/users.model.js";
 
 export const loginUser = (req, res) => {
 
@@ -58,6 +60,8 @@ export const loginPassport = (req, res) => {
 	try {
 
 		const token = generateToken(req.user);
+
+		logger.info(token);
 
 		res
 			.cookie("token", token, { maxAge: 2 * 60 * 60 * 200, httpOnly: true })// 2 horas
@@ -117,7 +121,6 @@ export const logout = (req, res) => {
 export const resetMsgPassword = async (req, res) => {
 
 	const { email } = req.body;
-	console.log("==> emailss", email);
 
 	const isEmail = await usersService.findByEmail(email);
 
@@ -133,9 +136,12 @@ export const resetMsgPassword = async (req, res) => {
 
 	try {
 
-		const token = generateToken(email);
+		const token = generateToken(email, { expiresIn: "1h" });
 
-		const updateProductById = await usersService.updateById(email, token);
+		const obj1 = { email };
+		const obj2 = { token };
+
+		const updateProductById = await usersService.updateById(obj1, obj2);
 
 		if (!updateProductById) {
 			return res.status(500).json({
@@ -167,14 +173,93 @@ export const resetMsgPassword = async (req, res) => {
 
 export const resetMsgPasswordPage = async (req, res) => {
 	const { tid } = req.params;
-	console.log("==> tid", tid);
 
-	return res.status(200).render("products", {
-		pageTitle: "Reset Password",
-		user: req.user || "",
-		message: "Reset your Password",
+	const decodedToken = verifyToken(tid);
 
-	});
+	if (!decodedToken) {
+		logger.error("Token inválido o expirado");
+		return res.redirect("/api/login");
+	}
+
+	try {
+		const findByToken = await userModel.findOne({ token: tid });
+
+		if (!findByToken) {
+			logger.error("Token no encontrado en la base de datos");
+			return res.redirect("/api/login");
+		}
+
+		return res.status(200).render("reset", {
+			pageTitle: "Reset Password",
+			user: req.user || "",
+			email: findByToken.email,
+			message: "Reset your Password",
+		});
+	} catch (error) {
+		logger.error("Error al buscar el token en la base de datos:", error);
+		return res.redirect("/api/login");
+	}
+};
+
+export const changePassword = async (req, res) => {
+
+	const newPassword = req.body.password;
+	const email = req.body.email;
+
+	const findByEmail = await userModel.findOne({ email: email });
+
+	const decripytPassword = await bcrypt.compare(findByEmail.password, newPassword);
+
+	if (decripytPassword) {
+		logger.error("No puede ser el mismo password");
+
+		return res.status(400).send({
+			message: "No puede ser el mismo password"
+		});
+
+	}
+
+	const hashPass = await hashData(newPassword);
+
+	const obj1 = { email };
+	const obj2 = { password: hashPass, token: "" };
+
+	const updatePassword = await usersService.updateById(obj1, obj2);
+
+	if (updatePassword.status === "sucess") {
+		return res.redirect("api/user/login");
+	}
+
+	return res.status(500).send({ message: "hubo un error" });
+
+	// const decripytPassword = await bcrypt.compare(inputPassword, user.password);
+
+	// if (vefiredPass) {
+	// 	// La contraseña es correcta
+	// 	console.log("La contraseña es correcta");
+	// } else {
+	// 	// El usuario no existe o la contraseña es incorrecta
+	// 	console.log("El usuario no existe o la contraseña es incorrecta");
+	// }
+
+	// const { tid } = req.params;
+
+	// const decodedToken = verifyToken(tid);
+
+	// if (!decodedToken) {
+	// 	return res.status(500).json({
+	// 		message: "Token error",
+
+	// 	});
+	// }
+
+	// return res.status(200).render("products", {
+	// 	pageTitle: "Reset Password",
+	// 	user: req.user || "",
+	// 	message: "Reset your Password",
+
+	// });
+
 };
 
 ////////////////////////////////////////////////

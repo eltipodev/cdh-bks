@@ -2,13 +2,15 @@
 	<div class="form-user-signup">
 
 
-		<form class="form-user-signup--ctn" method="post" action="/api/user/signup">
+		<form class="form-user-signup--ctn" method="post" action="/api/user/changepass">
 			<h1 class="page-title form-user-title">{{pageTitle}}</h1>
-			<form class="form-user-signup--ctn" method="post" action="/api/user/login">
+			<h2 type="email" name="email" id="email" class="page-title form-user-title">{{email}}</h1>
+				<input type="hidden" name="email" value={{email}}>
+				<form class="form-user-signup--ctn" method="post" action="/api/user/login">
 
-				<label class="form-user-label" for="password">🔑 Password: </label>
-				<input type="password" name="password" id="password">
-				<input class="form-user-button" type="submit" value="Submit">
-			</form>
+					<label class="form-user-label" for="password">🔑 Password: </label>
+					<input type="password" name="password" id="password">
+					<input class="form-user-button change-password" type="submit" value="Submit">
+				</form>
 	</div>
 </div>

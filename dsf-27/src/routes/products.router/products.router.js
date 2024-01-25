@@ -9,20 +9,20 @@ const router = express.Router();
 ////////////////////////////////////////
 router.get("/", passport.authenticate("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER"]), findAllProduct);
 
-////////////////////////////////////////
+/////////////////////////////////////////
 /// POST para agregar producto       ///
 ///////////////////////////////////////
-router.post("/", passport.authenticate("jwt", { session: false }), authenticateMiddleware(["ADMIN"]), addProduct);
+router.post("/", passport.authenticate("jwt", { session: false }), authenticateMiddleware(["ADMIN", "PREMIUN"]), addProduct);
 
 /////////////////////////////////////
 /// DELETE eliminar un producto   ///
 ////////////////////////////////////
-router.delete("/:pid", passport.authenticate("jwt", { session: false }), authenticateMiddleware(["ADMIN"]), deleteByIdProduct);
+router.delete("/:pid", passport.authenticate("jwt", { session: false }), authenticateMiddleware(["ADMIN", "PREMIUN"]), deleteByIdProduct);
 
 ////////////////////////////////////
 /// PUT Actualizar un producto  ///
 //////////////////////////////////
-router.put("/:pid", passport.authenticate("jwt", { session: false }), authenticateMiddleware(["ADMIN"]), updateProductById);
+router.put("/:pid", passport.authenticate("jwt", { session: false }), authenticateMiddleware(["ADMIN", "PREMIUN"]), updateProductById);
 
 ///////////////////////////////////////
 /// GET Lista  un producto por ID  ///

@@ -29,6 +29,10 @@ const productsSchema = new mongoose.Schema({
 		type: Number,
 		require: true
 	},
+	owner: {
+		type: String,
+		default: "ADMIN"
+	},
 	attbName: {
 		codeAttb: {
 			type: String

@@ -107,3 +107,14 @@ export const passportCall = (strategy, options) => {
 	};
 };
 
+export const verifyToken = (token) => {
+	const secretKey = config.secret_jwt;
+
+	try {
+		const decoded = jwt.verify(token, secretKey);
+		return decoded;
+	} catch (error) {
+		console.error("Error al verificar el token:", error.message);
+		return null;
+	}
+};

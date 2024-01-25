@@ -1,4 +1,15 @@
 // [x]
+### POST  LOGIN
+POST http://localhost:8080/api/user/login
+Content-Type: application/json
+
+{
+    "user": "qq",
+    "password": "qq"
+}
+
+
+// [x]
 ### GET Listar todos los productos
 GET  http://localhost:8080/api/products
 
@@ -31,9 +42,9 @@ POST http://localhost:8080/api/products
 Content-Type: application/json
 
 {
-		"title": "Sansssdíass",
+		"title": "pp",
 		"description": "Sandía dulce y refrescante.",
-		"code": "fdffd4",
+		"code": "fdAffSsssssSsSd4",
 		"price": 3.99,
 		"status": true,
 		"thumbnails": "/img/imagen_sandia.webp",
@@ -53,7 +64,8 @@ Content-Type: application/json
 
 // [x]
 ### DELETE Elimima el producto
-DELETE  http://localhost:8080/api/products/6556a4c8488c5c5ef331c684
+DELETE  http://localhost:8080/api/products/65b1abcbd4c0a257cf1f399e
+
 
 
 ###
@@ -63,3 +75,5 @@ Content-Type: application/json
 {
 "email": "finquin@gmail.com"
 }
+
+

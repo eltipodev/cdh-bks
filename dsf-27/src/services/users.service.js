@@ -21,9 +21,9 @@ export default class UsersRepository {
 	};
 
 	//[x]
-	updateById = async (email, token) => {
+	updateById = async (obj1, obj2) => {
 
-		const updateUserById = await this.dao.updateUserById(email, token);
+		const updateUserById = await this.dao.updateUserById(obj1, obj2);
 		return updateUserById;
 	};
 

@@ -32,6 +32,7 @@ document.addEventListener("click", async function (event) {
 	handleContainerClick(event);
 	getbtnOrderPurchase(event);
 	getbtnResetPassword(event);
+	// getbtnChangePassword(event);
 });
 
 if (container && (pagetitle.textContent === "Productos")) {
@@ -55,6 +56,11 @@ function getbtnResetPassword(event) {
 		btnResetPassword();
 	}
 }
+// function getbtnChangePassword(event) {
+// 	if (event.target.classList.contains("change-password")) {
+// 		btnResetPassword();
+// 	}
+// }
 
 function handlePaginationClick(event) {
 	if (event.target.classList.contains("button-pag-next")) {
