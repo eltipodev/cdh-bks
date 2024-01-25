@@ -61,8 +61,6 @@ export const loginPassport = (req, res) => {
 
 		const token = generateToken(req.user);
 
-		logger.info(token);
-
 		res
 			.cookie("token", token, { maxAge: 2 * 60 * 60 * 200, httpOnly: true })// 2 horas
 			.redirect("/api/vista/products");
@@ -262,30 +260,54 @@ export const changePassword = async (req, res) => {
 
 };
 
-////////////////////////////////////////////////
-/// PUT Actualizar un producto              ///
-//////////////////////////////////////////////
-// [x]
-// export const updateUserById = async (req, res) => {
+export const premiunUser = async (req, res) => {
+	const { uid } = req.params;
+	try {
+		return res.status(200).render("premiun", {
+			pageTitle: "Premiun",
+			user: uid,
+			message: "Premiun",
+		});
 
-// 	const pid = req.params.pid;
-// 	const body = req.body;
+	} catch (error) {
 
-// 	try {
+		return res.redirect("/api/login");
+	}
 
-// 		const updateProductById = await productsService.updateById(pid, body);
+};
 
-// 		return res.status(updateProductById.code).json({
-// 			pageTitle: "Productos",
-// 			message: updateProductById.message,
-// 			payload: updateProductById.payload,
-// 			status: updateProductById.status,
-// 		});
+export const premiunUserId = async (req, res) => {
+	const { uid } = req.params;
+	const { rol } = req.body;
 
-// 	} catch (error) {
+	const findUser = await usersService.findById(uid);
 
-// 		res.status(500).json({
-// 			error: error.message
-// 		});
-// 	}
-// };
+	if (!findUser) {
+		return res.status(200).json({
+			sucess: "error",
+			message: "no existe el usuario",
+		});
+	}
+
+	try {
+		const obj1 = {
+			_id: uid
+		};
+		const obj2 = {
+			rol: rol
+		};
+
+		// eslint-disable-next-line no-unused-vars
+		const updateByOwrn = await usersService.updateById(obj1, obj2);
+
+		return res.status(200).json({
+			sucess: "ok",
+			message: "change rol",
+		});
+
+	} catch (error) {
+		logger.error("Error al cambiar rol", error);
+		return res.redirect("/api/login");
+	}
+
+};

@@ -16,36 +16,36 @@ router.get("/", passportCall("jwt", { session: false }), authenticateMiddleware(
 ////////////////////////////////////////////////
 /// GET Listar Carro por Id                 ///
 //////////////////////////////////////////////
-router.get("/:cid", passportCall("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER"]), findByIdCart);
+router.get("/:cid", passportCall("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER", "PREMIUN"]), findByIdCart);
 
 //[x]
 ////////////////////////////////////////////////
 /// POST para agregar Carrito               ///
 //////////////////////////////////////////////
-router.post("/", passportCall("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER"]), createCart);
+router.post("/", passportCall("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER", "PREMIUN"]), createCart);
 
 //[x]
 ////////////////////////////////////////////////
 /// POST agregar un Producto a l Carrito    ///
 //////////////////////////////////////////////
-router.post("/:cid/products/:pid", passportCall("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER"]), addByProductCart);
+router.post("/:cid/products/:pid", passportCall("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER", "PREMIUN"]), addByProductCart);
 
 //[x]
 ////////////////////////////////////////////////
 /// DELETE Eliminar un Producto del Carrito ///
 //////////////////////////////////////////////
-router.delete("/:cid/products/:pid", passportCall("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER"]), deleteByIdProductCart);
+router.delete("/:cid/products/:pid", passportCall("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER", "PREMIUN"]), deleteByIdProductCart);
 
 ////////////////////////////////////////////////
 /// DELETE todos los productos de un carrito///
 //////////////////////////////////////////////
-router.delete("/:cid", passportCall("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER"]), deleteAllCarts);
+router.delete("/:cid", passportCall("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER", "PREMIUN"]), deleteAllCarts);
 
 //[x]
 /////////////////////////////////////////////////////
 /// PUT para actualizar el carrito con un arreglo///
 ///////////////////////////////////////////////////
-router.put("/:cid", passportCall("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER"]), updateByCartPids);
+router.put("/:cid", passportCall("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER", "PREMIUN"]), updateByCartPids);
 
 //[x]
 /////////////////////////////////////////////////////
@@ -57,6 +57,6 @@ router.put("/:cid/products/:pid", passportCall("jwt", { session: false }), authe
 ////////////////////////////
 /// GET ejecutar Order  ///
 //////////////////////////
-router.get("/:cid/purchase", passportCall("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER"]), createOrder);
+router.get("/:cid/purchase", passportCall("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER", "PREMIUN"]), createOrder);
 
 export default router;

@@ -7,7 +7,7 @@ const router = express.Router();
 /////////////////////////////////////////
 /// GET Lista todos los productos     ///
 ////////////////////////////////////////
-router.get("/", passport.authenticate("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER"]), findAllProduct);
+router.get("/", passport.authenticate("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER", "PREMIUN"]), findAllProduct);
 
 /////////////////////////////////////////
 /// POST para agregar producto       ///

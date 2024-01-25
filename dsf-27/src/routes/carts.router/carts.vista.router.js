@@ -17,12 +17,12 @@ router.get("/", passportCall("jwt", { session: false }), authenticateMiddleware(
 ////////////////////////////////////////////////
 /// GET Listar Carro por Id                 ///
 //////////////////////////////////////////////
-router.get("/:cid", passportCall("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER"]), findByIdCartView);
+router.get("/:cid", passportCall("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER", "PREMIUN"]), findByIdCartView);
 
 // [x];
 ////////////////////////////
 /// GET Order Vista     ///
 //////////////////////////
-router.get("/:cid/purchase", passportCall("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER"]), createOrderView);
+router.get("/:cid/purchase", passportCall("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER", "PREMIUN"]), createOrderView);
 
 export default router;

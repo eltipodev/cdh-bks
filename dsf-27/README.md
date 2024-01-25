@@ -5,6 +5,37 @@ y rellenar con los campos que faltan
 - npm i
 - ```npm start:cdh``` o ```npm run start:cdh```
 
+# USUARIOS CREADOS
+
+- user: PREMIUN  password: PREMIUN
+- user: ADMIN  password: ADMIN
+
+# PRODUCTOS CON OWNER
+
+- El nombre el title y el owner del producto dice  "PREMIUN" y su imagen es una sandia para distinguirlos mejor
+
+# Algunos codigos de PRODUCTOS PREMIUN
+
+- PREMIUN
+  - 65b2d6856ea78a087d3ef46f
+  - 65b2d6826ea78a087d3ef46c
+  - 65b2d67f6ea78a087d3ef469
+  - 65b2d6726ea78a087d3ef465
+  - 65b2d66e6ea78a087d3ef462
+
+
+# PRODUCTOS CON OWNER ADMIN
+
+- El nombre el title y el owner del producto dice  "ADMIN" y su imagen es un tomate para distinguirlos mejor
+-
+- ADMIN
+  - 65b2d7d06ea78a087d3ef48
+  - 65b2d7ff6ea78a087d3ef491
+  - 65b2d8106ea78a087d3ef494
+  - 65b2d81f6ea78a087d3ef497
+
+
+
 
 ## Consigna
 
@@ -28,13 +59,13 @@ Con base en el proyecto que venimos desarrollando, toca solidificar algunos proc
   [x] - El campo owner deberá guardar solo el correo electrónico (o _id, a tu conveniencia) del usuario que lo haya creado (solo usuarios PREMIUN pueden ser owners).
 
 4. **Modificación de Permisos de Productos:**
-   - Modificar los permisos de modificación y eliminación de productos para que:
-     - Un usuario PREMIUN solo pueda borrar los productos que le pertenecen.
-     - El admin pueda borrar cualquier producto, incluso si es de un owner.
+    [x] - Modificar los permisos de modificación y eliminación de productos para que:
+    [x] - Un usuario PREMIUN solo pueda borrar los productos que le pertenecen.
+    [x] - El admin pueda borrar cualquier producto, incluso si es de un owner.
 
 5. **Lógica del Carrito:**
    - Modificar la lógica del carrito para que un usuario PREMIUN NO pueda agregar a su carrito un producto que le pertenece.
 
 6. **Nueva Ruta en API para Cambiar Rol:**
-   - Implementar una nueva ruta en el router de api/users, la cual será `/api/users/PREMIUN/:uid`. Esta ruta permitirá cambiar el rol de un usuario de "user" a "PREMIUN" y viceversa.
+   [x] - Implementar una nueva ruta en el router de api/users, la cual será `/api/users/PREMIUN/:uid`. Esta ruta permitirá cambiar el rol de un usuario de "user" a "PREMIUN" y viceversa.
 

@@ -8,12 +8,12 @@ const router = express.Router();
 ////////////////////////////////////////////////
 /// GET Lista todos los productos           ///
 //////////////////////////////////////////////
-router.get("/", passport.authenticate("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER"]), findAllProductView);
+router.get("/", passport.authenticate("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER", "PREMIUN"]), findAllProductView);
 
 ////////////////////////////////////////////////
 /// GET Lista  un producto por ID           ///
 //////////////////////////////////////////////
-router.get("/:pid", passport.authenticate("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER"]), findByIdProductView);
+router.get("/:pid", passport.authenticate("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER", "PREMIUN"]), findByIdProductView);
 
 export default router;
 

@@ -6,7 +6,7 @@ export const renderProductsHTML = (messages = "") => {
 	const isAdmin = messages.user === "ADMIN";
 
 	const productsHtml = messages.payload.docs.map(element => `
-	<div class="products-ctn ${isAdmin || element.stock === 0 ? 'stockNoneCtn' : ''}"><div class="products-main">${isAdmin ? `<img class="button-actions delete" prodId="${element._id}" src="/img/empty-wood-bucket-svgrepo-com.svg" alt="">` : ""}  ${isAdmin || element.stock === 0 ? `<span class="stockNoneBanner" prodId="${element._id}" cartid="${messages.cartId}" >Out of stock</span>` : `<img class="button-actions add move" src="/img/plus-sign-in-a-circle-svgrepo-com.svg" prodId="${element._id}" cartid="${messages.cartId}" alt="">`}
+	<div class="products-ctn ${element.stock === 0 ? 'stockNoneCtn' : ''}"><div class="products-main">${isAdmin ? `<img class="button-actions delete" prodId="${element._id}" src="/img/empty-wood-bucket-svgrepo-com.svg" alt="">` : ""}  ${element.stock === 0 ? `<span class="stockNoneBanner" prodId="${element._id}" cartid="${messages.cartId}" >Out of stock</span>` : `<img class="button-actions add move" src="/img/plus-sign-in-a-circle-svgrepo-com.svg" prodId="${element._id}" cartid="${messages.cartId}" alt="">`}
           <div>
             <img src="${element.thumbnails || "/img/imagen_v acio.png"}" alt="imagen de una ${element.title}" class="products-main-img">
             <div class="products-footer-credits"><span>Foto generada con IA</span></div>

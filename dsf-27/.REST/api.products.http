@@ -1,12 +1,4 @@
-// [x]
-### POST  LOGIN
-POST http://localhost:8080/api/user/login
-Content-Type: application/json
 
-{
-    "user": "qq",
-    "password": "qq"
-}
 
 
 // [x]
@@ -42,19 +34,19 @@ POST http://localhost:8080/api/products
 Content-Type: application/json
 
 {
-		"title": "pp",
-		"description": "Sandía dulce y refrescante.",
-		"code": "fdAffSsssssSsSd4",
+		"title": "ADMIN",
+		"description": "Tomate",
+		"code": "ssfdsssws4",
 		"price": 3.99,
 		"status": true,
-		"thumbnails": "/img/imagen_sandia.webp",
+		"thumbnails": "/img/imagen_tomate.webp",
 		"category": "Frutas",
 		"stock": 50
 	}
 
 // [x]
 ### PUT actualiza los productos
-PUT http://localhost:8080/api/products/657623b5af83a13481b59522
+PUT http://localhost:8080/api/products/65b2d82a6ea78a087d3ef49a
 Content-Type: application/json
 
 {
@@ -64,8 +56,7 @@ Content-Type: application/json
 
 // [x]
 ### DELETE Elimima el producto
-DELETE  http://localhost:8080/api/products/65b1abcbd4c0a257cf1f399e
-
+DELETE  http://localhost:8080/api/products/65b2d82a6ea78a087d3ef49a
 
 
 ###

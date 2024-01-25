@@ -1,6 +1,10 @@
 // [x]
 
+import { EErrors, ErrorsMessages, ErrorsName } from "../services/errors/errors.enum.js";
 import { cartsService, productsService } from "../services/index.services.js";
+import CustomError from "../services/errors/error.generator.js";
+import { generateAuthorizationRolErrorInfo } from "../services/errors/info.js";
+import permission from "../utils/permission.js";
 
 ////////////////////////////////////////////////
 /// GET Lista todos los productos en vista  ///
@@ -145,21 +149,19 @@ export const addProduct = async (req, res) => {
 // [x]
 export const deleteByIdProduct = async (req, res) => {
 
-	const owner = req.user.owner;
 	const pid = req.params.pid;
 
-	const findProduct = await productsService.findById(pid);
-
-	console.log("==> findProduct", findProduct);
-	console.log("==> owner", owner);
-
-	if (findProduct.owner !== owner) {
-		res.status(500).send({
-			message: "No puede modificar el producto"
-		});
-	}
-
+	const hasPermission = await permission(req);
+	const userRol = req.user.rol;
 	try {
+		if (!hasPermission) {
+			CustomError.createError({
+				name: ErrorsName.ROUTE_ACCESS,
+				cause: generateAuthorizationRolErrorInfo(userRol),
+				message: ErrorsMessages.USER_UNAUTHORIZED,
+				code: EErrors.FORBIDDEN
+			});
+		}
 
 		const deleteProductById = await productsService.deleteById(pid);
 

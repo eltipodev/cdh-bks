@@ -1,5 +1,5 @@
 
-import { changePassword, current, loginPassport, loginUser, logout, resetMsgPassword, resetMsgPasswordPage, signupUser } from "../../controllers/users.controller.js";
+import { changePassword, current, loginPassport, loginUser, logout, premiunUser, premiunUserId, resetMsgPassword, resetMsgPasswordPage, signupUser } from "../../controllers/users.controller.js";
 import authenticateMiddleware from "../../middleware/authenticate.middleware.js";
 import express from "express";
 import { passportCall } from "../../utils/utils.js";
@@ -16,15 +16,25 @@ router.get("/login", loginUser);
 //////////////////
 router.get("/signup", signupUser);
 
-////////////////////////////
-/// Post Reset Password ///
-//////////////////////////
-router.post("/resetpass", resetMsgPassword);
+/////////////////////
+/// Get  Premiun ///
+///////////////////
+router.get("/PREMIUN/:uid", premiunUser);
+
+/////////////////////
+/// Post  Premiun ///
+///////////////////
+router.post("/PREMIUN/:uid", premiunUserId);
 
 ////////////////////////////
 /// Post Reset Password ///
 //////////////////////////
 router.get("/resetpass/:tid", resetMsgPasswordPage);
+
+////////////////////////////
+/// Post Reset Password ///
+//////////////////////////
+router.post("/resetpass", resetMsgPassword);
 
 ////////////////////////////
 /// Post Reset Password ///

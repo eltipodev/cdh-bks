@@ -6,7 +6,7 @@ const authenticateMiddleware = (roles) => {
 
 	return (req, res, next) => {
 		const rol = req.user.rol;
-
+		console.log("==> roles", roles, rol);
 		if (req.user && rol) {
 			if (!roles.includes(rol)) {
 				CustomError.createError({
