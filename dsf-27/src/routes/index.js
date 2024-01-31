@@ -8,6 +8,8 @@ import loggerRouter from "./logger.router/logger.router.js";
 import mockingproductsRouter from "./mocking.products.router/mocking.products.router.js";
 import productsRouter from "./products.router/products.router.js";
 import productsVistaRouter from "./products.router/products.vista.router.js";
+import swageerUi from "swagger-ui-express";
+import { swaggerSetup } from "../utils/swagger.js";
 
 import userRouter from "./users.router/users.router.js";
 
@@ -25,5 +27,6 @@ router.use("/error", errorRouter);
 
 router.use("/mockingproducts", mockingproductsRouter);
 router.use("/loggerTest", loggerRouter);
+router.use("/docs", swageerUi.serve, swageerUi.setup(swaggerSetup));
 
 export default router;

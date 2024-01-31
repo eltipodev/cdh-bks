@@ -1,0 +1,271 @@
+paths:
+  /api/products/:
+    get:
+      summary: Get all products.
+      description: If no query is specified, the limit is 10, and page 1 is retrieved.
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Products were successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Product"
+        "204":
+          description: No content to return.
+        "500":
+          description: Internal server error, usually caused by a faulty query or a connection failure with the database.
+    post:
+      summary: Create a product.
+      description: This endpoint requires a JWT token for authorization with admin or premium roles.
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/addProduct"
+      responses:
+        "200":
+          description: The product was created.
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Product"
+        "400":
+          description: A product with the specified code already exists.
+        "401":
+          description: User authentication failed.
+        "403":
+          description: The user does not have the necessary role to access this endpoint.
+        "422":
+          description: Required data is missing in the request body.
+        "500":
+          description: Internal server error, usually caused by a faulty query or a connection failure with the database.
+  /api/products/{pid}/:
+    get:
+      summary: Get a single product by its ID.
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID of the product to request.
+          schema:
+            $type: string
+      responses:
+        "200":
+          description: Product found.
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Product"
+        "400":
+          description: The ID does not have the format of a Mongo ID.
+        "404":
+          description: Product not found.
+        "500":
+          description: Internal server error, usually caused by a faulty query or a connection failure with the database.
+    put:
+      summary: Modify a product.
+      description: This endpoint requires a JWT token for authorization with admin or premium roles. If premium, the user must be the owner of the product.
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID of the product to request.
+          schema:
+            $type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/updateProduct"
+      responses:
+        "200":
+          description: The product was successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Product"
+        "400":
+          description: The ID or some specified properties are not valid.
+        "401":
+          description: User authentication failed.
+        "403":
+          description: The user does not have the necessary permissions to access this endpoint.
+        "404":
+          description: The product was not found in the database.
+        "500":
+          description: Internal server error, usually caused by a faulty query or a connection failure with the database.
+    delete:
+      summary: Delete a product.
+      description: This endpoint requires a JWT token for authorization with admin or premium roles. If premium, the user must be the owner of the product.
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID of the product to request.
+          schema:
+            $type: string
+      responses:
+        "200":
+          description: The product was successfully deleted.
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Product"
+        "400":
+          description: The specified ID is not valid.
+        "401":
+          description: User authentication failed.
+        "403":
+          description: The user does not have the necessary permissions to access this endpoint.
+        "404":
+          description: The product was not found in the database.
+        "500":
+          description: Internal server error, usually caused by a faulty query or a connection failure with the database.
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Auto-generated MongoDB ID.
+        title:
+          type: string
+          description: Product name.
+        description:
+          type: string
+          description: Product description.
+        code:
+          type: string
+          description: Unique identification code.
+        price:
+          type: number
+          description: Selling price.
+        thumbnail:
+          type: string
+          description: URL of the product photo.
+        category:
+          type: string
+          description: Product category.
+        stock:
+          type: number
+          description: Quantity of units in stock.
+        owner:
+          type: string
+          description: Email of the product owner, or "ADMIN" by default.
+        attbName:
+          type: object
+          properties:
+            codeAttb:
+              type: string
+              description: Code belonging to the person who shared the image.
+            name:
+              type: string
+              description: Name of the person who owns the image.
+            urlAttb:
+              type: string
+              description: URL to the website where the images were obtained.
+        example:
+          title: "Apple"
+          description: "Fresh and juicy apple."
+          code: "A123"
+          price: 1.99
+          thumbnail: "/img/apple_image.webp"
+          category: "Fruits"
+          stock: 100
+          owner: "ADMIN"
+          attbName:
+            codeAttb: "SWR11"
+            name: "marceti"
+            urlAttb: "/img/apple_image.webp"
+          status: true
+  requestBodies:
+    addProduct:
+      type: ObjectId
+      properties:
+        title:
+          type: string
+          description: Product name.
+        description:
+          type: string
+          description: Product description.
+        code:
+          type: string
+          description: Unique identification code.
+        price:
+          type: number
+          description: Selling price.
+        stock:
+          type: number
+          description: Quantity of units in stock.
+        category:
+          type: string
+          description: Product category.
+        thumbnail:
+          type: string
+        owner:
+          type: string
+          description: Email of the person who uploaded the product, or "ADMIN" by default.
+      example:
+        title: Pear
+        description: Large pears.
+        code: df21
+        price: 2.23
+        stock: 11
+        category: Vegetables
+        thumbnail: "/img/pear_image.webp"
+        owner: ADMIN
+    updateProduct:
+      type: Object
+      properties:
+        title:
+          type: string
+          description: Product name.
+        description:
+          type: string
+          description: Product description.
+        code:
+          type: string
+          description: Unique identification code.
+        price:
+          type: number
+          description: Selling price.
+        stock:
+          type: number
+          description: Quantity of units in stock.
+        category:
+          type: string
+          description: Product category.
+        thumbnail:
+          type: string
+        status:
+          type: boolean
+          description: Whether the product is available.
+      example:
+        stock: 22
+        category: Vegetables

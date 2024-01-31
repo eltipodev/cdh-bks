@@ -97,7 +97,6 @@ passport.use("login", new LocalStrategy({
 			}
 		});
 
-		console.log("userData", userData);
 		return done(null, userData, { message: "Usuario Logueado" });
 
 	} catch (error) {

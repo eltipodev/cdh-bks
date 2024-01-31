@@ -15,6 +15,7 @@ import passport from "passport";
 
 const WHITELIST = config.whitelist_url_frontEnd;
 
+// eslint-disable-next-line no-unused-vars
 const corsOptions = {
 	origin: function (origin, callback) {
 		if (WHITELIST.includes(origin)) {

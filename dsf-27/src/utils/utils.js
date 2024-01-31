@@ -1,12 +1,13 @@
 import { EErrors, ErrorsMessages, ErrorsName } from "../services/errors/errors.enum.js";
+import { dirname, join } from "path";
 import { generateGetLoginErrorInfo, generateUserSignupEmptyErrorInfo, } from "../services/errors/info.js";
 import CustomError from "../services/errors/error.generator.js";
 import bcrypt from "bcrypt";
 import config from "../config/env.config.js";
+import { fileURLToPath } from "url";
 import jwt from "jsonwebtoken";
 import { logger } from "./logger.js";
 import passport from "passport";
-
 const KEYJWT = config.secret_jwt;
 
 ////////////////
@@ -118,3 +119,9 @@ export const verifyToken = (token) => {
 		return null;
 	}
 };
+
+const filename = fileURLToPath(import.meta.url);
+const __dirname = join(dirname(filename), "..");
+
+export default __dirname;
+

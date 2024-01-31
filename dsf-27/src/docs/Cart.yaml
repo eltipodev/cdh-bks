@@ -1,0 +1,411 @@
+paths:
+  /api/carts/:
+    post:
+      summary: Create a shopping cart
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: The cart was created successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Cart"
+        "500":
+          description: Internal server error, usually caused by a faulty query or a connection failure with the database.
+  /api/carts/{cid}/:
+    get:
+      summary: Get a cart by its ID
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID of the cart to request
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: The cart was retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Cart"
+        "400":
+          description: The ID does not have the format of a Mongo ID.
+        "404":
+          description: Cart not found.
+        "500":
+          description: Internal server error, usually caused by a faulty query or a connection failure with the database.
+    put:
+      summary: Modify the products in the cart
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID of the cart to modify
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/updateCart"
+      responses:
+        "200":
+          description: Cart updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Cart"
+        "400":
+          description: Params or body do not have the correct format.
+        "404":
+          description: Cart not found.
+        "500":
+          description: Internal server error, usually caused by a faulty query or a connection failure with the database.
+    delete:
+      summary: Remove all products from a cart by its ID
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID of the cart to clear
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Cart cleared successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Cart"
+        "400":
+          description: The ID does not have the format of a Mongo ID.
+        "404":
+          description: Product not found.
+        "500":
+          description: Internal server error, usually caused by a faulty query or a connection failure with the database.
+  /api/carts/{cid}/product/{pid}/:
+    post:
+      summary: Add a product to the cart
+      description: This endpoint requires a JWT token for authorization with user or premium roles. If premium, the user must not be the owner of the product.
+      security:
+        - bearerAuth: []
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID of the cart to modify
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: ID of the product to add
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Product added successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Cart"
+        "400":
+          description: Either the cart ID or the product ID does not have the format of a Mongo ID.
+        "404":
+          description: Product or cart not found.
+        "500":
+          description: Internal server error, usually caused by a faulty query or a connection failure with the database.
+    put:
+      summary: Modify the quantity of units of a product in the cart
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID of the cart to modify
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: ID of the product to modify the quantity
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/updateQuantity"
+      responses:
+        "200":
+          description: Cart updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Cart"
+        "400":
+          description: Either the cart ID or the product ID does not have the format of a Mongo ID, or the body does not have the correct format.
+        "404":
+          description: Product or cart not found.
+        "500":
+          description: Internal server error, usually caused by a faulty query or a connection failure with the database.
+    delete:
+      summary: Remove a product from the cart
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID of the cart to modify
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: ID of the product to delete
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Product deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Cart"
+        "400":
+          description: Either the cart ID or the product ID does not have the format of a Mongo ID.
+        "404":
+          description: Product or cart not found.
+        "500":
+          description: Internal server error, usually caused by a faulty query or a connection failure with the database.
+  /api/carts/{cid}/purchase/:
+    post:
+      summary: Generate the purchase order
+      description: This endpoint requires a JWT token for authorization with user or premium roles.
+      security:
+        - bearerAuth: []
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID of the cart to purchase
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/purchase"
+      responses:
+        "200":
+          description: Order generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Order"
+        "400":
+          description: Either the cart ID does not have the format of a Mongo ID, or the email is not valid.
+        "404":
+          description: Cart not found or out of stock in all products.
+        "500":
+          description: Internal server error, usually caused by a faulty query or a connection failure with the database.
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Auto-generated Mongo ID
+        products:
+          $ref: "#/components/schemas/CartProducts"
+      example:
+        _id: ObjectId("6d2465402401fb159ac0072b")
+        products:
+          [
+            {
+              "product":
+                {
+                  "_id": "ec4c423f6ffa1626fe5c0a9e",
+                  "title": "Pears",
+                  "description": "large and fresh",
+                  "code": "mz2",
+                  "price": 11.2,
+                  "stock": 12,
+                  "category": "Spices",
+                  "thumbnail": "/img/pears_image.webp",
+                  "status": true,
+                },
+              "quantity": 33,
+            },
+            {
+              "product":
+                {
+                  "_id": "80b56fee46ec45c0b9f65c42",
+                  "title": "Apple",
+                  "description": "red and large",
+                  "code": "m544",
+                  "price": 22.49,
+                  "stock": 43,
+                  "category": "Fruits",
+                  "thumbnail": "/img/apple_image.webp",
+                  "status": true,
+                },
+              "quantity": 11,
+            },
+          ]
+    CartProducts:
+      type: array
+      items:
+        type: object
+        properties:
+          product:
+            type: ObjectId
+            description: Auto-generated Mongo ID
+          quantity:
+            type: integer
+            description: Units of the product in the cart
+    Order:
+      type: object
+      properties:
+        ticket:
+          $ref: "#/components/schemas/Ticket"
+        cart:
+          $ref: "#/components/schemas/Cart"
+      example:
+        ticket:
+          {
+            code: "372233332131wqeqeqw",
+            amount: 24.11,
+            purchaser: "calors.tejedor@gmail.com",
+            products:
+              [
+                {
+                  "product":
+                    {
+                      "_id": "f6504c428b5fe5c0b9e646ec",
+                      "title": "Orange",
+                      "description": "Juicy and large",
+                      "code": "m223",
+                      "price": 1.99,
+                      "stock": 5,
+                      "category": "Fruits",
+                      "thumbnail": "/img/apple_image.webp",
+                      "status": true,
+                    },
+                  "quantity": 66,
+                },
+              ],
+            status: "Pending",
+            _id: new ObjectId("50105e16d5bc06568e173b61"),
+            purchase_datetime: 2024-01-30T09:11:22.056Z,
+          }
+        cart:
+          {
+            _id: new ObjectId("d24c001fb159654024a672b0"),
+            products:
+              [
+                {
+                  "product":
+                    {
+                      "_id": "b9e6ec64264f650a1fe5c04c",
+                      "title": "Pear",
+                      "description": "green",
+                      "code": "m002",
+                      "price": 2.33,
+                      "stock": 10,
+                      "category": "Fruits",
+                      "thumbnail": "/img/apple_image.webp",
+                      "status": true,
+                    },
+                  "quantity": 44,
+                },
+              ],
+          }
+    Ticket:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Auto-generated Mongo ID
+        code:
+          type: string
+          description: Order code
+        purchase_datetime:
+          type: string
+          description: Order creation date
+        amount:
+          type: number
+          description: Order amount
+        purchaser:
+          type: string
+          description: Purchaser's email
+        products:
+          $ref: "#/components/schemas/CartProducts"
+        status:
+          type: string
+          description: Order completion status
+      example:
+        code: "1273507625516266"
+        amount: 14.4
+        purchaser: "juan.de.palotes@gmail.com"
+        products:
+          [
+            { product: new ObjectId("0b5fe5c0b9e64428f656ec4c"), quantity: 22 },
+            { product: new ObjectId("e5c0b9e6e64f4c4246508cfc"), quantity: 33 },
+          ]
+        status: "Pending"
+        _id: new ObjectId("63b605e0bc568e17116d5501")
+        purchase_datetime: 2023-01-30T09:11:15.04bZ
+  requestBodies:
+    updateCart:
+      type: object
+      properties:
+        products:
+          $ref: "#/components/schemas/CartProducts"
+      example:
+        products: [{ "product": "0b9e6e64f650b5fe5cc4c428", "quantity": 22 }]
+    updateQuantity:
+      type: object
+      properties:
+        quantity:
+          type: integer
+          description: Units of the product in the cart
+      example:
+        quantity: 21
+    purchase:
+      type: object
+      properties:
+        shippingPrice:
+          type: number
+        email:
+          type: string
+      example:
+        email: "juan.de.palotes@gmail.com"
+        shippingPrice: 5
