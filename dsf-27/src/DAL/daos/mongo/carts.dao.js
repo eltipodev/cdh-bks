@@ -1,4 +1,7 @@
+import { EErrors, ErrorsMessages, ErrorsName } from "../../../services/errors/errors.enum.js";
+import CustomError from "../../../services/errors/error.generator.js";
 import { cartModel } from "../../models/cart.model.js";
+import { generateGetProductErrorInfo } from "../../../services/errors/info.js";
 import { mongoose } from "mongoose";
 import { productModel } from "../../models/products.model.js";
 
@@ -50,12 +53,12 @@ class CartsMongo {
 			.findById(cid)
 			.populate("products.product").lean();
 
-		if (!getCartsById.products.length > 0) {
+		if (!getCartsById && !Object.keys(getCartsById).length > 0) {
 
 			return ({
 				code: 404,
 				status: "error",
-				message: "no hay carrito",
+				message: "No Existe el Carrito",
 				payload: [],
 				sucess: false
 			});
@@ -208,7 +211,7 @@ class CartsMongo {
 		return ({
 			code: 200,
 			status: "sucess",
-			message: "Producto Eliminado del carrito",
+			message: "Todos los Productos Eliminados del carrito",
 			payload: existsCart
 		});
 
@@ -278,6 +281,43 @@ class CartsMongo {
 			status: "sucess",
 			message: "Se actualizoel Carrito",
 			payload: []
+		});
+
+	}
+
+	//[x];
+	////////////////////////////////////////////////
+	///  Método elimimar un  producto por Id    ///
+	//////////////////////////////////////////////
+	async deleteCartById(cid) {
+
+		const deleteCartById = await productModel.deleteOne({ _id: cid });
+
+		if (deleteCartById.deletedCount === 0) {
+
+			CustomError.createError({
+				name: ErrorsName.PRODUCT_GET_ERROR,
+				cause: generateGetProductErrorInfo(cid),
+				message: ErrorsMessages.INVALID_PARAMS,
+				code: EErrors.NOT_FOUND,
+				payload: [],
+				status: "error",
+				sucess: false
+			});
+
+			// return ({
+			// 	code: 404,
+			// 	status: "error",
+			// 	message: "No existe el producto",
+			// 	payload: deleteProductById
+			// });
+		}
+
+		return ({
+			code: 200,
+			status: "sucess",
+			message: "Producto Eliminado",
+			payload: deleteCartById
 		});
 
 	}

@@ -11,6 +11,7 @@ import { Strategy as LocalStrategy } from "passport-local";
 import config from "./env.config.js";
 import { logger } from "../utils/logger.js";
 import passport from "passport";
+import { json } from "express";
 // import userManager from "../DAL/daos/mongo/users.dao.js";
 
 const clientIdGoogle = config.google_client_id;

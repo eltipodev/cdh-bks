@@ -78,7 +78,6 @@ export const passportCall = (strategy, options) => {
 					});
 				}
 
-				console.log("==> todo ok", req.body);
 				return next();
 			}
 
@@ -102,6 +101,7 @@ export const passportCall = (strategy, options) => {
 					code: EErrors.UNAUTHORIZED
 				});
 			}
+			// console.log("==> info.message", info.message);
 			req.user = user;
 			next();
 		})(req, res, next);

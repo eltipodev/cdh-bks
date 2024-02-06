@@ -40,6 +40,7 @@ export const signupUser = (req, res) => {
 	}
 
 	try {
+
 		return res.status(200).render("products", {
 			pageTitle: "Signup",
 			message: "registros de usuarios",

@@ -4,7 +4,7 @@ GET  http://localhost:8080/api/carts
 
 // [x]
 ### GET Listar Carros por id
-GET  http://localhost:8080/api/carts/657378236e07047d6cc93df5
+GET  http://localhost:8080/api/carts/65c22c896ff6ef3d06b03bfb
 
 
 // [x]
@@ -26,15 +26,16 @@ POST http://localhost:8080/api/carts/6556a4c8488c5c5ef331c67d/products/6556a4c84
 DELETE http://localhost:8080/api/carts/657378236e07047d6cc93df5/products/6556a4c8488c5c5ef331c67c
 # Content-Type: application/json
 
+
 // [x]
-### DELETE eliminar todos los productos del  carrito
-DELETE http://localhost:8080/api/carts/657a0feb147d0f9fdd2f304d
+### DELETE vaciar un  carrito
+DELETE http://localhost:8080/api/carts/65c22c896ff6ef3d06b03bfb
 # Content-Type: application/json
 
 
 // [x]
 ### PUT  actualizar el carrito con un arreglo
-PUT http://localhost:8080/api/carts/657378236e07047d6cc93df5
+PUT http://localhost:8080/api/carts/65c22c896ff6ef3d06b03bfb
 Content-Type: application/json
 
 ["6556a4c8488c5c5ef331c686","6556a4c8488c5c5ef331c684","6556a4c8488c5c5ef331c689","6556a4c8488c5c5ef331c6a0","6556a4c8488c5c5ef331c687"]

@@ -8,7 +8,7 @@ GET  http://localhost:8080/api/products
 
 // [x]
 ### GET Listar producto por ID
-GET  http://localhost:8080/api/products/6556a4c8488c5c5ef331c692
+GET  http://localhost:8080/api/products/65c1605ede95e293d561839f
 
 // [x]
 ### GET Seleccionarlimite
@@ -36,7 +36,7 @@ Content-Type: application/json
 {
 		"title": "ADMIN",
 		"description": "Tomate",
-		"code": "ssfdsssws4",
+		"code": "ssfdssss4",
 		"price": 3.99,
 		"status": true,
 		"thumbnails": "/img/imagen_tomate.webp",
