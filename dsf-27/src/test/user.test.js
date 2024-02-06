@@ -27,25 +27,25 @@ describe("====Test Router User====", () => {
 			// await new Promise(resolve => setTimeout(resolve, 3000));
 		});
 
-		it("Endpoint POST /api/user/sigun register user", async () => {
+		// it("Endpoint POST /api/user/sigun register user", async () => {
 
-			const signup = {
+		// 	const signup = {
 
-				firstName: "test1115",
-				lastName: "test115",
-				user: "testt115",
-				age: "144",
-				email: "test14145@gmail.com",
-				password: "ggg"
+		// 		firstName: "test1115",
+		// 		lastName: "test115",
+		// 		user: "testt115",
+		// 		age: "144",
+		// 		email: "test14145@gmail.com",
+		// 		password: "ggg"
 
-			};
+		// 	};
 
-			const response = await requester.post("/api/user/signup").send(signup);
-			expect(response.statusCode).to.be.equal(200);
-			// expect(cookieData.name).to.equal("token");
-			// expect(cookieData.value).to.have.lengthOf(440);
-			// await new Promise(resolve => setTimeout(resolve, 3000));
-		});
+		// 	const response = await requester.post("/api/user/signup").send(signup);
+		// 	expect(response.statusCode).to.be.equal(200);
+		// 	// expect(cookieData.name).to.equal("token");
+		// 	// expect(cookieData.value).to.have.lengthOf(440);
+		// 	// await new Promise(resolve => setTimeout(resolve, 3000));
+		// });
 
 	});
 

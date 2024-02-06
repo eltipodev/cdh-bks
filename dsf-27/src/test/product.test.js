@@ -54,7 +54,7 @@ describe("====Test Router Product====", () => {
 	describe("===> GET", () => {
 
 		it("Endpoint GET /api/products list products array", async () => {
-			const response = await requester.get("/api/products?limit=50").set("Cookie", [`${cookieData.name}=${cookieData.value}`]);
+			const response = await requester.get("/api/products").query({ limit: 10 }).set("Cookie", [`${cookieData.name}=${cookieData.value}`]);
 			// console.log("==> response", response.body.payload.docs);
 			expect(response.status).to.equal(200);
 			expect(response.body.payload.docs).to.be.an("array");
