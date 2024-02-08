@@ -11,6 +11,8 @@ Content-Type: application/json
 }
 
 
+
+
 // [x]
 ### POST  LOGIN PREMIUN
 POST http://localhost:8080/api/user/login
@@ -19,4 +21,48 @@ Content-Type: application/json
 {
     "user": "ADMIN",
     "password": "ADMIN"
+}
+
+
+
+
+
+// [x]
+### POST  LOGIN ADMIN
+POST http://localhost:8080/api/sessions/login
+Content-Type: application/json
+
+{
+  	"email": "premium2@gmail.com",
+	"password": "1234"
+}
+
+
+
+// [x]
+### POST agrega productos
+POST http://localhost:8080/api/products
+Content-Type: application/json
+
+{
+		"title": "Tomate",
+		"description": "Tomate",
+		"code": "sswfeedssss4",
+		"price": 3.99,
+		"thumbnails": "/img/imagen_tomate.webp",
+		"category": "Frutas",
+		"stock": 50
+	}
+
+### POST agrega productos
+POST http://localhost:8080/api/session/login
+Content-Type: application/json
+
+{
+	"name": "Gabriela",
+	"lastName": "Rossi",
+	"age": 27,
+	"email": "gabi_20_141@hotmail.com",
+	"password": "222333",
+	"role": "admin"
 }

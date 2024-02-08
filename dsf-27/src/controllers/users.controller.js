@@ -63,7 +63,7 @@ export const loginPassport = (req, res) => {
 		const token = generateToken(req.user);
 
 		res
-			.cookie("token", token, { maxAge: 2 * 60 * 60 * 200, httpOnly: true })// 2 horas
+			.cookie("token", token, { maxAge: 2 * 60 * 60 * 200, secure: false, httpOnly: true })// 2 horas
 			.redirect("/api/vista/products");
 
 	} catch (error) {

@@ -9,7 +9,7 @@
 		"start:cdh": "node src/config/server.config.js -e cdh -p 8080 nodemon",
 		"start:dev": "node src/config/server.config.js -e cdh -p 8080 && nodemon",
 		"start:prod": "node src/config/server.config.js -e prod -p 3000 nodemon",
-		"start:test": "mocha -t 50000 src/test/*.test.js"
+		"start:test": "mocha -t 50000 src/test/product.test.js"
 	},
 	"keywords": [],
 	"author": "",

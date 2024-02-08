@@ -204,6 +204,7 @@ passport.use("google", new GoogleStrategy(
 const fromCookies = (req) => {
 	return req.cookies.token;
 };
+
 passport.use(
 	"jwt",
 	new JwtStrategy({
