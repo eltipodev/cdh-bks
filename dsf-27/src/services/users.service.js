@@ -32,5 +32,14 @@ export default class UsersRepository {
 		return createOne;
 	};
 
+	// eslint-disable-next-line no-unused-vars
+	saveUserDocuments = async (id, dni, adress, bank) => {
+		return "saved";
+		// const saveUserDocuments = await this.dao.updateById(id,{documents:{
+		// 	name:'dni',
+
+		// }})
+	};
+
 }
 

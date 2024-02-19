@@ -312,3 +312,31 @@ export const premiunUserId = async (req, res) => {
 	}
 
 };
+
+export const formDocuments = (req, res) => {
+	try {
+		res.render("documents");
+	} catch (error) {
+
+		return res.status(500).json({
+			error: error.message
+		});
+	}
+};
+
+export const saveUserDocuments = async (req, res) => {
+	try {
+		const { id } = req.params;
+		const { dni, adress, bank } = req.files;
+
+		const saveUserDocuments = await usersService.saveUserDocuments({ id, dni, adress, bank });
+
+		res.json({ saveUserDocuments });
+
+	} catch (error) {
+
+		return res.status(500).json({
+			error: error.message
+		});
+	}
+};

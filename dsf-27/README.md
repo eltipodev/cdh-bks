@@ -1,71 +1,32 @@
-# Guia
-
-- El ```.env.example``` renombrar a  ```.env```
-y rellenar con los campos que faltan
-- npm i
-- ```npm start:cdh``` o ```npm run start:cdh```
-
-# USUARIOS CREADOS
-
-- user: PREMIUN  password: PREMIUN
-- user: ADMIN  password: ADMIN
-
-# PRODUCTOS CON OWNER
-
-- El nombre el title y el owner del producto dice  "PREMIUN" y su imagen es una sandia para distinguirlos mejor
-
-# Algunos codigos de PRODUCTOS PREMIUN
-
-- PREMIUN
-  - 65b2d6856ea78a087d3ef46f
-  - 65b2d6826ea78a087d3ef46c
-  - 65b2d67f6ea78a087d3ef469
-  - 65b2d6726ea78a087d3ef465
-  - 65b2d66e6ea78a087d3ef462
-
-
-# PRODUCTOS CON OWNER ADMIN
-
-- El nombre el title y el owner del producto dice  "ADMIN" y su imagen es un tomate para distinguirlos mejor
--
-- ADMIN
-  - 65b2d7d06ea78a087d3ef48
-  - 65b2d7ff6ea78a087d3ef491
-  - 65b2d8106ea78a087d3ef494
-  - 65b2d81f6ea78a087d3ef497
-
-
-
-
 ## Consigna
 
 Con base en el proyecto que venimos desarrollando, toca solidificar algunos procesos.
 
-### Aspectos a Incluir
+### Aspectos a incluir
 
-1. **Recuperación de Contraseña:**
-  [x] - Realizar un sistema de recuperación de contraseña.
-  [x] - El sistema debe enviar un correo con un enlace a una página para restablecer la contraseña (no recuperarla).
-  [x] - El enlace del correo debe expirar después de 1 hora de enviado.
-  [x] - Si se intenta restablecer la contraseña con la misma contraseña del usuario, debe impedirlo e indicar que no se puede colocar la misma contraseña.
-  [x] - Si el enlace expira, redirigir a una vista que permita generar nuevamente el correo de restablecimiento, el cual contará con una nueva duración de 1 hora.
+- Mover la ruta suelta `/api/users/premium/:uid` a un router específico para usuarios en `/api/users/`.
+- Modificar el modelo de User para que cuente con una nueva propiedad “documents” el cual será un array que contenga los objetos con las siguientes propiedades:
+  - `name`: String (Nombre del documento).
+  - `reference`: String (link al documento).
+  No es necesario crear un nuevo modelo de Mongoose para éste.
+- Además, agregar una propiedad al usuario llamada “last_connection”, la cual deberá modificarse cada vez que el usuario realice un proceso de login y logout.
 
-2. **Nuevo Rol "PREMIUN" para Usuario:**
-  [x] - Establecer un nuevo rol para el schema del usuario llamado "PREMIUN", el cual estará habilitado también para crear productos.
+### Aspectos a incluir
 
-3. **Modificación del Schema de Producto:**
-  [x] - Modificar el schema de producto para contar con un campo "owner", el cual haga referencia a la persona que creó el producto.
-  [x] - Si un producto se crea sin owner, se debe colocar por defecto "admin".
-  [x] - El campo owner deberá guardar solo el correo electrónico (o _id, a tu conveniencia) del usuario que lo haya creado (solo usuarios PREMIUN pueden ser owners).
+- Crear un endpoint en el router de usuarios `/api/users/:uid/documents` con el método POST que permita subir uno o múltiples archivos. Utilizar el middleware de Multer para poder recibir los documentos que se carguen y actualizar en el usuario su status para hacer saber que ya subió algún documento en particular.
+- El middleware de multer deberá estar modificado para que pueda guardar en diferentes carpetas los diferentes archivos que se suban.
+  - Si se sube una imagen de perfil, deberá guardarlo en una carpeta `profiles`, en caso de recibir la imagen de un producto, deberá guardarlo en una carpeta `products`, mientras que ahora al cargar un documento, multer los guardará en una carpeta `documents`.
+- Modificar el endpoint `/api/users/premium/:uid` para que sólo actualice al usuario a premium si ya ha cargado los siguientes documentos:
+  - Identificación, Comprobante de domicilio, Comprobante de estado de cuenta
 
-4. **Modificación de Permisos de Productos:**
-    [x] - Modificar los permisos de modificación y eliminación de productos para que:
-    [x] - Un usuario PREMIUN solo pueda borrar los productos que le pertenecen.
-    [x] - El admin pueda borrar cualquier producto, incluso si es de un owner.
+### Aspectos a incluir
 
-5. **Lógica del Carrito:**
-   - Modificar la lógica del carrito para que un usuario PREMIUN NO pueda agregar a su carrito un producto que le pertenece.
+En caso de llamar al endpoint, si no se ha terminado de cargar la documentación, devolver un error indicando que el usuario no ha terminado de procesar su documentación. (Sólo si quiere pasar de user a premium, no al revés).
 
-6. **Nueva Ruta en API para Cambiar Rol:**
-   [x] - Implementar una nueva ruta en el router de api/users, la cual será `/api/users/PREMIUN/:uid`. Esta ruta permitirá cambiar el rol de un usuario de "user" a "PREMIUN" y viceversa.
+### Formato
 
+- [Link al repositorio de GitHub](#) con el proyecto completo (no incluir node_modules).
+
+### Sugerencias
+
+- Corrobora que los usuarios que hayan pasado a premium tengan mayores privilegios de acceso que un usuario normal.
