@@ -53,15 +53,24 @@ class CartsMongo {
 			.findById(cid)
 			.populate("products.product").lean();
 
-		if (!getCartsById && !Object.keys(getCartsById).length > 0) {
-
-			return ({
+		if (!getCartsById) {
+			return {
 				code: 404,
 				status: "error",
 				message: "No Existe el Carrito",
 				payload: [],
-				sucess: false
-			});
+				success: false
+			};
+		}
+
+		if (Object.keys(getCartsById).length === 0) {
+			return {
+				code: 404,
+				status: "error",
+				message: "El Carrito Está Vacío",
+				payload: [],
+				success: false
+			};
 		}
 
 		return ({

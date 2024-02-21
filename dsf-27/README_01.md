@@ -1,5 +1,6 @@
  TODO
-[ ] Reparar actualizacion cuando se agrega un producto al carrito
+[ ] Reparar actualizacion cuando se agrega un producto al
+[ ] No actualiza user
 # Guia
 
 - El ```.env.example``` renombrar a  ```.env```

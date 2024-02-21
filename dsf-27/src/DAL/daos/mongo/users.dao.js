@@ -30,17 +30,17 @@ class UsersMongo {
 	}
 
 	// [x]
-	//////////////////////////////////////
-	///  Método actualizar un  user   ///
-	/////////////////////////////////////
+	////////////////////////////////////
+	///  Método actualizar un user  ///
+	//////////////////////////////////
 	async updateUserById(obj1, obj2) {
 
-		const updateUserById = await userModel.updateOne(obj1, obj2);
+		const updateUserById = await userModel.updateOne({ _id: obj1 }, obj2);
 
 		return ({
 			code: 200,
 			status: "sucess",
-			message: "Producto Eliminado",
+			message: "Documentos Agregados",
 			payload: updateUserById
 		});
 	}

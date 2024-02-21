@@ -21,12 +21,12 @@ router.get("/signup", signupUser);
 /////////////////////
 /// Get  Premiun ///
 ///////////////////
-router.get("/PREMIUN/:uid", premiunUser);
+router.get("/PREMIUN/:uid", passport.authenticate("jwt", { session: false }), premiunUser);
 
 /////////////////////
 /// Post  Premiun ///
 ///////////////////
-router.post("/PREMIUN/:uid", premiunUserId);
+router.post("/PREMIUN/:uid", passport.authenticate("jwt", { session: false }), premiunUserId);
 
 ////////////////////////////
 /// Post Reset Password ///
@@ -67,24 +67,24 @@ router.post("/signup", passportCall("signup", {
 //////////////////////
 /// Get  Profile  ///
 ////////////////////
-router.get("/current", passportCall("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER"]), current);
+router.get("/current", passportCall("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER", "PREMIUN"]), current);
 
 ////////////////////
 /// Get  Logout  ///
 //////////////////
-router.get("/logout", logout);
+router.get("/logout", passportCall("jwt", { session: false }), logout);
 
 ////////////////////////
 /// Get  Documents  ///
 //////////////////////
-router.get("/:uid/documents", passport.authenticate("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER"]), formDocuments);
+router.get("/:uid/documents", passport.authenticate("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER", "PREMIUN"]), formDocuments);
 
 ////////////////////////
 /// Post  Documents  ///
 //////////////////////
-router.post("/:uid/documents", passport.authenticate("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER"]), upload.fields([
+router.post("/:uid/documents", passport.authenticate("jwt", { session: false }), authenticateMiddleware(["ADMIN", "USER", "PREMIUN"]), upload.fields([
 	{ name: "dni", maxCount: 1 },
-	{ name: "adress", maxCount: 1 },
+	{ name: "address", maxCount: 1 },
 	{ name: "bank", maxCount: 1 }
 ]), saveUserDocuments);
 

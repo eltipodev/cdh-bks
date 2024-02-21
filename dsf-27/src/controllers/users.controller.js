@@ -57,16 +57,23 @@ export const signupUser = (req, res) => {
 	}
 };
 
-export const loginPassport = (req, res) => {
+export const loginPassport = async (req, res) => {
 	try {
 
 		const token = generateToken(req.user);
+		const { _id } = req.user;
+		const last_connection = {
+			last_connection: Date.now()
+		};
+
+		await usersService.updateById({ _id }, last_connection);
 
 		res
-			.cookie("token", token, { maxAge: 2 * 60 * 60 * 200, secure: false, httpOnly: true })// 2 horas
+			.cookie("token", token, { maxAge: 2 * 60 * 60 * 200, httpOnly: true })// 2 horas
 			.redirect("/api/vista/products");
 
 	} catch (error) {
+		console.log("==> error", error);
 		return res.status(500).json(
 			{
 				error: error.message
@@ -103,12 +110,23 @@ export const current = async (req, res) => {
 	}
 };
 
-export const logout = (req, res) => {
+export const logout = async (req, res) => {
 	try {
-		res.clearCookie("token");
-		req.logout(() => {
-			res.redirect("/api");
-		});
+
+		const { _id } = req.user;
+		const last_connection = {
+			last_connection: Date.now()
+		};
+
+		const updateById = await usersService.updateById({ _id }, last_connection);
+		console.log("==> updateById", updateById);
+		if (updateById.status) {
+
+			res.clearCookie("token");
+			req.logout(() => {
+				res.redirect("/api");
+			});
+		}
 	} catch (error) {
 
 		return res.status(500).json({
@@ -282,6 +300,9 @@ export const premiunUserId = async (req, res) => {
 	const { rol } = req.body;
 
 	const findUser = await usersService.findById(uid);
+	console.log("==> findUser", findUser);
+
+	const allDocumentsUploaded = findUser.documents.length > 0 && findUser.documents.every(doc => doc.status === true);
 
 	if (!findUser) {
 		return res.status(200).json({
@@ -291,6 +312,13 @@ export const premiunUserId = async (req, res) => {
 	}
 
 	try {
+
+		if (!allDocumentsUploaded && rol === "PREMIUN") {
+			// Redireccionar al usuario si los documentos no están cargados
+			return res.redirect(`http://localhost:8080/api/user/${uid}/documents`);
+
+		}
+
 		const obj1 = {
 			_id: uid
 		};
@@ -313,9 +341,21 @@ export const premiunUserId = async (req, res) => {
 
 };
 
-export const formDocuments = (req, res) => {
+export const formDocuments = async (req, res) => {
+	const cid = req.user.cart;
+
+	const cartTotalQuantity = await cartsService.getCartTotalQuantity(cid);
 	try {
-		res.render("documents");
+		res.render("documents", {
+			pageTitle: "Documents",
+			user: req.user || "",
+			// message: updateProductById.message,
+			// payload: updateProductById.payload,
+			// status: updateProductById.status,
+			cartTotalQuantity,
+			// sucess: updateProductById.sucess,
+		});
+
 	} catch (error) {
 
 		return res.status(500).json({
@@ -325,11 +365,12 @@ export const formDocuments = (req, res) => {
 };
 
 export const saveUserDocuments = async (req, res) => {
-	try {
-		const { id } = req.params;
-		const { dni, adress, bank } = req.files;
 
-		const saveUserDocuments = await usersService.saveUserDocuments({ id, dni, adress, bank });
+	try {
+		const { uid } = req.params;
+		const { dni, address, bank } = req.files;
+
+		const saveUserDocuments = await usersService.saveUserDocuments({ uid, dni, address, bank });
 
 		res.json({ saveUserDocuments });
 

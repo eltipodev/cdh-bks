@@ -33,12 +33,30 @@ export default class UsersRepository {
 	};
 
 	// eslint-disable-next-line no-unused-vars
-	saveUserDocuments = async (id, dni, adress, bank) => {
-		return "saved";
-		// const saveUserDocuments = await this.dao.updateById(id,{documents:{
-		// 	name:'dni',
+	saveUserDocuments = async ({ uid, dni, address, bank }) => {
 
-		// }})
+		console.log("==> uid, dni, address, bank", uid, dni, address, bank);
+		const saveUserDocuments = await this.dao.updateUserById(uid, {
+			documents:
+				[
+					{
+						name: "dni",
+						status: true,
+						reference: dni[0].path
+					},
+					{
+						name: "address",
+						status: true,
+						reference: address[0].path
+					},
+					{
+						name: "bank",
+						status: true,
+						reference: bank[0].path
+					}
+				]
+		});
+		return saveUserDocuments;
 	};
 
 }

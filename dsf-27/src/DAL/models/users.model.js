@@ -46,10 +46,17 @@ const usersSchema = new mongoose.Schema({
 	documents: {
 		type: [{
 			name: String,
-			reference: String
+			reference: String,
+			status: {
+				type: Boolean,
+				default: false
+			},
 		}],
 		default: []
+	},
+	last_connection: {
+		type: Date,
+		default: null,
 	}
-
 });
 export const userModel = mongoose.model("Users", usersSchema);

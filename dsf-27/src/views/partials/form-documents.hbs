@@ -1,0 +1,18 @@
+<div class="form-user-signup">
+	<form class="form-user-signup--ctn" enctype="multipart/form-data" method="post"
+		action="/api/user/{{user._id}}/documents">
+
+		<h1 class="page-title form-user-title">{{pageTitle}}</h1>
+
+		<label class="form-user-label" for="dni">dni: </label>
+		<input type="file" name="dni" id="dni">
+
+		<label class="form-user-label" for="address">address: </label>
+		<input type="file" name="address" id="address">
+
+		<label class="form-user-label" for="bank">address: </label>
+		<input type="file" name="bank" id="bank">
+
+		<input class="form-user-button" type="submit" value="Submit">
+	</form>
+</div>
